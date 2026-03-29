@@ -1,0 +1,320 @@
+// 40 Questions for Core Personality Type Test
+// Divided into 5 phases, each contributing to specific dimensions
+
+type DimensionKey =
+  | "logic"
+  | "intuition"
+  | "reflection"
+  | "decisiveness"
+  | "emotionalSensitivity"
+  | "emotionalControl"
+  | "socialEnergy"
+  | "socialDepth"
+  | "discipline"
+  | "impulsiveness"
+  | "riskTolerance"
+  | "flexibility";
+
+export interface PersonalityQuestion {
+  id: number;
+  text: string;
+  phase: number;
+  weights: Record<DimensionKey, number>;
+  reverse: boolean;
+}
+
+export const QUESTIONS: PersonalityQuestion[] = [
+  // PHASE 1: THINKING STYLE (Q1-Q8)
+  {
+    id: 1,
+    text: "I make decisions based on logical analysis rather than feelings.",
+    phase: 1,
+    weights: { logic: 2, intuition: -1, reflection: 1 },
+    reverse: false,
+  },
+  {
+    id: 2,
+    text: "I trust my gut feeling more than facts and data.",
+    phase: 1,
+    weights: { intuition: 2, logic: -1, reflection: 1 },
+    reverse: false,
+  },
+  {
+    id: 3,
+    text: "I examine my own thoughts and beliefs carefully.",
+    phase: 1,
+    weights: { reflection: 2, decisiveness: -0.5 },
+    reverse: false,
+  },
+  {
+    id: 4,
+    text: "I prefer clear systems and structures over ambiguity.",
+    phase: 1,
+    weights: { logic: 1.5, flexibility: -0.5 },
+    reverse: false,
+  },
+  {
+    id: 5,
+    text: "I spend too much time overthinking simple situations.",
+    phase: 1,
+    weights: { reflection: 1.5, decisiveness: -1 },
+    reverse: false,
+  },
+  {
+    id: 6,
+    text: "I can see patterns and connections others miss.",
+    phase: 1,
+    weights: { intuition: 1.5, reflection: 1 },
+    reverse: false,
+  },
+  {
+    id: 7,
+    text: "I avoid situations where I have to think deeply about abstract concepts.",
+    phase: 1,
+    weights: { reflection: -1.5, logic: -0.5 },
+    reverse: false,
+  },
+  {
+    id: 8,
+    text: "I naturally break down complex problems into manageable pieces.",
+    phase: 1,
+    weights: { logic: 2, reflection: 1 },
+    reverse: false,
+  },
+
+  // PHASE 2: DECISION MAKING (Q9-Q16)
+  {
+    id: 9,
+    text: "I make decisions quickly and confidently.",
+    phase: 2,
+    weights: { decisiveness: 2, reflection: -1 },
+    reverse: false,
+  },
+  {
+    id: 10,
+    text: "I avoid making decisions because I fear making the wrong choice.",
+    phase: 2,
+    weights: { decisiveness: -2, reflection: 1, emotionalControl: -0.5 },
+    reverse: false,
+  },
+  {
+    id: 11,
+    text: "I would rather act and learn than plan everything perfectly.",
+    phase: 2,
+    weights: { decisiveness: 1.5, impulsiveness: 1 },
+    reverse: false,
+  },
+  {
+    id: 12,
+    text: "I feel paralyzed when faced with too many options.",
+    phase: 2,
+    weights: { decisiveness: -1.5, emotionalControl: -1 },
+    reverse: false,
+  },
+  {
+    id: 13,
+    text: "I take calculated risks when the potential reward is worth it.",
+    phase: 2,
+    weights: { decisiveness: 1, riskTolerance: 2 },
+    reverse: false,
+  },
+  {
+    id: 14,
+    text: "I need certainty before I can commit to a decision.",
+    phase: 2,
+    weights: { riskTolerance: -1.5, reflection: 1 },
+    reverse: false,
+  },
+  {
+    id: 15,
+    text: "I often regret my quick decisions after I have time to reflect.",
+    phase: 2,
+    weights: { impulsiveness: 1.5, reflection: 1, decisiveness: -0.5 },
+    reverse: false,
+  },
+  {
+    id: 16,
+    text: "I trust my ability to handle whatever comes my way.",
+    phase: 2,
+    weights: { riskTolerance: 1.5, emotionalControl: 1 },
+    reverse: false,
+  },
+
+  // PHASE 3: EMOTIONAL RESPONSE (Q17-Q24)
+  {
+    id: 17,
+    text: "I feel deeply affected by others' emotions and moods.",
+    phase: 3,
+    weights: { emotionalSensitivity: 2, socialDepth: 1 },
+    reverse: false,
+  },
+  {
+    id: 18,
+    text: "I can usually stay calm even in stressful situations.",
+    phase: 3,
+    weights: { emotionalControl: 2, emotionalSensitivity: -0.5 },
+    reverse: false,
+  },
+  {
+    id: 19,
+    text: "My emotions shift rapidly throughout the day.",
+    phase: 3,
+    weights: { emotionalSensitivity: 1.5, impulsiveness: 0.5 },
+    reverse: false,
+  },
+  {
+    id: 20,
+    text: "I do a good job of hiding my real emotions from others.",
+    phase: 3,
+    weights: { emotionalControl: 1.5, socialDepth: -1 },
+    reverse: false,
+  },
+  {
+    id: 21,
+    text: "I get overwhelmed by too much emotional intensity.",
+    phase: 3,
+    weights: { emotionalSensitivity: 1.5, emotionalControl: -1 },
+    reverse: false,
+  },
+  {
+    id: 22,
+    text: "I process emotions by talking about them with others.",
+    phase: 3,
+    weights: { emotionalSensitivity: 1, socialDepth: 1.5 },
+    reverse: false,
+  },
+  {
+    id: 23,
+    text: "I rarely feel emotional about things that affect others deeply.",
+    phase: 3,
+    weights: { emotionalSensitivity: -1.5, logic: 0.5 },
+    reverse: false,
+  },
+  {
+    id: 24,
+    text: "I respond to setbacks with frustration rather than acceptance.",
+    phase: 3,
+    weights: { emotionalControl: -1.5, emotionalSensitivity: 1 },
+    reverse: false,
+  },
+
+  // PHASE 4: SOCIAL BEHAVIOR (Q25-Q32)
+  {
+    id: 25,
+    text: "I gain energy from being around other people.",
+    phase: 4,
+    weights: { socialEnergy: 2, flexibility: 0.5 },
+    reverse: false,
+  },
+  {
+    id: 26,
+    text: "I prefer one-on-one conversations to group settings.",
+    phase: 4,
+    weights: { socialEnergy: -1.5, socialDepth: 1.5 },
+    reverse: false,
+  },
+  {
+    id: 27,
+    text: "I am comfortable being the center of attention.",
+    phase: 4,
+    weights: { socialEnergy: 1.5, emotionalControl: 0.5 },
+    reverse: false,
+  },
+  {
+    id: 28,
+    text: "I bond deeply with a small group of close people.",
+    phase: 4,
+    weights: { socialDepth: 2, socialEnergy: -0.5 },
+    reverse: false,
+  },
+  {
+    id: 29,
+    text: "I feel drained after spending time in social situations.",
+    phase: 4,
+    weights: { socialEnergy: -2 },
+    reverse: false,
+  },
+  {
+    id: 30,
+    text: "I can easily adapt my communication style to different people.",
+    phase: 4,
+    weights: { flexibility: 1.5, socialEnergy: 0.5 },
+    reverse: false,
+  },
+  {
+    id: 31,
+    text: "I keep people at a distance emotionally, even close friends.",
+    phase: 4,
+    weights: { socialDepth: -1.5, emotionalControl: 1 },
+    reverse: false,
+  },
+  {
+    id: 32,
+    text: "I seek out new social opportunities and connections regularly.",
+    phase: 4,
+    weights: { socialEnergy: 1.5, riskTolerance: 0.5 },
+    reverse: false,
+  },
+
+  // PHASE 5: SELF-CONTROL & HABITS (Q33-Q40)
+  {
+    id: 33,
+    text: "I follow through on commitments I make to myself.",
+    phase: 5,
+    weights: { discipline: 2, reflection: 0.5 },
+    reverse: false,
+  },
+  {
+    id: 34,
+    text: "I act impulsively without considering consequences.",
+    phase: 5,
+    weights: { impulsiveness: 2, discipline: -1 },
+    reverse: false,
+  },
+  {
+    id: 35,
+    text: "I have a set routine and I stick to it.",
+    phase: 5,
+    weights: { discipline: 1.5, flexibility: -0.5 },
+    reverse: false,
+  },
+  {
+    id: 36,
+    text: "I adapt easily when my plans change unexpectedly.",
+    phase: 5,
+    weights: { flexibility: 2, discipline: -0.5 },
+    reverse: false,
+  },
+  {
+    id: 37,
+    text: "I often abandon goals when they become difficult.",
+    phase: 5,
+    weights: { discipline: -2, emotionalControl: -0.5 },
+    reverse: false,
+  },
+  {
+    id: 38,
+    text: "I am comfortable with uncertainty and changing circumstances.",
+    phase: 5,
+    weights: { flexibility: 1.5, riskTolerance: 1 },
+    reverse: false,
+  },
+  {
+    id: 39,
+    text: "I push myself to do things even when I don't feel motivated.",
+    phase: 5,
+    weights: { discipline: 2, emotionalControl: 1 },
+    reverse: false,
+  },
+  {
+    id: 40,
+    text: "I spontaneously change my mind about important decisions.",
+    phase: 5,
+    weights: { impulsiveness: 1.5, flexibility: 1, discipline: -1.5 },
+    reverse: false,
+  },
+];
+
+export function getQuestionsByPhase(phase: number) {
+  return QUESTIONS.filter((q) => q.phase === phase);
+}
