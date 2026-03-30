@@ -80,11 +80,23 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
       "Potential for stagnation",
     ],
     keyDimensions: [
-      { dimension: "identityStability", importance: "primary", targetScore: 90 },
+      {
+        dimension: "identityStability",
+        importance: "primary",
+        targetScore: 90,
+      },
       { dimension: "authenticity", importance: "primary", targetScore: 85 },
       { dimension: "selfAwareness", importance: "primary", targetScore: 85 },
-      { dimension: "innerConsistency", importance: "secondary", targetScore: 90 },
-      { dimension: "externalInfluence", importance: "secondary", targetScore: 15 },
+      {
+        dimension: "innerConsistency",
+        importance: "secondary",
+        targetScore: 90,
+      },
+      {
+        dimension: "externalInfluence",
+        importance: "secondary",
+        targetScore: 15,
+      },
     ],
     description:
       "You know who you are and you live that truth consistently. Your values aren't questioned daily—they're lived. You feel grounded across different situations because your core identity doesn't shift with your environment. People trust you because you're reliable and authentic.",
@@ -120,11 +132,19 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
       "Balancing act can be tiring",
     ],
     keyDimensions: [
-      { dimension: "identityStability", importance: "primary", targetScore: 75 },
+      {
+        dimension: "identityStability",
+        importance: "primary",
+        targetScore: 75,
+      },
       { dimension: "decisionClarity", importance: "primary", targetScore: 80 },
       { dimension: "selfAwareness", importance: "secondary", targetScore: 80 },
       { dimension: "authenticity", importance: "secondary", targetScore: 75 },
-      { dimension: "externalInfluence", importance: "tertiary", targetScore: 75 },
+      {
+        dimension: "externalInfluence",
+        importance: "tertiary",
+        targetScore: 75,
+      },
     ],
     description:
       "You have a stable sense of who you are, but you're not afraid to explore and grow. You try new things, learn from experiences, and integrate them into your identity without losing your core. Change doesn't destabilize you—it enriches you.",
@@ -137,7 +157,8 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     name: "The Idealist",
     tagline: "Driven by purpose and vision.",
     tier: "grounded",
-    corePattern: "Identity shaped by values and vision. Principled living with clear purpose.",
+    corePattern:
+      "Identity shaped by values and vision. Principled living with clear purpose.",
     psychologicalTraits: [
       "Values-driven decision making",
       "Strong internal compass",
@@ -163,8 +184,16 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
       { dimension: "decisionClarity", importance: "primary", targetScore: 85 },
       { dimension: "authenticity", importance: "primary", targetScore: 80 },
       { dimension: "selfAwareness", importance: "secondary", targetScore: 80 },
-      { dimension: "emotionalAlignment", importance: "secondary", targetScore: 75 },
-      { dimension: "socialExpression", importance: "tertiary", targetScore: 70 },
+      {
+        dimension: "emotionalAlignment",
+        importance: "secondary",
+        targetScore: 75,
+      },
+      {
+        dimension: "socialExpression",
+        importance: "tertiary",
+        targetScore: 70,
+      },
     ],
     description:
       "Your identity is inseparable from your purpose. You have a clear vision of what matters and you live it. You inspire others through your commitment to your values, though you sometimes struggle when reality doesn't match your ideals.",
@@ -202,8 +231,16 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     keyDimensions: [
       { dimension: "selfAwareness", importance: "primary", targetScore: 70 },
       { dimension: "innerConsistency", importance: "primary", targetScore: 30 },
-      { dimension: "identityStability", importance: "secondary", targetScore: 30 },
-      { dimension: "emotionalAlignment", importance: "secondary", targetScore: 45 },
+      {
+        dimension: "identityStability",
+        importance: "secondary",
+        targetScore: 30,
+      },
+      {
+        dimension: "emotionalAlignment",
+        importance: "secondary",
+        targetScore: 45,
+      },
       { dimension: "decisionClarity", importance: "tertiary", targetScore: 35 },
     ],
     description:
@@ -242,9 +279,21 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     keyDimensions: [
       { dimension: "authenticity", importance: "primary", targetScore: 30 },
       { dimension: "socialExpression", importance: "primary", targetScore: 60 },
-      { dimension: "externalInfluence", importance: "primary", targetScore: 70 },
-      { dimension: "identityStability", importance: "secondary", targetScore: 45 },
-      { dimension: "innerConsistency", importance: "secondary", targetScore: 25 },
+      {
+        dimension: "externalInfluence",
+        importance: "primary",
+        targetScore: 70,
+      },
+      {
+        dimension: "identityStability",
+        importance: "secondary",
+        targetScore: 45,
+      },
+      {
+        dimension: "innerConsistency",
+        importance: "secondary",
+        targetScore: 25,
+      },
     ],
     description:
       "You know who you really are, but you don't show it to the world. You've learned that presenting a different version of yourself is safer or more effective. The real you exists, but it's hidden behind a mask you wear strategically.",
@@ -279,11 +328,23 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
       "Exhausting constant adaptation",
     ],
     keyDimensions: [
-      { dimension: "identityStability", importance: "primary", targetScore: 20 },
-      { dimension: "externalInfluence", importance: "primary", targetScore: 85 },
+      {
+        dimension: "identityStability",
+        importance: "primary",
+        targetScore: 20,
+      },
+      {
+        dimension: "externalInfluence",
+        importance: "primary",
+        targetScore: 85,
+      },
       { dimension: "selfAwareness", importance: "secondary", targetScore: 35 },
       { dimension: "authenticity", importance: "secondary", targetScore: 25 },
-      { dimension: "innerConsistency", importance: "tertiary", targetScore: 25 },
+      {
+        dimension: "innerConsistency",
+        importance: "tertiary",
+        targetScore: 25,
+      },
     ],
     description:
       "You become different people in different contexts. Not strategically—it happens automatically. You mirror the people around you, adapt to the situation, and rarely feel like yourself. Finding your core identity feels impossible.",
@@ -320,11 +381,23 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
       "Missing emotional truth",
     ],
     keyDimensions: [
-      { dimension: "emotionalAlignment", importance: "primary", targetScore: 25 },
+      {
+        dimension: "emotionalAlignment",
+        importance: "primary",
+        targetScore: 25,
+      },
       { dimension: "selfAwareness", importance: "primary", targetScore: 50 },
       { dimension: "authenticity", importance: "secondary", targetScore: 35 },
-      { dimension: "socialExpression", importance: "secondary", targetScore: 25 },
-      { dimension: "innerConsistency", importance: "tertiary", targetScore: 20 },
+      {
+        dimension: "socialExpression",
+        importance: "secondary",
+        targetScore: 25,
+      },
+      {
+        dimension: "innerConsistency",
+        importance: "tertiary",
+        targetScore: 20,
+      },
     ],
     description:
       "You understand yourself intellectually but feel disconnected from your own emotions. You're aware of yourself from a distance, like an observer watching your own life. Relationships feel difficult because you struggle to feel and express emotions.",
@@ -361,9 +434,17 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     keyDimensions: [
       { dimension: "selfAwareness", importance: "primary", targetScore: 20 },
       { dimension: "innerConsistency", importance: "primary", targetScore: 40 },
-      { dimension: "decisionClarity", importance: "secondary", targetScore: 35 },
+      {
+        dimension: "decisionClarity",
+        importance: "secondary",
+        targetScore: 35,
+      },
       { dimension: "authenticity", importance: "secondary", targetScore: 30 },
-      { dimension: "emotionalAlignment", importance: "tertiary", targetScore: 35 },
+      {
+        dimension: "emotionalAlignment",
+        importance: "tertiary",
+        targetScore: 35,
+      },
     ],
     description:
       "You don't want to look too closely at yourself. Introspection feels uncomfortable, so you stay busy, distracted, or focused on external things. Your identity isn't developed by choice—it's simply what's convenient.",
@@ -401,9 +482,21 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     ],
     keyDimensions: [
       { dimension: "selfAwareness", importance: "primary", targetScore: 80 },
-      { dimension: "emotionalAlignment", importance: "primary", targetScore: 30 },
-      { dimension: "innerConsistency", importance: "secondary", targetScore: 40 },
-      { dimension: "socialExpression", importance: "secondary", targetScore: 25 },
+      {
+        dimension: "emotionalAlignment",
+        importance: "primary",
+        targetScore: 30,
+      },
+      {
+        dimension: "innerConsistency",
+        importance: "secondary",
+        targetScore: 40,
+      },
+      {
+        dimension: "socialExpression",
+        importance: "secondary",
+        targetScore: 25,
+      },
       { dimension: "authenticity", importance: "tertiary", targetScore: 35 },
     ],
     description:
@@ -441,9 +534,21 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     ],
     keyDimensions: [
       { dimension: "selfAwareness", importance: "primary", targetScore: 65 },
-      { dimension: "identityStability", importance: "primary", targetScore: 50 },
-      { dimension: "innerConsistency", importance: "secondary", targetScore: 55 },
-      { dimension: "emotionalAlignment", importance: "secondary", targetScore: 60 },
+      {
+        dimension: "identityStability",
+        importance: "primary",
+        targetScore: 50,
+      },
+      {
+        dimension: "innerConsistency",
+        importance: "secondary",
+        targetScore: 55,
+      },
+      {
+        dimension: "emotionalAlignment",
+        importance: "secondary",
+        targetScore: 60,
+      },
       { dimension: "decisionClarity", importance: "tertiary", targetScore: 55 },
     ],
     description:
@@ -480,10 +585,22 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
       "Energy depletion",
     ],
     keyDimensions: [
-      { dimension: "identityStability", importance: "primary", targetScore: 35 },
+      {
+        dimension: "identityStability",
+        importance: "primary",
+        targetScore: 35,
+      },
       { dimension: "selfAwareness", importance: "primary", targetScore: 60 },
-      { dimension: "innerConsistency", importance: "secondary", targetScore: 40 },
-      { dimension: "emotionalAlignment", importance: "secondary", targetScore: 50 },
+      {
+        dimension: "innerConsistency",
+        importance: "secondary",
+        targetScore: 40,
+      },
+      {
+        dimension: "emotionalAlignment",
+        importance: "secondary",
+        targetScore: 50,
+      },
       { dimension: "authenticity", importance: "tertiary", targetScore: 55 },
     ],
     description:
@@ -496,7 +613,8 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     name: "The Seeker",
     tagline: "Actively exploring to find your authentic self.",
     tier: "growth",
-    corePattern: "Intentionally exploring to discover authentic identity. Experimental and open.",
+    corePattern:
+      "Intentionally exploring to discover authentic identity. Experimental and open.",
     psychologicalTraits: [
       "Intentional exploration",
       "Open to possibilities",
@@ -520,10 +638,22 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     ],
     keyDimensions: [
       { dimension: "selfAwareness", importance: "primary", targetScore: 55 },
-      { dimension: "externalInfluence", importance: "primary", targetScore: 85 },
+      {
+        dimension: "externalInfluence",
+        importance: "primary",
+        targetScore: 85,
+      },
       { dimension: "authenticity", importance: "secondary", targetScore: 50 },
-      { dimension: "decisionClarity", importance: "secondary", targetScore: 30 },
-      { dimension: "identityStability", importance: "tertiary", targetScore: 35 },
+      {
+        dimension: "decisionClarity",
+        importance: "secondary",
+        targetScore: 30,
+      },
+      {
+        dimension: "identityStability",
+        importance: "tertiary",
+        targetScore: 35,
+      },
     ],
     description:
       "You're on a journey to find the real you. You try different things, explore different identities, and stay open to where the journey leads. It's uncertain, but the exploration feels necessary and authentic.",
@@ -560,11 +690,23 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
       "Approval dependency",
     ],
     keyDimensions: [
-      { dimension: "externalInfluence", importance: "primary", targetScore: 80 },
+      {
+        dimension: "externalInfluence",
+        importance: "primary",
+        targetScore: 80,
+      },
       { dimension: "socialExpression", importance: "primary", targetScore: 80 },
       { dimension: "authenticity", importance: "secondary", targetScore: 30 },
-      { dimension: "emotionalAlignment", importance: "secondary", targetScore: 35 },
-      { dimension: "identityStability", importance: "tertiary", targetScore: 45 },
+      {
+        dimension: "emotionalAlignment",
+        importance: "secondary",
+        targetScore: 35,
+      },
+      {
+        dimension: "identityStability",
+        importance: "tertiary",
+        targetScore: 45,
+      },
     ],
     description:
       "You've learned that your value comes from how others perceive you. So you perform—a version calculated to get approval. You're socially skilled and entertaining, but the real you is hidden behind the role.",
@@ -576,7 +718,8 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     name: "The Controller",
     tagline: "Controlling identity to prevent chaos.",
     tier: "performance",
-    corePattern: "Identity controlled to prevent uncertainty and chaos. Perfectionist and protective.",
+    corePattern:
+      "Identity controlled to prevent uncertainty and chaos. Perfectionist and protective.",
     psychologicalTraits: [
       "Rigid self-management",
       "Perfectionism",
@@ -599,10 +742,22 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
       "Emotional suppression",
     ],
     keyDimensions: [
-      { dimension: "identityStability", importance: "primary", targetScore: 80 },
+      {
+        dimension: "identityStability",
+        importance: "primary",
+        targetScore: 80,
+      },
       { dimension: "innerConsistency", importance: "primary", targetScore: 75 },
-      { dimension: "externalInfluence", importance: "primary", targetScore: 20 },
-      { dimension: "emotionalAlignment", importance: "secondary", targetScore: 40 },
+      {
+        dimension: "externalInfluence",
+        importance: "primary",
+        targetScore: 20,
+      },
+      {
+        dimension: "emotionalAlignment",
+        importance: "secondary",
+        targetScore: 40,
+      },
       { dimension: "authenticity", importance: "secondary", targetScore: 60 },
     ],
     description:
@@ -616,7 +771,8 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     name: "The Drifter",
     tagline: "Going with the flow, unexamined and reactive.",
     tier: "performance",
-    corePattern: "No active engagement with identity; passive acceptance. Reactive to circumstances.",
+    corePattern:
+      "No active engagement with identity; passive acceptance. Reactive to circumstances.",
     psychologicalTraits: [
       "Goes with flow",
       "Unexamined identity",
@@ -640,10 +796,22 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     ],
     keyDimensions: [
       { dimension: "selfAwareness", importance: "primary", targetScore: 25 },
-      { dimension: "externalInfluence", importance: "primary", targetScore: 70 },
-      { dimension: "decisionClarity", importance: "secondary", targetScore: 20 },
+      {
+        dimension: "externalInfluence",
+        importance: "primary",
+        targetScore: 70,
+      },
+      {
+        dimension: "decisionClarity",
+        importance: "secondary",
+        targetScore: 20,
+      },
       { dimension: "authenticity", importance: "secondary", targetScore: 35 },
-      { dimension: "identityStability", importance: "tertiary", targetScore: 35 },
+      {
+        dimension: "identityStability",
+        importance: "tertiary",
+        targetScore: 35,
+      },
     ],
     description:
       "You're not really thinking about who you are—you're just living day to day, going with whatever comes. No internal compass, no purposeful direction, just drifting based on circumstances and what others suggest.",

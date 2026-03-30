@@ -332,7 +332,7 @@ export function scoreResponse(response: number, reversed: boolean): number {
 }
 
 export function calculateDimensionScores(
-  responses: Record<number, number>
+  responses: Record<number, number>,
 ): DimensionScores {
   const dimensionScores: Record<keyof DimensionScores, number[]> = {
     selfAwareness: [],

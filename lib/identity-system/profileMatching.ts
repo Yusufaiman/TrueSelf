@@ -24,9 +24,7 @@ interface IdentityMatch {
  * Calculate tolerance band for each dimension
  * Tolerance increases slightly for lower target scores to allow more variation
  */
-function getToleranceBand(
-  targetScore: number
-): { min: number; max: number } {
+function getToleranceBand(targetScore: number): { min: number; max: number } {
   const tolerance = 15; // ±15 within band is acceptable match
   return {
     min: Math.max(0, targetScore - tolerance),
@@ -40,7 +38,7 @@ function getToleranceBand(
  */
 function calculateSimilarityScore(
   userScores: DimensionScores,
-  identity: Identity
+  identity: Identity,
 ): { score: number; matchedDimensions: number } {
   let totalSquaredDifference = 0;
   let matchedDimensions = 0;
@@ -61,7 +59,7 @@ function calculateSimilarityScore(
 
   // Euclidean distance
   const euclideanDistance = Math.sqrt(
-    totalSquaredDifference / identity.keyDimensions.length
+    totalSquaredDifference / identity.keyDimensions.length,
   );
 
   // Convert distance to similarity score (0-100)
@@ -77,10 +75,10 @@ function calculateSimilarityScore(
 function generateExplanation(
   identity: Identity,
   userScores: DimensionScores,
-  matchedDimensions: number
+  matchedDimensions: number,
 ): string {
   const primaryDimension = identity.keyDimensions.find(
-    (d) => d.importance === "primary"
+    (d) => d.importance === "primary",
   );
 
   if (!primaryDimension) {
@@ -111,7 +109,7 @@ export function identifyType(userScores: DimensionScores): IdentityMatch {
   Object.entries(IDENTITIES).forEach(([identityKey, identity]) => {
     const { score, matchedDimensions } = calculateSimilarityScore(
       userScores,
-      identity
+      identity,
     );
 
     results.push({
@@ -141,7 +139,7 @@ export function identifyType(userScores: DimensionScores): IdentityMatch {
  */
 export function validateBecomingMatch(
   match: IdentityMatch,
-  userScores: DimensionScores
+  userScores: DimensionScores,
 ): IdentityMatch {
   if (match.primary.identityType !== "the-becoming") {
     return match; // Return as-is if not "The Becoming"
@@ -149,8 +147,7 @@ export function validateBecomingMatch(
 
   const selfAwarenessOk = userScores.selfAwareness >= 60;
   const innerConsistencyOk =
-    userScores.innerConsistency >= 45 &&
-    userScores.innerConsistency <= 65;
+    userScores.innerConsistency >= 45 && userScores.innerConsistency <= 65;
 
   if (!selfAwarenessOk || !innerConsistencyOk) {
     // "The Becoming" doesn't match criteria, demote it
@@ -170,13 +167,8 @@ export function validateBecomingMatch(
  * Check for conflicted identities (The Split)
  * "The Split" indicates high selfAwareness but low innerConsistency
  */
-export function shouldSuggestSplit(
-  userScores: DimensionScores
-): boolean {
-  return (
-    userScores.selfAwareness >= 65 &&
-    userScores.innerConsistency <= 35
-  );
+export function shouldSuggestSplit(userScores: DimensionScores): boolean {
+  return userScores.selfAwareness >= 65 && userScores.innerConsistency <= 35;
 }
 
 /**
@@ -208,7 +200,7 @@ export interface CompleteIdentityResult {
 }
 
 export function getCompleteResult(
-  userScores: DimensionScores
+  userScores: DimensionScores,
 ): CompleteIdentityResult {
   let match = identifyType(userScores);
   match = validateBecomingMatch(match, userScores);
@@ -223,29 +215,29 @@ export function getCompleteResult(
   // High self-awareness insight
   if (userScores.selfAwareness >= 75) {
     keyInsights.push(
-      "You have strong self-awareness—you understand yourself deeply."
+      "You have strong self-awareness—you understand yourself deeply.",
     );
   } else if (userScores.selfAwareness <= 25) {
     keyInsights.push(
-      "Self-reflection might help you understand yourself better."
+      "Self-reflection might help you understand yourself better.",
     );
   }
 
   // Authenticity insight
   if (userScores.authenticity >= 75) {
     keyInsights.push(
-      "You live authentically—your actions align with your core self."
+      "You live authentically—your actions align with your core self.",
     );
   } else if (userScores.authenticity <= 25) {
     keyInsights.push(
-      "Consider exploring what prevents you from being fully authentic."
+      "Consider exploring what prevents you from being fully authentic.",
     );
   }
 
   // External influence insight
   if (userScores.externalInfluence >= 70) {
     keyInsights.push(
-      "Others' opinions significantly influence your sense of self."
+      "Others' opinions significantly influence your sense of self.",
     );
   } else if (userScores.externalInfluence <= 20) {
     keyInsights.push("You're remarkably resistant to external pressure.");
@@ -256,14 +248,14 @@ export function getCompleteResult(
     keyInsights.push("Your sense of self remains stable even through change.");
   } else if (userScores.identityStability <= 30) {
     keyInsights.push(
-      "Your identity feels fragile or shifts with circumstances."
+      "Your identity feels fragile or shifts with circumstances.",
     );
   }
 
   // Inner consistency insight
   if (userScores.innerConsistency <= 30 && userScores.selfAwareness >= 65) {
     keyInsights.push(
-      "You're aware of genuine contradictions within yourself—this is The Split."
+      "You're aware of genuine contradictions within yourself—this is The Split.",
     );
   }
 
@@ -271,31 +263,33 @@ export function getCompleteResult(
   const nextSteps: string[] = [];
 
   if (primaryIdentity.id === "the-becoming") {
-    nextSteps.push("Document one small identity shift you're making right now.");
     nextSteps.push(
-      "Identify the core value driving your current transformation."
+      "Document one small identity shift you're making right now.",
+    );
+    nextSteps.push(
+      "Identify the core value driving your current transformation.",
     );
   } else if (primaryIdentity.id === "the-anchored") {
     nextSteps.push(
-      "Explore one area where your anchored identity might limit growth."
+      "Explore one area where your anchored identity might limit growth.",
     );
     nextSteps.push("Consider: what would you do if you were less anchored?");
   } else if (primaryIdentity.id === "the-shifter") {
     nextSteps.push(
-      "Notice who you are when you're alone—that's your core self."
+      "Notice who you are when you're alone—that's your core self.",
     );
     nextSteps.push("List 3 values that remain true across all contexts.");
   } else if (primaryIdentity.id === "the-masked") {
     nextSteps.push(
-      "Identify one trusted person who might appreciate your real self."
+      "Identify one trusted person who might appreciate your real self.",
     );
     nextSteps.push("What would change if one person knew the real you?");
   } else {
     nextSteps.push(
-      `Explore the core pattern of ${primaryIdentity.name}: ${primaryIdentity.corePattern.toLowerCase()}`
+      `Explore the core pattern of ${primaryIdentity.name}: ${primaryIdentity.corePattern.toLowerCase()}`,
     );
     nextSteps.push(
-      `Notice how ${primaryIdentity.name}'s strengths show up in your life.`
+      `Notice how ${primaryIdentity.name}'s strengths show up in your life.`,
     );
   }
 

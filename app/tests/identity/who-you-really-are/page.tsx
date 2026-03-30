@@ -134,15 +134,15 @@ export default function WhoYouReallyArePage() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<(AnswerValue | null)[]>(
-    Array(IDENTITY_QUESTIONS.length).fill(null)
+    Array(IDENTITY_QUESTIONS.length).fill(null),
   );
   const [showRestartModal, setShowRestartModal] = useState(false);
 
   const currentQuestion = IDENTITY_QUESTIONS[currentQuestionIndex];
   const currentAnswer = answers[currentQuestionIndex];
-  const progress = ((currentQuestionIndex + 1) / IDENTITY_QUESTIONS.length) * 100;
-  const isLastQuestion =
-    currentQuestionIndex === IDENTITY_QUESTIONS.length - 1;
+  const progress =
+    ((currentQuestionIndex + 1) / IDENTITY_QUESTIONS.length) * 100;
+  const isLastQuestion = currentQuestionIndex === IDENTITY_QUESTIONS.length - 1;
 
   const handleSelectAnswer = (value: AnswerValue) => {
     const newAnswers = [...answers];
@@ -182,7 +182,13 @@ export default function WhoYouReallyArePage() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentAnswer, currentQuestionIndex, isLastQuestion, hasStarted, isCompleted]);
+  }, [
+    currentAnswer,
+    currentQuestionIndex,
+    isLastQuestion,
+    hasStarted,
+    isCompleted,
+  ]);
 
   // RESULTS SCREEN
   if (isCompleted) {
@@ -325,7 +331,9 @@ export default function WhoYouReallyArePage() {
                     size={16}
                     className="text-emerald-500 mt-0.5 shrink-0"
                   />
-                  <p className="text-xs text-slate-700 font-medium">{strength}</p>
+                  <p className="text-xs text-slate-700 font-medium">
+                    {strength}
+                  </p>
                 </div>
               ))}
             </div>
@@ -669,4 +677,3 @@ export default function WhoYouReallyArePage() {
     </div>
   );
 }
-

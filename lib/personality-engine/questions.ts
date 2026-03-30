@@ -31,7 +31,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 1,
     weights: {
       logic: 2,
-      intuition: -1,
+      intuition: 0,
       reflection: 1,
       decisiveness: 0,
       emotionalSensitivity: 0,
@@ -51,7 +51,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 1,
     weights: {
       intuition: 2,
-      logic: -1,
+      logic: 0,
       reflection: 1,
       decisiveness: 0,
       emotionalSensitivity: 0,
@@ -71,7 +71,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 1,
     weights: {
       reflection: 2,
-      decisiveness: -0.5,
+      decisiveness: 0,
       logic: 0,
       intuition: 0,
       emotionalSensitivity: 0,
@@ -91,7 +91,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 1,
     weights: {
       logic: 1.5,
-      flexibility: -0.5,
+      flexibility: 0,
       intuition: 0,
       reflection: 0,
       decisiveness: 0,
@@ -111,7 +111,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 1,
     weights: {
       reflection: 1.5,
-      decisiveness: -1,
+      decisiveness: 0,
       logic: 0,
       intuition: 0,
       emotionalSensitivity: 0,
@@ -150,8 +150,8 @@ export const QUESTIONS: PersonalityQuestion[] = [
     text: "I avoid situations where I have to think deeply about abstract concepts.",
     phase: 1,
     weights: {
-      reflection: -1.5,
-      logic: -0.5,
+      reflection: 0,
+      logic: 0,
       intuition: 0,
       decisiveness: 0,
       emotionalSensitivity: 0,
@@ -193,7 +193,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 2,
     weights: {
       decisiveness: 2,
-      reflection: -1,
+      reflection: 0,
       logic: 0,
       intuition: 0,
       emotionalSensitivity: 0,
@@ -212,9 +212,9 @@ export const QUESTIONS: PersonalityQuestion[] = [
     text: "I avoid making decisions because I fear making the wrong choice.",
     phase: 2,
     weights: {
-      decisiveness: -2,
+      decisiveness: 0,
       reflection: 1,
-      emotionalControl: -0.5,
+      emotionalControl: 0,
       logic: 0,
       intuition: 0,
       emotionalSensitivity: 0,
@@ -252,8 +252,8 @@ export const QUESTIONS: PersonalityQuestion[] = [
     text: "I feel paralyzed when faced with too many options.",
     phase: 2,
     weights: {
-      decisiveness: -1.5,
-      emotionalControl: -1,
+      decisiveness: 0,
+      emotionalControl: 0,
       logic: 0,
       intuition: 0,
       reflection: 0,
@@ -292,7 +292,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     text: "I need certainty before I can commit to a decision.",
     phase: 2,
     weights: {
-      riskTolerance: -1.5,
+      riskTolerance: 0,
       reflection: 1,
       logic: 0,
       intuition: 0,
@@ -314,7 +314,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     weights: {
       impulsiveness: 1.5,
       reflection: 1,
-      decisiveness: -0.5,
+      decisiveness: 0,
       logic: 0,
       intuition: 0,
       emotionalSensitivity: 0,
@@ -375,7 +375,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 3,
     weights: {
       emotionalControl: 2,
-      emotionalSensitivity: -0.5,
+      emotionalSensitivity: 0,
       logic: 0,
       intuition: 0,
       reflection: 0,
@@ -415,7 +415,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 3,
     weights: {
       emotionalControl: 1.5,
-      socialDepth: -1,
+      socialDepth: 0,
       logic: 0,
       intuition: 0,
       reflection: 0,
@@ -435,7 +435,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 3,
     weights: {
       emotionalSensitivity: 1.5,
-      emotionalControl: -1,
+      emotionalControl: 0,
       logic: 0,
       intuition: 0,
       reflection: 0,
@@ -474,7 +474,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     text: "I rarely feel emotional about things that affect others deeply.",
     phase: 3,
     weights: {
-      emotionalSensitivity: -1.5,
+      emotionalSensitivity: 0,
       logic: 0.5,
       intuition: 0,
       reflection: 0,
@@ -494,7 +494,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     text: "I respond to setbacks with frustration rather than acceptance.",
     phase: 3,
     weights: {
-      emotionalControl: -1.5,
+      emotionalControl: 0,
       emotionalSensitivity: 1,
       logic: 0,
       intuition: 0,
@@ -536,7 +536,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     text: "I prefer one-on-one conversations to group settings.",
     phase: 4,
     weights: {
-      socialEnergy: -1.5,
+      socialEnergy: 0,
       socialDepth: 1.5,
       logic: 0,
       intuition: 0,
@@ -577,7 +577,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 4,
     weights: {
       socialDepth: 2,
-      socialEnergy: -0.5,
+      socialEnergy: 0,
       logic: 0,
       intuition: 0,
       reflection: 0,
@@ -596,7 +596,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     text: "I feel drained after spending time in social situations.",
     phase: 4,
     weights: {
-      socialEnergy: -2,
+      socialEnergy: 0,
       logic: 0,
       intuition: 0,
       reflection: 0,
@@ -636,7 +636,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     text: "I keep people at a distance emotionally, even close friends.",
     phase: 4,
     weights: {
-      socialDepth: -1.5,
+      socialDepth: 0,
       emotionalControl: 1,
       logic: 0,
       intuition: 0,
@@ -699,7 +699,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 5,
     weights: {
       impulsiveness: 2,
-      discipline: -1,
+      discipline: 0,
       logic: 0,
       intuition: 0,
       reflection: 0,
@@ -719,7 +719,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 5,
     weights: {
       discipline: 1.5,
-      flexibility: -0.5,
+      flexibility: 0,
       logic: 0,
       intuition: 0,
       reflection: 0,
@@ -739,7 +739,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     phase: 5,
     weights: {
       flexibility: 2,
-      discipline: -0.5,
+      discipline: 0,
       logic: 0,
       intuition: 0,
       reflection: 0,
@@ -758,8 +758,8 @@ export const QUESTIONS: PersonalityQuestion[] = [
     text: "I often abandon goals when they become difficult.",
     phase: 5,
     weights: {
-      discipline: -2,
-      emotionalControl: -0.5,
+      discipline: 0,
+      emotionalControl: 0,
       logic: 0,
       intuition: 0,
       reflection: 0,
@@ -820,7 +820,7 @@ export const QUESTIONS: PersonalityQuestion[] = [
     weights: {
       impulsiveness: 1.5,
       flexibility: 1,
-      discipline: -1.5,
+      discipline: 0,
       logic: 0,
       intuition: 0,
       reflection: 0,
