@@ -13,6 +13,7 @@ const tests = [
     duration: "6–8 min",
     questions: "12 questions",
     href: "/tests/emotional-health/emotional-pattern",
+    pills: ["Emotional Types", "Response Pattern"],
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const tests = [
     duration: "5–8 min",
     questions: "11 questions",
     href: "/tests/emotional-health/handle-stress",
+    pills: ["Stress Response", "Coping Style"],
   },
   {
     id: 3,
@@ -30,6 +32,7 @@ const tests = [
     duration: "7–9 min",
     questions: "13 questions",
     href: "/tests/emotional-health/emotional-awareness",
+    pills: ["Emotional Awareness", "Self Regulation"],
   },
   {
     id: 4,
@@ -38,6 +41,7 @@ const tests = [
     duration: "6–8 min",
     questions: "12 questions",
     href: "/tests/emotional-health/emotional-triggers",
+    pills: ["Trigger Patterns", "Sensitivity Map"],
   },
   {
     id: 5,
@@ -46,6 +50,7 @@ const tests = [
     duration: "5–7 min",
     questions: "10 questions",
     href: "/tests/emotional-health/feel-drained",
+    pills: ["Energy Drain", "Emotional Load"],
   },
 ];
 
@@ -103,6 +108,24 @@ export default function EmotionalHealthTestsPage() {
                     <span>•</span>
                     <span>{test.questions}</span>
                   </div>
+
+                  {/* Pills */}
+                  {test.pills && test.pills.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {test.pills.map((pill, idx) => (
+                        <span
+                          key={idx}
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                            idx === 0
+                              ? "bg-red-100 text-red-700"
+                              : "bg-slate-100 text-slate-600"
+                          }`}
+                        >
+                          {pill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   {/* CTA Button */}
                   <button className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 flex items-center justify-center gap-2">

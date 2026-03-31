@@ -1,17 +1,20 @@
 "use client";
 
-import { LifeDirectionType } from "@/lib/personality-engine/life-direction-types";
-import { X, Compass, Lightbulb, AlertCircle, Target } from "lucide-react";
+import React from "react";
+import { X, Brain, Zap, Lightbulb, AlertCircle, Target } from "lucide-react";
+import { MindsetType } from "@/lib/personality-engine/mindset-types";
 
-export function LifeDirectionModal({
+interface MindsetModalProps {
+  type: MindsetType | null;
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function MindsetModal({
   type,
   isOpen,
   onClose,
-}: {
-  type: LifeDirectionType | null;
-  isOpen: boolean;
-  onClose: () => void;
-}) {
+}: MindsetModalProps) {
   if (!isOpen || !type) return null;
 
   return (
@@ -31,9 +34,9 @@ export function LifeDirectionModal({
         {/* Content with spacing */}
         <div className="pr-8 space-y-8">
           {/* Image Placeholder */}
-          <div className="w-full h-64 bg-linear-to-br from-yellow-100 to-amber-100 rounded-xl flex items-center justify-center">
-            <span className="text-yellow-500 text-sm font-medium">
-              Life Direction Type Visual
+          <div className="w-full h-64 bg-linear-to-br from-purple-100 to-violet-100 rounded-xl flex items-center justify-center">
+            <span className="text-purple-400 text-sm font-medium">
+              Mindset Type Visual
             </span>
           </div>
 
@@ -42,7 +45,7 @@ export function LifeDirectionModal({
             <h2 className="text-4xl font-bold text-slate-900 mb-2">
               {type.name}
             </h2>
-            <p className="text-yellow-600 font-semibold text-lg">
+            <p className="text-purple-600 font-semibold text-lg">
               {type.tagline}
             </p>
           </div>
@@ -50,7 +53,7 @@ export function LifeDirectionModal({
           {/* Overview Section */}
           <div className="space-y-3">
             <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-yellow-500" />
+              <div className="w-1.5 h-1.5 rounded-full bg-purple-500" />
               Overview
             </h3>
             <p className="text-slate-700 leading-relaxed text-base">
@@ -58,20 +61,20 @@ export function LifeDirectionModal({
             </p>
           </div>
 
-          {/* How You Decide Section */}
+          {/* How This Shows Up Section */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <Compass className="text-yellow-500" size={20} />
-              How You Decide
+              <Brain className="text-purple-500" size={20} />
+              How This Shows Up
             </h3>
             <div className="grid gap-3">
-              {type.behavior.map((item, index) => (
+              {type.howItShowsUp.map((item, index) => (
                 <div
                   key={index}
-                  className="flex gap-3 p-3 bg-slate-50 rounded-lg hover:bg-yellow-50/30 transition-colors"
+                  className="flex gap-3 p-3 bg-slate-50 rounded-lg hover:bg-purple-50/30 transition-colors"
                 >
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-yellow-100 flex items-center justify-center">
-                    <span className="text-xs font-semibold text-yellow-600">
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center">
+                    <span className="text-xs font-semibold text-purple-600">
                       ✓
                     </span>
                   </div>
@@ -84,17 +87,17 @@ export function LifeDirectionModal({
           {/* Strengths Section */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <Lightbulb className="text-yellow-500" size={20} />
+              <Lightbulb className="text-purple-500" size={20} />
               Strengths
             </h3>
             <div className="grid gap-3">
               {type.strengths.map((item, index) => (
                 <div
                   key={index}
-                  className="flex gap-3 p-3 bg-yellow-50 rounded-lg hover:bg-yellow-100/50 transition-colors"
+                  className="flex gap-3 p-3 bg-purple-50 rounded-lg hover:bg-purple-100/50 transition-colors"
                 >
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-yellow-200 flex items-center justify-center">
-                    <span className="text-xs font-bold text-yellow-700">+</span>
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-200 flex items-center justify-center">
+                    <span className="text-xs font-bold text-purple-700">+</span>
                   </div>
                   <p className="text-slate-700">{item}</p>
                 </div>
@@ -105,17 +108,17 @@ export function LifeDirectionModal({
           {/* Blind Spots Section */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <AlertCircle className="text-amber-500" size={20} />
+              <AlertCircle className="text-violet-500" size={20} />
               Blind Spots
             </h3>
             <div className="grid gap-3">
               {type.blindSpots.map((item, index) => (
                 <div
                   key={index}
-                  className="flex gap-3 p-3 bg-amber-50 rounded-lg hover:bg-amber-100/50 transition-colors"
+                  className="flex gap-3 p-3 bg-violet-50 rounded-lg hover:bg-violet-100/50 transition-colors"
                 >
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-200 flex items-center justify-center">
-                    <span className="text-xs font-bold text-amber-700">!</span>
+                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-violet-200 flex items-center justify-center">
+                    <span className="text-xs font-bold text-violet-700">!</span>
                   </div>
                   <p className="text-slate-700">{item}</p>
                 </div>

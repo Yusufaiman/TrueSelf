@@ -13,6 +13,7 @@ const tests = [
     duration: "5–7 min",
     questions: "10 questions",
     href: "/tests/life-direction/life-path",
+    pills: ["Life Direction Types", "Purpose Path"],
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const tests = [
     duration: "6–8 min",
     questions: "12 questions",
     href: "/tests/life-direction/core-values",
+    pills: ["Value Types", "Priority System"],
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ const tests = [
     duration: "5–7 min",
     questions: "11 questions",
     href: "/tests/life-direction/focus-priorities",
+    pills: ["Focus Mapping", "Decision Clarity"],
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ const tests = [
     duration: "7–9 min",
     questions: "13 questions",
     href: "/tests/life-direction/feeling-stuck",
+    pills: ["Life Blocks", "Internal Conflict"],
   },
 ];
 
@@ -79,7 +83,6 @@ export default function LifeDirectionTestsPage() {
                         Test {test.id}
                       </span>
                     </div>
-
                     {/* Title */}
                     <h3 className="text-xl font-semibold text-slate-900 mb-3 group-hover:text-teal-600 transition-colors">
                       {test.title}
@@ -97,6 +100,24 @@ export default function LifeDirectionTestsPage() {
                     <span>•</span>
                     <span>{test.questions}</span>
                   </div>
+
+                  {/* Pills */}
+                  {test.pills && test.pills.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {test.pills.map((pill, idx) => (
+                        <span
+                          key={idx}
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                            idx === 0
+                              ? "bg-cyan-100 text-cyan-700"
+                              : "bg-slate-100 text-slate-600"
+                          }`}
+                        >
+                          {pill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   {/* CTA Button */}
                   <button className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 flex items-center justify-center gap-2">

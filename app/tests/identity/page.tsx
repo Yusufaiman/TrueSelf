@@ -13,6 +13,7 @@ const tests = [
     duration: "5–7 min",
     questions: "10 questions",
     href: "/tests/identity/who-you-really-are",
+    pills: ["Identity Types", "Core Identity"],
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const tests = [
     duration: "8–10 min",
     questions: "15 questions",
     href: "/tests/identity/personality-type",
+    pills: ["Personality Types", "Personality Patterns"],
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ const tests = [
     duration: "6–8 min",
     questions: "12 questions",
     href: "/tests/identity/what-drives-you",
+    pills: ["Motivation Types", "Internal Drivers"],
   },
   {
     id: 4,
@@ -39,6 +42,7 @@ const tests = [
     duration: "7–9 min",
     questions: "14 questions",
     href: "/tests/identity/strengths-weaknesses",
+    pills: ["Capability Patterns", "Strength Profile"],
   },
   {
     id: 5,
@@ -48,6 +52,7 @@ const tests = [
     duration: "9–11 min",
     questions: "18 questions",
     href: "/tests/identity/real-vs-current-self",
+    pills: ["Identity Gap", "Self Awareness"],
   },
 ];
 
@@ -106,6 +111,24 @@ export default function IdentityTestsPage() {
                     <span>•</span>
                     <span>{test.questions}</span>
                   </div>
+
+                  {/* Pills */}
+                  {test.pills && test.pills.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {test.pills.map((pill, idx) => (
+                        <span
+                          key={idx}
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                            idx === 0
+                              ? "bg-blue-100 text-blue-700"
+                              : "bg-slate-100 text-slate-600"
+                          }`}
+                        >
+                          {pill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   {/* CTA Button */}
                   <button className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 flex items-center justify-center gap-2">

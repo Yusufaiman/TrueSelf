@@ -13,6 +13,7 @@ const tests = [
     duration: "6–9 min",
     questions: "12 questions",
     href: "/tests/career/career-fit",
+    pills: ["Career Types", "Work Alignment"],
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const tests = [
     duration: "5–7 min",
     questions: "10 questions",
     href: "/tests/career/work-style",
+    pills: ["Work Style Types", "Execution Pattern"],
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ const tests = [
     duration: "7–9 min",
     questions: "14 questions",
     href: "/tests/career/leader-follower",
+    pills: ["Leadership Types", "Role Behavior"],
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ const tests = [
     duration: "8–10 min",
     questions: "16 questions",
     href: "/tests/career/career-lost",
+    pills: ["Career Blocks", "Misalignment"],
   },
   {
     id: 5,
@@ -49,6 +53,7 @@ const tests = [
     duration: "6–8 min",
     questions: "13 questions",
     href: "/tests/career/wrong-environments",
+    pills: ["Environment Fit", "Stress Triggers"],
   },
   {
     id: 6,
@@ -58,6 +63,7 @@ const tests = [
     duration: "7–9 min",
     questions: "15 questions",
     href: "/tests/career/draining-jobs",
+    pills: ["Energy Patterns", "Burnout Risk"],
   },
 ];
 
@@ -115,6 +121,24 @@ export default function CareerTestsPage() {
                     <span>•</span>
                     <span>{test.questions}</span>
                   </div>
+
+                  {/* Pills */}
+                  {test.pills && test.pills.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {test.pills.map((pill, idx) => (
+                        <span
+                          key={idx}
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                            idx === 0
+                              ? "bg-indigo-100 text-indigo-700"
+                              : "bg-slate-100 text-slate-600"
+                          }`}
+                        >
+                          {pill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   {/* CTA Button */}
                   <button className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 flex items-center justify-center gap-2">

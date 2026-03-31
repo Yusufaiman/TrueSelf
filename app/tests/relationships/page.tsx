@@ -13,6 +13,7 @@ const tests = [
     duration: "6–8 min",
     questions: "12 questions",
     href: "/tests/relationships/relationship-pattern",
+    pills: ["Relationship Types", "Attachment Patterns"],
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const tests = [
     duration: "7–9 min",
     questions: "14 questions",
     href: "/tests/relationships/why-dont-work",
+    pills: ["Toxic Patterns", "Behavior Loops"],
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ const tests = [
     duration: "6–8 min",
     questions: "11 questions",
     href: "/tests/relationships/attachment-style",
+    pills: ["Attachment Types", "Secure Anxious Avoidant"],
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ const tests = [
     duration: "7–9 min",
     questions: "13 questions",
     href: "/tests/relationships/behavior-relationships",
+    pills: ["Emotional Roles", "Interaction Style"],
   },
   {
     id: 5,
@@ -49,15 +53,17 @@ const tests = [
     duration: "6–8 min",
     questions: "12 questions",
     href: "/tests/relationships/communication-style",
+    pills: ["Communication Types", "Expression Pattern"],
   },
   {
     id: 6,
     title: "The Kind of People You Attract",
     description:
       "Explore the type of people you naturally attract and why it keeps happening.",
-    duration: "8–10 min",
-    questions: "15 questions",
-    href: "/tests/relationships/people-attract",
+    duration: "6–8 min",
+    questions: "10 questions",
+    href: "/tests/relationships/kind-of-people",
+    pills: ["Attraction Patterns", "Relationship Dynamics"],
   },
 ];
 
@@ -116,6 +122,24 @@ export default function RelationshipsTestsPage() {
                     <span>•</span>
                     <span>{test.questions}</span>
                   </div>
+
+                  {/* Pills */}
+                  {test.pills && test.pills.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {test.pills.map((pill, idx) => (
+                        <span
+                          key={idx}
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                            idx === 0
+                              ? "bg-rose-100 text-rose-700"
+                              : "bg-slate-100 text-slate-600"
+                          }`}
+                        >
+                          {pill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   {/* CTA Button */}
                   <button className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 flex items-center justify-center gap-2">

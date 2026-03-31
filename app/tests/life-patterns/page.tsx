@@ -13,6 +13,7 @@ const tests = [
     duration: "6–8 min",
     questions: "12 questions",
     href: "/tests/life-patterns/life-patterns",
+    pills: ["Life Patterns", "Behavior Cycles"],
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const tests = [
     duration: "7–9 min",
     questions: "14 questions",
     href: "/tests/life-patterns/life-cycles",
+    pills: ["Cycle Types", "Life Phases"],
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ const tests = [
     duration: "6–8 min",
     questions: "13 questions",
     href: "/tests/life-patterns/behavioral-loops",
+    pills: ["Habit Loops", "Repetition Pattern"],
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ const tests = [
     duration: "7–9 min",
     questions: "15 questions",
     href: "/tests/life-patterns/stuck-pattern",
+    pills: ["Stuck Patterns", "Loop Detection"],
   },
 ];
 
@@ -97,6 +101,24 @@ export default function LifePatternsTestsPage() {
                     <span>•</span>
                     <span>{test.questions}</span>
                   </div>
+
+                  {/* Pills */}
+                  {test.pills && test.pills.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {test.pills.map((pill, idx) => (
+                        <span
+                          key={idx}
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                            idx === 0
+                              ? "bg-amber-100 text-amber-700"
+                              : "bg-slate-100 text-slate-600"
+                          }`}
+                        >
+                          {pill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   {/* CTA Button */}
                   <button className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 flex items-center justify-center gap-2">

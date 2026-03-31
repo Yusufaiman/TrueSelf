@@ -10,3 +10,5 @@ out/
 *.swo
 *~
 .vscode/settings.json
+.vercel
+.env*.local

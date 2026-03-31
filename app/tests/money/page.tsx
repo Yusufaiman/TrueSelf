@@ -13,6 +13,7 @@ const tests = [
     duration: "6–8 min",
     questions: "12 questions",
     href: "/tests/money/money-mindset",
+    pills: ["Money Types", "Belief System"],
   },
   {
     id: 2,
@@ -22,6 +23,7 @@ const tests = [
     duration: "7–9 min",
     questions: "14 questions",
     href: "/tests/money/money-relationship",
+    pills: ["Money Behavior", "Emotional Finance"],
   },
   {
     id: 3,
@@ -31,6 +33,7 @@ const tests = [
     duration: "6–8 min",
     questions: "13 questions",
     href: "/tests/money/spending-patterns",
+    pills: ["Spending Types", "Behavior Pattern"],
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ const tests = [
     duration: "7–9 min",
     questions: "15 questions",
     href: "/tests/money/money-blocks",
+    pills: ["Financial Blocks", "Fear Patterns"],
   },
 ];
 
@@ -79,7 +83,6 @@ export default function MoneyTestsPage() {
                         Test {test.id}
                       </span>
                     </div>
-
                     {/* Title */}
                     <h3 className="text-xl font-semibold text-slate-900 mb-3 group-hover:text-green-600 transition-colors">
                       {test.title}
@@ -97,6 +100,24 @@ export default function MoneyTestsPage() {
                     <span>•</span>
                     <span>{test.questions}</span>
                   </div>
+
+                  {/* Pills */}
+                  {test.pills && test.pills.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {test.pills.map((pill, idx) => (
+                        <span
+                          key={idx}
+                          className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                            idx === 0
+                              ? "bg-emerald-100 text-emerald-700"
+                              : "bg-slate-100 text-slate-600"
+                          }`}
+                        >
+                          {pill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
 
                   {/* CTA Button */}
                   <button className="w-full py-3 px-4 rounded-lg bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 flex items-center justify-center gap-2">
