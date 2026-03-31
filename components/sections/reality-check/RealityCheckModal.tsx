@@ -21,6 +21,8 @@ const RealityCheckModal: React.FC<RealityCheckModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
+          title="Close modal"
+          aria-label="Close modal"
           className="sticky top-0 right-0 z-10 rounded-full bg-white p-2 text-slate-600 hover:text-slate-700 transition-colors duration-200 float-right m-4"
         >
           <X size={24} />

@@ -215,7 +215,7 @@ export function IdentityCard({
 }) {
   // Convert type name to image filename format (e.g., "The Shifter" -> "the-shifter")
   const imageFileName = type.name.toLowerCase().replace(/\s+/g, "-");
-  
+
   return (
     <div className="group bg-white rounded-xl border border-slate-200 p-6 h-full flex flex-col transition-all duration-300 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/10">
       {/* Identity Type Image */}

@@ -17,6 +17,8 @@ const MoneyModal: React.FC<MoneyModalProps> = ({ type, isOpen, onClose }) => {
         {/* Close Button */}
         <button
           onClick={onClose}
+          title="Close modal"
+          aria-label="Close modal"
           className="absolute top-4 right-4 z-10 rounded-full bg-white p-2 text-slate-600 hover:text-green-600 transition-colors duration-200"
         >
           <X size={24} />

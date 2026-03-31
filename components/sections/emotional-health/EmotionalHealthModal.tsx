@@ -23,8 +23,9 @@ export const EmotionalHealthModal: React.FC<EmotionalHealthModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 hover:bg-slate-100 rounded-lg transition-colors duration-200"
+          title="Close modal"
           aria-label="Close modal"
+          className="absolute top-6 right-6 p-2 hover:bg-slate-100 rounded-lg transition-colors duration-200"
         >
           <X className="w-5 h-5 text-slate-600" />
         </button>
