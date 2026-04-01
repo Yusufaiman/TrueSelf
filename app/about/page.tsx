@@ -164,7 +164,8 @@ export default function AboutPage() {
               What is TrueSelf
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto text-center mb-12">
-              A structured system to understand yourself across multiple dimensions
+              A structured system to understand yourself across multiple
+              dimensions
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {whatIsTrueSelf.map((item, idx) => (

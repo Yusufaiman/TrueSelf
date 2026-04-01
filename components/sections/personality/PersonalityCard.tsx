@@ -13,7 +13,7 @@ interface PersonalityCardProps {
 export function PersonalityCard({ type, onViewDetails }: PersonalityCardProps) {
   // Convert type title to image filename format (e.g., "The Strategic Architect" -> "the-strategic-architect")
   const imageFileName = type.title.toLowerCase().replace(/\s+/g, "-");
-  
+
   return (
     <div className="group bg-white rounded-xl border border-slate-200 p-6 h-full flex flex-col transition-all duration-300 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/10">
       {/* Personality Type Image */}

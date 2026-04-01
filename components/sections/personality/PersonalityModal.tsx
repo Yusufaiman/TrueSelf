@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
+import Image from "next/image";
 import { X } from "lucide-react";
 import { PersonalityType, Dimension } from "@/lib/personality-engine/types";
 
@@ -78,6 +79,9 @@ export function PersonalityModal({
 
   if (!isOpen || !type) return null;
 
+  // Convert type title to image filename format (e.g., "The Strategic Architect" -> "the-strategic-architect")
+  const imageFileName = type.title.toLowerCase().replace(/\s+/g, "-");
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
       {/* Modal Container */}
@@ -91,6 +95,18 @@ export function PersonalityModal({
         >
           <X size={24} />
         </button>
+
+        {/* Personality Type Image */}
+        <div className="w-full h-64 bg-slate-100 rounded-xl overflow-hidden flex items-center justify-center mb-8">
+          <Image
+            src={`/assets/personality types/${imageFileName}.jpg`}
+            alt={type.title}
+            width={600}
+            height={256}
+            priority
+            className="w-full h-full object-cover"
+          />
+        </div>
 
         {/* Content with spacing */}
         <div className="pr-8 space-y-8">
