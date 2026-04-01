@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { BookOpen } from "lucide-react";
 import { PersonalityType } from "@/lib/personality-engine/types";
 
@@ -10,11 +11,20 @@ interface PersonalityCardProps {
 }
 
 export function PersonalityCard({ type, onViewDetails }: PersonalityCardProps) {
+  // Convert type title to image filename format (e.g., "The Strategic Architect" -> "the-strategic-architect")
+  const imageFileName = type.title.toLowerCase().replace(/\s+/g, "-");
+  
   return (
     <div className="group bg-white rounded-xl border border-slate-200 p-6 h-full flex flex-col transition-all duration-300 hover:border-blue-300 hover:shadow-lg hover:shadow-blue-500/10">
-      {/* Image Placeholder */}
-      <div className="w-full aspect-video bg-slate-100 rounded-lg border border-slate-200 flex items-center justify-center mb-6">
-        <p className="text-xs text-slate-400">Image placeholder</p>
+      {/* Personality Type Image */}
+      <div className="w-full aspect-video bg-slate-100 rounded-lg border border-slate-200 overflow-hidden flex items-center justify-center mb-6">
+        <Image
+          src={`/assets/personality types/${imageFileName}.jpg`}
+          alt={type.title}
+          width={600}
+          height={337}
+          className="w-full h-full object-cover"
+        />
       </div>
 
       {/* Content */}
