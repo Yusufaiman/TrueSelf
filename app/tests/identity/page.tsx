@@ -51,7 +51,7 @@ const tests = [
       "See the gap between who you are now and who you could become.",
     duration: "9–11 min",
     questions: "18 questions",
-    href: "/tests/identity/real-vs-current-self",
+    href: "/tests/identity/real-self",
     pills: ["Identity Gap", "Self Awareness"],
   },
 ];

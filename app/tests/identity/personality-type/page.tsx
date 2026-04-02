@@ -12,6 +12,7 @@ import {
   Target,
   BarChart3,
   CheckCircle2,
+  Clipboard,
   RotateCcw,
   TrendingUp,
   AlertCircle,
@@ -690,57 +691,36 @@ export default function PersonalityTypeTest() {
         <div className="max-w-xl w-full rounded-3xl border border-slate-200 shadow-sm bg-white px-8 md:px-10 py-10 md:py-12 text-center">
           {/* Icon Container */}
           <div className="flex justify-center mb-6">
-            <div
-              className="w-16 h-16 rounded-2xl flex items-center justify-center"
-              style={{ backgroundColor: "rgba(67, 153, 230, 0.08)" }}
-            >
-              <Brain size={32} style={{ color: "#4399E6" }} />
+            <div className="w-16 h-16 rounded-2xl flex items-center justify-center bg-blue-50">
+              <Clipboard size={32} className="text-blue-600" />
             </div>
           </div>
 
           {/* Title */}
           <h1 className="text-2xl md:text-3xl font-semibold text-slate-900 mt-5">
-            Your Core Personality Type
+            Test guidelines
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-sm md:text-base text-slate-600 mt-3 mb-8">
-            Understand how you naturally think, decide, and respond to
-            situations.
-          </p>
-
           {/* Guidelines List */}
-          <div className="mt-6 space-y-4 text-sm md:text-base text-slate-600">
+          <div className="mt-5 space-y-4 text-sm md:text-base text-slate-600">
             <div className="flex items-start gap-3">
               <CheckCircle2
                 size={20}
                 style={{ color: "#5CE1E6" }}
-                className="flex-shrink-0 mt-0.5"
+                className="shrink-0 mt-0.5"
               />
               <p className="text-left">
-                40 questions covering thinking, decisions, emotions, social, and
-                habits
+                Answer each statement based on your personal opinion
               </p>
             </div>
             <div className="flex items-start gap-3">
               <CheckCircle2
                 size={20}
                 style={{ color: "#5CE1E6" }}
-                className="flex-shrink-0 mt-0.5"
+                className="shrink-0 mt-0.5"
               />
               <p className="text-left">
-                Answer based on how you naturally are, not how you think you
-                should be
-              </p>
-            </div>
-            <div className="flex items-start gap-3">
-              <CheckCircle2
-                size={20}
-                style={{ color: "#5CE1E6" }}
-                className="flex-shrink-0 mt-0.5"
-              />
-              <p className="text-left">
-                Get a detailed personality type plus dimensions breakdown
+                You cannot skip questions, but you can return to them later
               </p>
             </div>
           </div>
@@ -748,14 +728,14 @@ export default function PersonalityTypeTest() {
           {/* Start Button */}
           <button
             onClick={() => setStage("questions")}
-            className="w-full mt-8 px-6 py-3.5 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
+            className="w-full mt-6 px-6 py-3.5 rounded-lg bg-linear-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
           >
             Start test
           </button>
 
-          {/* Time estimate */}
-          <p className="text-xs text-slate-400 mt-4">
-            Takes about 8–10 minutes
+          {/* Info Text */}
+          <p className="text-xs text-slate-500 mt-4">
+            Takes approximately 5 minutes to complete
           </p>
         </div>
       </div>
