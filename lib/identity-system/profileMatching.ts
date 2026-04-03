@@ -1,15 +1,22 @@
 /**
- * Profile Matching Algorithm
- * Matches user dimension scores against identity type profiles
- * Uses Euclidean distance with weighted tolerance bands
+ * Profile Matching Algorithm - V2 PATTERN-BASED ENGINE
+ * Accurately matches user dimension scores to identity types using pattern matching
+ * Eliminates Euclidean distance bias; uses psychological patterns with variance detection
  */
 
 import { IDENTITIES, DimensionScores, IdentityType, Identity } from "./types";
+import {
+  buildDimensionProfiles,
+  DimensionProfileSet,
+  type DimensionProfile,
+} from "./dimensionEngine";
+import { matchIdentities } from "./matchingEngine";
+import { calculateDimensionScoresRaw } from "./questions";
 
 interface SimilarityResult {
   identityType: IdentityType;
   similarityScore: number; // 0-100
-  matchedDimensions: number; // count of dimensions in tolerance band
+  matchedDimensions: number; // count of dimensions matching
   explanation: string;
 }
 
@@ -21,107 +28,67 @@ interface IdentityMatch {
 }
 
 /**
- * Calculate tolerance band for each dimension
- * Tolerance increases slightly for lower target scores to allow more variation
- */
-function getToleranceBand(targetScore: number): { min: number; max: number } {
-  const tolerance = 15; // ±15 within band is acceptable match
-  return {
-    min: Math.max(0, targetScore - tolerance),
-    max: Math.min(100, targetScore + tolerance),
-  };
-}
-
-/**
- * Calculate Euclidean distance between user scores and identity profile
- * Returns similarity score 0-100 (where 100 = perfect match)
- */
-function calculateSimilarityScore(
-  userScores: DimensionScores,
-  identity: Identity,
-): { score: number; matchedDimensions: number } {
-  let totalSquaredDifference = 0;
-  let matchedDimensions = 0;
-
-  identity.keyDimensions.forEach(({ dimension, targetScore }) => {
-    const userScore = userScores[dimension];
-    const band = getToleranceBand(targetScore);
-
-    // Check if user score is in tolerance band
-    if (userScore >= band.min && userScore <= band.max) {
-      matchedDimensions++;
-    }
-
-    // Calculate squared difference for Euclidean distance
-    const difference = userScore - targetScore;
-    totalSquaredDifference += difference * difference;
-  });
-
-  // Euclidean distance
-  const euclideanDistance = Math.sqrt(
-    totalSquaredDifference / identity.keyDimensions.length,
-  );
-
-  // Convert distance to similarity score (0-100)
-  // Max distance is 100, so similarity = 100 - distance
-  const similarityScore = Math.max(0, 100 - euclideanDistance);
-
-  return { score: similarityScore, matchedDimensions };
-}
-
-/**
- * Generate explanation for why this identity matches
- */
-function generateExplanation(
-  identity: Identity,
-  userScores: DimensionScores,
-  matchedDimensions: number,
-): string {
-  const primaryDimension = identity.keyDimensions.find(
-    (d) => d.importance === "primary",
-  );
-
-  if (!primaryDimension) {
-    return `Your profile aligns with ${identity.name}.`;
-  }
-
-  const userScore = userScores[primaryDimension.dimension];
-  const targetScore = primaryDimension.targetScore;
-  const band = getToleranceBand(targetScore);
-
-  if (userScore >= band.min && userScore <= band.max) {
-    return `Your ${primaryDimension.dimension} score (${Math.round(userScore)}/100) strongly aligns with ${identity.name}.`;
-  } else if (userScore > band.max) {
-    return `Your ${primaryDimension.dimension} is higher than typical for ${identity.name}, but other factors suggest alignment.`;
-  } else {
-    return `Your ${primaryDimension.dimension} is lower than typical for ${identity.name}, but you share other core patterns.`;
-  }
-}
-
-/**
- * Main matching function
- * Returns primary, secondary, and tertiary identity matches ranked by similarity
+ * Main matching function - V2 Pattern-based engine
+ * Uses psychological pattern matching instead of distance-to-target scoring
+ * Eliminates mathematical bias toward mid-range identities
  */
 export function identifyType(userScores: DimensionScores): IdentityMatch {
-  const results: SimilarityResult[] = [];
+  // V2: Convert averaged dimension scores to DimensionProfileSet
+  // When we only have averaged scores (not raw arrays), we treat them as
+  // profiles with perfect stability (no variance known)
+  const dimensionProfiles: DimensionProfileSet = {
+    selfAwareness: {
+      mean: userScores.selfAwareness,
+      variance: 0,
+      stability: 100,
+    },
+    authenticity: {
+      mean: userScores.authenticity,
+      variance: 0,
+      stability: 100,
+    },
+    externalInfluence: {
+      mean: userScores.externalInfluence,
+      variance: 0,
+      stability: 100,
+    },
+    identityStability: {
+      mean: userScores.identityStability,
+      variance: 0,
+      stability: 100,
+    },
+    emotionalAlignment: {
+      mean: userScores.emotionalAlignment,
+      variance: 0,
+      stability: 100,
+    },
+    decisionClarity: {
+      mean: userScores.decisionClarity,
+      variance: 0,
+      stability: 100,
+    },
+    innerConsistency: {
+      mean: userScores.innerConsistency,
+      variance: 0,
+      stability: 100,
+    },
+    socialExpression: {
+      mean: userScores.socialExpression,
+      variance: 0,
+      stability: 100,
+    },
+  };
 
-  // Score each identity
-  Object.entries(IDENTITIES).forEach(([identityKey, identity]) => {
-    const { score, matchedDimensions } = calculateSimilarityScore(
-      userScores,
-      identity,
-    );
+  // Call V2 engine to get pattern-matched results
+  const matchResults = matchIdentities(dimensionProfiles);
 
-    results.push({
-      identityType: identityKey as IdentityType,
-      similarityScore: Math.round(score),
-      matchedDimensions,
-      explanation: generateExplanation(identity, userScores, matchedDimensions),
-    });
-  });
-
-  // Sort by similarity score (highest first)
-  results.sort((a, b) => b.similarityScore - a.similarityScore);
+  // Convert V2 results to SimilarityResult format for compatibility
+  const results: SimilarityResult[] = matchResults.all.map((match) => ({
+    identityType: match.type,
+    similarityScore: Math.round(match.score),
+    matchedDimensions: match.matchedConditions,
+    explanation: `Pattern match score: ${Math.round(match.score)}%`,
+  }));
 
   return {
     primary: results[0],
@@ -132,40 +99,15 @@ export function identifyType(userScores: DimensionScores): IdentityMatch {
 }
 
 /**
- * Prevent "The Becoming" bias
- * "The Becoming" should only be primary match if:
- * 1. selfAwareness >= 60 AND
- * 2. innerConsistency between 45-65 (not too high, not too low)
+ * PSYCHOLOGY-BASED MATCHING
+ * Fair, unbiased scoring across all 15 identity types
+ * No restrictions, no special handling - pure mathematical distance
  */
-export function validateBecomingMatch(
-  match: IdentityMatch,
-  userScores: DimensionScores,
-): IdentityMatch {
-  if (match.primary.identityType !== "the-becoming") {
-    return match; // Return as-is if not "The Becoming"
-  }
-
-  const selfAwarenessOk = userScores.selfAwareness >= 60;
-  const innerConsistencyOk =
-    userScores.innerConsistency >= 45 && userScores.innerConsistency <= 65;
-
-  if (!selfAwarenessOk || !innerConsistencyOk) {
-    // "The Becoming" doesn't match criteria, demote it
-    // Return secondary match as primary
-    return {
-      primary: match.secondary,
-      secondary: match.tertiary,
-      tertiary: match.allMatches[3],
-      allMatches: match.allMatches,
-    };
-  }
-
-  return match;
-}
 
 /**
  * Check for conflicted identities (The Split)
- * "The Split" indicates high selfAwareness but low innerConsistency
+ * "The Split" indicates high selfAwareness with low innerConsistency
+ * This is a valid identity pattern showing awareness of internal contradictions
  */
 export function shouldSuggestSplit(userScores: DimensionScores): boolean {
   return userScores.selfAwareness >= 65 && userScores.innerConsistency <= 35;
@@ -202,8 +144,8 @@ export interface CompleteIdentityResult {
 export function getCompleteResult(
   userScores: DimensionScores,
 ): CompleteIdentityResult {
-  let match = identifyType(userScores);
-  match = validateBecomingMatch(match, userScores);
+  // Pure unbiased scoring - no special handling, no restrictions
+  const match = identifyType(userScores);
 
   const primaryIdentity = IDENTITIES[match.primary.identityType];
   const secondaryIdentity = IDENTITIES[match.secondary.identityType];
@@ -252,10 +194,14 @@ export function getCompleteResult(
     );
   }
 
-  // Inner consistency insight
-  if (userScores.innerConsistency <= 30 && userScores.selfAwareness >= 65) {
+  // Inner consistency insight - check for The Split pattern
+  if (shouldSuggestSplit(userScores)) {
     keyInsights.push(
       "You're aware of genuine contradictions within yourself—this is The Split.",
+    );
+  } else if (userScores.innerConsistency <= 30) {
+    keyInsights.push(
+      "You experience internal conflict between different parts of yourself.",
     );
   }
 
@@ -284,6 +230,16 @@ export function getCompleteResult(
       "Identify one trusted person who might appreciate your real self.",
     );
     nextSteps.push("What would change if one person knew the real you?");
+  } else if (primaryIdentity.id === "the-rebuilder") {
+    nextSteps.push("Acknowledge the parts of yourself you're reconstructing.");
+    nextSteps.push(
+      "Notice what wisdom you're gaining through this rebuilding process.",
+    );
+  } else if (primaryIdentity.id === "the-split") {
+    nextSteps.push("Write down the contradictions you're aware of—name them.");
+    nextSteps.push(
+      "Explore: can these contradictions coexist, or must one be resolved?",
+    );
   } else {
     nextSteps.push(
       `Explore the core pattern of ${primaryIdentity.name}: ${primaryIdentity.corePattern.toLowerCase()}`,

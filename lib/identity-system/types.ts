@@ -1,24 +1,24 @@
 /**
- * TrueSelf Identity System
- * 15 Expanded Identity Types with Psychological Definitions
+ * TrueSelf Identity System - Refactored
+ * 15 Identity Types with Weighted Scoring and Image Mappings
  */
 
 export type IdentityType =
   | "the-anchored"
-  | "the-rooted-explorer"
-  | "the-idealist"
-  | "the-split"
-  | "the-masked"
-  | "the-shifter"
-  | "the-detached"
-  | "the-avoider"
-  | "the-observer"
   | "the-becoming"
+  | "the-caregiver"
+  | "the-creator"
+  | "the-detached"
+  | "the-drifter"
+  | "the-lover"
+  | "the-masked"
+  | "the-observer"
+  | "the-pioneer"
   | "the-rebuilder"
+  | "the-sage"
   | "the-seeker"
-  | "the-performer"
-  | "the-controller"
-  | "the-drifter";
+  | "the-shifter"
+  | "the-split";
 
 export interface DimensionScores {
   selfAwareness: number;
@@ -46,6 +46,7 @@ export interface Identity {
     targetScore: number;
   }[];
   description: string;
+  image: string;
   opposite?: IdentityType;
   relatedTypes?: IdentityType[];
 }
@@ -56,11 +57,10 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     name: "The Anchored",
     tagline: "Stable, self-aware, and living aligned with your values.",
     tier: "grounded",
-    corePattern:
-      "Stable, self-aware, authentic within chosen life framework. Knows who they are and lives accordingly.",
+    corePattern: "Stable, self-aware, authentic within chosen life framework.",
     psychologicalTraits: [
       "Consistent identity across contexts",
-      "Clear values and principles",
+      "Clear values",
       "Lives with integrity",
       "Resistant to external pressure",
       "Stable sense of self",
@@ -68,288 +68,139 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     strengths: [
       "Stability and reliability",
       "Authenticity",
-      "Resilience in change",
+      "Resilience",
       "Purposeful living",
       "Personal integrity",
     ],
     weaknesses: [
       "Resistance to growth",
-      "Rigidity in beliefs",
-      "Inflexibility to change",
-      "May judge others for different values",
-      "Potential for stagnation",
+      "Rigidity",
+      "May judge others",
     ],
     keyDimensions: [
-      {
-        dimension: "identityStability",
-        importance: "primary",
-        targetScore: 90,
-      },
+      { dimension: "identityStability", importance: "primary", targetScore: 90 },
       { dimension: "authenticity", importance: "primary", targetScore: 85 },
       { dimension: "selfAwareness", importance: "primary", targetScore: 85 },
-      {
-        dimension: "innerConsistency",
-        importance: "secondary",
-        targetScore: 90,
-      },
-      {
-        dimension: "externalInfluence",
-        importance: "secondary",
-        targetScore: 15,
-      },
+      { dimension: "innerConsistency", importance: "secondary", targetScore: 90 },
+      { dimension: "externalInfluence", importance: "secondary", targetScore: 15 },
     ],
-    description:
-      "You know who you are and you live that truth consistently. Your values aren't questioned daily—they're lived. You feel grounded across different situations because your core identity doesn't shift with your environment. People trust you because you're reliable and authentic.",
+    description: "You know who you are and live that truth consistently.",
+    image: "/assets/identity types/the-anchored.jpg",
     opposite: "the-shifter",
-    relatedTypes: ["the-rooted-explorer", "the-idealist"],
+    relatedTypes: ["the-creator", "the-sage"],
   },
 
-  "the-rooted-explorer": {
-    id: "the-rooted-explorer",
-    name: "The Rooted Explorer",
-    tagline: "Stable at your core, curious in your growth.",
-    tier: "grounded",
-    corePattern:
-      "Stable core identity with active growth mindset. Explores possibilities without losing grounding.",
+  "the-becoming": {
+    id: "the-becoming",
+    name: "The Becoming",
+    tagline: "You're actively building your identity.",
+    tier: "growth",
+    corePattern: "Actively constructing identity; in transition but conscious.",
     psychologicalTraits: [
-      "Knows core values but explores options",
-      "Confident enough to be curious",
-      "Integrates new experiences into stable self",
-      "Growth-oriented but not lost",
-      "Adaptable within coherence",
+      "Self-aware about growing",
+      "Intentional about change",
+      "In transition consciously",
+      "Integrating new understanding",
+      "Self-directed change",
     ],
     strengths: [
-      "Adaptability with clarity",
-      "Growth-oriented resilience",
-      "Experimentation without losing self",
-      "Integrated learning",
-      "Balanced stability and flexibility",
+      "Growth-oriented",
+      "Self-directed change",
+      "Resilience in transition",
+      "Learning capacity",
+      "Intentional development",
     ],
     weaknesses: [
-      "Can overcommit to exploration",
-      "May dilute focus across interests",
-      "Risk of expanding too widely",
-      "Balancing act can be tiring",
+      "Temporary instability",
+      "Uncertain about fundamentals",
+      "Unfinished feeling",
     ],
     keyDimensions: [
-      {
-        dimension: "identityStability",
-        importance: "primary",
-        targetScore: 75,
-      },
-      { dimension: "decisionClarity", importance: "primary", targetScore: 80 },
-      { dimension: "selfAwareness", importance: "secondary", targetScore: 80 },
+      { dimension: "selfAwareness", importance: "primary", targetScore: 65 },
+      { dimension: "identityStability", importance: "primary", targetScore: 50 },
+      { dimension: "innerConsistency", importance: "secondary", targetScore: 55 },
+      { dimension: "emotionalAlignment", importance: "secondary", targetScore: 60 },
+      { dimension: "decisionClarity", importance: "tertiary", targetScore: 55 },
+    ],
+    description: "You know you're changing and you're okay with it.",
+    image: "/assets/identity types/the-becoming.jpg",
+    relatedTypes: ["the-seeker", "the-rebuilder"],
+  },
+
+  "the-caregiver": {
+    id: "the-caregiver",
+    name: "The Caregiver",
+    tagline: "Your identity is rooted in supporting others.",
+    tier: "grounded",
+    corePattern: "Identity defined by care, support, and service to others.",
+    psychologicalTraits: [
+      "Empathetic and attentive",
+      "Purpose through helping",
+      "Emotionally tuned in",
+      "Self-sacrificing",
+      "Relationship-focused",
+    ],
+    strengths: [
+      "Deep empathy",
+      "Nurturing ability",
+      "Loyalty",
+      "Emotional intelligence",
+      "Service-oriented",
+    ],
+    weaknesses: [
+      "Over-giving",
+      "Boundary issues",
+      "Self-neglect",
+      "Codependency risk",
+    ],
+    keyDimensions: [
+      { dimension: "emotionalAlignment", importance: "primary", targetScore: 85 },
+      { dimension: "socialExpression", importance: "primary", targetScore: 80 },
       { dimension: "authenticity", importance: "secondary", targetScore: 75 },
-      {
-        dimension: "externalInfluence",
-        importance: "tertiary",
-        targetScore: 75,
-      },
+      { dimension: "selfAwareness", importance: "secondary", targetScore: 70 },
+      { dimension: "externalInfluence", importance: "tertiary", targetScore: 60 },
     ],
-    description:
-      "You have a stable sense of who you are, but you're not afraid to explore and grow. You try new things, learn from experiences, and integrate them into your identity without losing your core. Change doesn't destabilize you—it enriches you.",
-    opposite: "the-avoider",
-    relatedTypes: ["the-anchored", "the-seeker"],
+    description: "Your sense of self is inseparable from caring for others.",
+    image: "/assets/identity types/the-caregiver.jpg",
+    relatedTypes: ["the-lover", "the-creator"],
   },
 
-  "the-idealist": {
-    id: "the-idealist",
-    name: "The Idealist",
-    tagline: "Driven by purpose and vision.",
+  "the-creator": {
+    id: "the-creator",
+    name: "The Creator",
+    tagline: "Your identity is expressed through creation and innovation.",
     tier: "grounded",
-    corePattern:
-      "Identity shaped by values and vision. Principled living with clear purpose.",
+    corePattern: "Identity defined by creative expression and bringing ideas to life.",
     psychologicalTraits: [
-      "Values-driven decision making",
-      "Strong internal compass",
-      "Future-oriented thinking",
-      "Principled action",
-      "Mission-focused",
+      "Creatively driven",
+      "Self-expressive",
+      "Vision-oriented",
+      "Playful experimentation",
+      "Authentic expression",
     ],
     strengths: [
-      "Purpose-driven living",
-      "Inspirational to others",
-      "Principled action",
-      "Clear value alignment",
-      "Strong conviction",
+      "Creative thinking",
+      "Original expression",
+      "Courage to be different",
+      "Innovation",
+      "Authenticity through art",
     ],
     weaknesses: [
+      "Practical struggles",
       "Perfectionism",
-      "Disappointment when reality doesn't match vision",
-      "Rigid values",
-      "Judgmental of others' choices",
-      "Can be dogmatic",
+      "Sensitivity to criticism",
+      "Lack of structure",
     ],
     keyDimensions: [
-      { dimension: "decisionClarity", importance: "primary", targetScore: 85 },
-      { dimension: "authenticity", importance: "primary", targetScore: 80 },
-      { dimension: "selfAwareness", importance: "secondary", targetScore: 80 },
-      {
-        dimension: "emotionalAlignment",
-        importance: "secondary",
-        targetScore: 75,
-      },
-      {
-        dimension: "socialExpression",
-        importance: "tertiary",
-        targetScore: 70,
-      },
+      { dimension: "authenticity", importance: "primary", targetScore: 85 },
+      { dimension: "selfAwareness", importance: "primary", targetScore: 75 },
+      { dimension: "socialExpression", importance: "secondary", targetScore: 75 },
+      { dimension: "emotionalAlignment", importance: "secondary", targetScore: 80 },
+      { dimension: "externalInfluence", importance: "tertiary", targetScore: 40 },
     ],
-    description:
-      "Your identity is inseparable from your purpose. You have a clear vision of what matters and you live it. You inspire others through your commitment to your values, though you sometimes struggle when reality doesn't match your ideals.",
-    opposite: "the-drifter",
-    relatedTypes: ["the-anchored", "the-becoming"],
-  },
-
-  "the-split": {
-    id: "the-split",
-    name: "The Split",
-    tagline: "Aware of your contradictions, struggling to integrate them.",
-    tier: "conflicted",
-    corePattern:
-      "Contradictory self-images or values; aware of internal conflict, sometimes paralyzed by it.",
-    psychologicalTraits: [
-      "Aware of contradictions",
-      "Feels genuinely torn",
-      "Internal debate is constant",
-      "Struggles with integration",
-      "Self-awareness of paradox",
-    ],
-    strengths: [
-      "Self-awareness of complexity",
-      "Nuance and depth",
-      "Avoids false certainty",
-      "Can hold multiple perspectives",
-    ],
-    weaknesses: [
-      "Decision paralysis",
-      "Identity confusion",
-      "Emotional volatility",
-      "Difficult relationships due to inconsistency",
-      "Exhausting internal conflict",
-    ],
-    keyDimensions: [
-      { dimension: "selfAwareness", importance: "primary", targetScore: 70 },
-      { dimension: "innerConsistency", importance: "primary", targetScore: 30 },
-      {
-        dimension: "identityStability",
-        importance: "secondary",
-        targetScore: 30,
-      },
-      {
-        dimension: "emotionalAlignment",
-        importance: "secondary",
-        targetScore: 45,
-      },
-      { dimension: "decisionClarity", importance: "tertiary", targetScore: 35 },
-    ],
-    description:
-      "You're painfully aware of your contradictions. Part of you wants one thing, another part wants something different. You're not confused about who you are—you're aware you're genuinely conflicted. This makes decisions hard and identity unstable.",
-    relatedTypes: ["the-rebuilder", "the-becoming"],
-  },
-
-  "the-masked": {
-    id: "the-masked",
-    name: "The Masked",
-    tagline: "Intentionally hidden behind a strategic presentation.",
-    tier: "conflicted",
-    corePattern:
-      "Intentional gap between external presentation and internal reality. Knows true self exists but strategically hides it.",
-    psychologicalTraits: [
-      "Performs different roles strategically",
-      "Knows true self but hides it",
-      "Calculates social presentation",
-      "Protective of real identity",
-      "Strategic compartmentalization",
-    ],
-    strengths: [
-      "Social adaptability",
-      "Strategic self-presentation",
-      "Reading others well",
-      "Protection of vulnerable self",
-      "Professional effectiveness",
-    ],
-    weaknesses: [
-      "Isolation from real connection",
-      "Identity fatigue from performing",
-      "Authenticity deficit",
-      "Loneliness despite company",
-      "Risk of losing real self",
-    ],
-    keyDimensions: [
-      { dimension: "authenticity", importance: "primary", targetScore: 30 },
-      { dimension: "socialExpression", importance: "primary", targetScore: 60 },
-      {
-        dimension: "externalInfluence",
-        importance: "primary",
-        targetScore: 70,
-      },
-      {
-        dimension: "identityStability",
-        importance: "secondary",
-        targetScore: 45,
-      },
-      {
-        dimension: "innerConsistency",
-        importance: "secondary",
-        targetScore: 25,
-      },
-    ],
-    description:
-      "You know who you really are, but you don't show it to the world. You've learned that presenting a different version of yourself is safer or more effective. The real you exists, but it's hidden behind a mask you wear strategically.",
-    relatedTypes: ["the-performer", "the-detached"],
-  },
-
-  "the-shifter": {
-    id: "the-shifter",
-    name: "The Shifter",
-    tagline: "Your identity changes with your environment.",
-    tier: "conflicted",
-    corePattern:
-      "Unstable identity; shifts based on context and relationships. Chameleon-like, difficulty finding true self.",
-    psychologicalTraits: [
-      "Chameleon-like adaptation",
-      "Difficulty finding core self",
-      "Reactive to relationships",
-      "Context-dependent identity",
-      "High dependence on external feedback",
-    ],
-    strengths: [
-      "Adaptability",
-      "Empathy through mirroring",
-      "Social flexibility",
-      "Can fit into any group",
-    ],
-    weaknesses: [
-      "No core sense of self",
-      "Chronic confusion about identity",
-      "Dependent on others' feedback",
-      "Difficulty making independent decisions",
-      "Exhausting constant adaptation",
-    ],
-    keyDimensions: [
-      {
-        dimension: "identityStability",
-        importance: "primary",
-        targetScore: 20,
-      },
-      {
-        dimension: "externalInfluence",
-        importance: "primary",
-        targetScore: 85,
-      },
-      { dimension: "selfAwareness", importance: "secondary", targetScore: 35 },
-      { dimension: "authenticity", importance: "secondary", targetScore: 25 },
-      {
-        dimension: "innerConsistency",
-        importance: "tertiary",
-        targetScore: 25,
-      },
-    ],
-    description:
-      "You become different people in different contexts. Not strategically—it happens automatically. You mirror the people around you, adapt to the situation, and rarely feel like yourself. Finding your core identity feels impossible.",
-    opposite: "the-anchored",
-    relatedTypes: ["the-drifter", "the-avoider"],
+    description: "You know yourself through what you create.",
+    image: "/assets/identity types/the-creator.jpg",
+    relatedTypes: ["the-caregiver", "the-seeker"],
   },
 
   "the-detached": {
@@ -357,8 +208,7 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     name: "The Detached",
     tagline: "Observant but emotionally disconnected from yourself.",
     tier: "disconnected",
-    corePattern:
-      "Identity experienced as intellectual rather than felt. Observant but disconnected from emotions.",
+    corePattern: "Identity experienced as intellectual rather than felt.",
     psychologicalTraits: [
       "Intellectual self-awareness",
       "Emotional disconnection",
@@ -368,88 +218,142 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     ],
     strengths: [
       "Clarity through distance",
-      "Objectivity about self",
+      "Objectivity",
       "Non-reactivity",
       "Strategic thinking",
       "Analytical insight",
     ],
     weaknesses: [
       "Emotional disconnection",
-      "Lack of empathy",
       "Isolation",
       "Difficulty with intimacy",
       "Missing emotional truth",
     ],
     keyDimensions: [
-      {
-        dimension: "emotionalAlignment",
-        importance: "primary",
-        targetScore: 25,
-      },
+      { dimension: "emotionalAlignment", importance: "primary", targetScore: 25 },
       { dimension: "selfAwareness", importance: "primary", targetScore: 50 },
       { dimension: "authenticity", importance: "secondary", targetScore: 35 },
-      {
-        dimension: "socialExpression",
-        importance: "secondary",
-        targetScore: 25,
-      },
-      {
-        dimension: "innerConsistency",
-        importance: "tertiary",
-        targetScore: 20,
-      },
+      { dimension: "socialExpression", importance: "secondary", targetScore: 25 },
+      { dimension: "innerConsistency", importance: "tertiary", targetScore: 20 },
     ],
-    description:
-      "You understand yourself intellectually but feel disconnected from your own emotions. You're aware of yourself from a distance, like an observer watching your own life. Relationships feel difficult because you struggle to feel and express emotions.",
-    relatedTypes: ["the-observer", "the-avoider"],
+    description: "You understand yourself intellectually but feel disconnected.",
+    image: "/assets/identity types/the-detached.jpg",
+    relatedTypes: ["the-observer"],
   },
 
-  "the-avoider": {
-    id: "the-avoider",
-    name: "The Avoider",
-    tagline: "You don't want to know; distraction is easier.",
-    tier: "disconnected",
-    corePattern:
-      "Avoids self-reflection and introspection. Identity remains unexamined by preference.",
+  "the-drifter": {
+    id: "the-drifter",
+    name: "The Drifter",
+    tagline: "Going with the flow, unexamined and reactive.",
+    tier: "performance",
+    corePattern: "No active engagement with identity; passive acceptance.",
     psychologicalTraits: [
-      "Avoids self-reflection",
-      "Action-oriented over introspection",
-      "Uncomfortable with vulnerability",
-      "Focuses on external distractions",
-      "Resists self-knowledge",
+      "Goes with flow",
+      "Unexamined identity",
+      "Reactive to circumstances",
+      "Low agency",
+      "Low self knowledge",
     ],
     strengths: [
-      "Low anxiety about identity questions",
-      "Action-focused",
-      "Doesn't overthink",
-      "Can move forward quickly",
+      "Low anxiety",
+      "Adaptability",
+      "Flexibility",
+      "Peace in lack of direction",
     ],
     weaknesses: [
-      "Blind spots",
-      "Repeated patterns",
+      "No agency",
+      "No purpose",
+      "Easily influenced",
       "Lack of growth",
-      "Surface relationships",
-      "Unexamined trauma/issues",
+      "Unexamined living",
     ],
     keyDimensions: [
-      { dimension: "selfAwareness", importance: "primary", targetScore: 20 },
-      { dimension: "innerConsistency", importance: "primary", targetScore: 40 },
-      {
-        dimension: "decisionClarity",
-        importance: "secondary",
-        targetScore: 35,
-      },
-      { dimension: "authenticity", importance: "secondary", targetScore: 30 },
-      {
-        dimension: "emotionalAlignment",
-        importance: "tertiary",
-        targetScore: 35,
-      },
+      { dimension: "selfAwareness", importance: "primary", targetScore: 25 },
+      { dimension: "externalInfluence", importance: "primary", targetScore: 70 },
+      { dimension: "decisionClarity", importance: "secondary", targetScore: 20 },
+      { dimension: "authenticity", importance: "secondary", targetScore: 35 },
+      { dimension: "identityStability", importance: "tertiary", targetScore: 35 },
     ],
-    description:
-      "You don't want to look too closely at yourself. Introspection feels uncomfortable, so you stay busy, distracted, or focused on external things. Your identity isn't developed by choice—it's simply what's convenient.",
-    opposite: "the-rooted-explorer",
-    relatedTypes: ["the-drifter", "the-detached"],
+    description: "You're not really thinking about who you are—just drifting.",
+    image: "/assets/identity types/the-drifter.jpg",
+    relatedTypes: ["the-shifter"],
+  },
+
+  "the-lover": {
+    id: "the-lover",
+    name: "The Lover",
+    tagline: "Your identity is rooted in connection and intimacy.",
+    tier: "grounded",
+    corePattern: "Identity defined by depth of relationship and emotional connection.",
+    psychologicalTraits: [
+      "Deeply relational",
+      "Emotionally expressive",
+      "Seeks authentic connection",
+      "Sensitive and attuned",
+      "Committed and loyal",
+    ],
+    strengths: [
+      "Emotional depth",
+      "Authenticity in relationships",
+      "Loyalty and commitment",
+      "Emotional awareness",
+      "Capacity for intimacy",
+    ],
+    weaknesses: [
+      "Codependency risk",
+      "Emotional intensity",
+      "Difficulty with solitude",
+      "Merging identity with others",
+    ],
+    keyDimensions: [
+      { dimension: "emotionalAlignment", importance: "primary", targetScore: 80 },
+      { dimension: "authenticity", importance: "primary", targetScore: 80 },
+      { dimension: "socialExpression", importance: "secondary", targetScore: 85 },
+      { dimension: "selfAwareness", importance: "secondary", targetScore: 70 },
+      { dimension: "externalInfluence", importance: "tertiary", targetScore: 65 },
+    ],
+    description: "You know yourself through meaningful relationships.",
+    image: "/assets/identity types/the-lover.jpg",
+    relatedTypes: ["the-caregiver", "the-creator"],
+  },
+
+  "the-masked": {
+    id: "the-masked",
+    name: "The Masked",
+    tagline: "Intentionally hidden behind a strategic presentation.",
+    tier: "conflicted",
+    corePattern: "Intentional gap between external and internal reality.",
+    psychologicalTraits: [
+      "Performs strategically",
+      "Knows true self but hides it",
+      "Calculates presentation",
+      "Protective of real identity",
+      "Strategic compartmentalization",
+    ],
+    strengths: [
+      "Social adaptability",
+      "Strategic self-presentation",
+      "Reading others",
+      "Protection of self",
+      "Professional effectiveness",
+    ],
+    weaknesses: [
+      "Isolation from real connection",
+      "Identity fatigue",
+      "Authenticity deficit",
+      "Loneliness",
+      "Risk of losing real self",
+    ],
+    keyDimensions: [
+      { dimension: "authenticity", importance: "primary", targetScore: 30 },
+      { dimension: "socialExpression", importance: "primary", targetScore: 60 },
+      { dimension: "externalInfluence", importance: "primary", targetScore: 70 },
+      { dimension: "identityStability", importance: "secondary", targetScore: 45 },
+      { dimension: "innerConsistency", importance: "secondary", targetScore: 25 },
+    ],
+    description: "You know who you really are, but you don't show it.",
+    image: "/assets/identity types/the-masked.jpg",
+    relatedTypes: ["the-shifter"],
   },
 
   "the-observer": {
@@ -457,13 +361,12 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     name: "The Observer",
     tagline: "You watch yourself with clarity but don't participate.",
     tier: "disconnected",
-    corePattern:
-      "Highly self-aware but metacognitive and detached. Watches self from distance without integration.",
+    corePattern: "Highly self-aware but detached. Watches self from distance.",
     psychologicalTraits: [
       "Metacognitive awareness",
       "Self-watching",
       "Detached from experience",
-      "Analytical about own behavior",
+      "Analytical about behavior",
       "Separate from participation",
     ],
     strengths: [
@@ -478,82 +381,56 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
       "Lack of integration",
       "Emotional distance",
       "Doesn't act on insight",
-      "Isolation through observation",
+      "Isolation",
     ],
     keyDimensions: [
       { dimension: "selfAwareness", importance: "primary", targetScore: 80 },
-      {
-        dimension: "emotionalAlignment",
-        importance: "primary",
-        targetScore: 30,
-      },
-      {
-        dimension: "innerConsistency",
-        importance: "secondary",
-        targetScore: 40,
-      },
-      {
-        dimension: "socialExpression",
-        importance: "secondary",
-        targetScore: 25,
-      },
+      { dimension: "emotionalAlignment", importance: "primary", targetScore: 30 },
+      { dimension: "innerConsistency", importance: "secondary", targetScore: 40 },
+      { dimension: "socialExpression", importance: "secondary", targetScore: 25 },
       { dimension: "authenticity", importance: "tertiary", targetScore: 35 },
     ],
-    description:
-      "You have remarkable clarity about yourself—you see your patterns, your reactions, your tendencies. But you experience yourself as a spectator, not a participant. You observe, understand, but struggle to integrate this knowledge into action.",
-    relatedTypes: ["the-detached", "the-rebuilder"],
+    description: "You see yourself clearly but experience life as a spectator.",
+    image: "/assets/identity types/the-observer.jpg",
+    relatedTypes: ["the-detached"],
   },
 
-  "the-becoming": {
-    id: "the-becoming",
-    name: "The Becoming",
-    tagline: "You're actively building your identity.",
+  "the-pioneer": {
+    id: "the-pioneer",
+    name: "The Pioneer",
+    tagline: "Your identity is forged by breaking new ground.",
     tier: "growth",
-    corePattern:
-      "Actively constructing identity; in transition but conscious of it. Intentional about growth.",
+    corePattern: "Identity defined by courage, innovation, and charting new paths.",
     psychologicalTraits: [
-      "Self-aware about growing",
-      "Intentional about change",
-      "In transition but conscious",
-      "Integrating new understanding",
-      "Self-directed change",
+      "Courageous and bold",
+      "Pioneering spirit",
+      "Takes calculated risks",
+      "Visionary thinking",
+      "Action-oriented",
     ],
     strengths: [
-      "Growth-oriented",
-      "Self-directed change",
-      "Resilience in transition",
-      "Learning capacity",
-      "Intentional development",
+      "Boldness and courage",
+      "Innovation",
+      "Action capacity",
+      "Vision realization",
+      "Resilience",
     ],
     weaknesses: [
-      "Temporary instability",
-      "Uncertain about fundamentals",
-      "Can be confusing to others",
-      "Unfinished feeling",
-      "Ongoing discomfort",
+      "Recklessness risk",
+      "Impatience",
+      "Forging ahead alone",
+      "Difficulty with collaboration",
     ],
     keyDimensions: [
-      { dimension: "selfAwareness", importance: "primary", targetScore: 65 },
-      {
-        dimension: "identityStability",
-        importance: "primary",
-        targetScore: 50,
-      },
-      {
-        dimension: "innerConsistency",
-        importance: "secondary",
-        targetScore: 55,
-      },
-      {
-        dimension: "emotionalAlignment",
-        importance: "secondary",
-        targetScore: 60,
-      },
-      { dimension: "decisionClarity", importance: "tertiary", targetScore: 55 },
+      { dimension: "decisionClarity", importance: "primary", targetScore: 75 },
+      { dimension: "selfAwareness", importance: "primary", targetScore: 70 },
+      { dimension: "authenticity", importance: "secondary", targetScore: 75 },
+      { dimension: "identityStability", importance: "secondary", targetScore: 65 },
+      { dimension: "externalInfluence", importance: "tertiary", targetScore: 30 },
     ],
-    description:
-      "You know you're changing and you're okay with it. You're actively building who you want to become, integrating new understanding, and moving intentionally toward growth. It's not the most stable place, but it's where growth happens.",
-    relatedTypes: ["the-seeker", "the-rebuilder"],
+    description: "You define yourself by what you dare to build.",
+    image: "/assets/identity types/the-pioneer.jpg",
+    relatedTypes: ["the-creator", "the-seeker"],
   },
 
   "the-rebuilder": {
@@ -561,8 +438,7 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     name: "The Rebuilder",
     tagline: "Reconstructing after loss or disruption.",
     tier: "growth",
-    corePattern:
-      "Reconstructing identity after loss, crisis, or major change. Learning to be again.",
+    corePattern: "Reconstructing after loss, crisis, or major change.",
     psychologicalTraits: [
       "Post-disruption state",
       "Learning to be again",
@@ -585,27 +461,54 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
       "Energy depletion",
     ],
     keyDimensions: [
-      {
-        dimension: "identityStability",
-        importance: "primary",
-        targetScore: 35,
-      },
+      { dimension: "identityStability", importance: "primary", targetScore: 35 },
       { dimension: "selfAwareness", importance: "primary", targetScore: 60 },
-      {
-        dimension: "innerConsistency",
-        importance: "secondary",
-        targetScore: 40,
-      },
-      {
-        dimension: "emotionalAlignment",
-        importance: "secondary",
-        targetScore: 50,
-      },
+      { dimension: "innerConsistency", importance: "secondary", targetScore: 40 },
+      { dimension: "emotionalAlignment", importance: "secondary", targetScore: 50 },
       { dimension: "authenticity", importance: "tertiary", targetScore: 55 },
     ],
-    description:
-      "You've been through a disruption—loss, crisis, major change—and you're consciously putting yourself back together. This is painful but purposeful. You're learning who you are in the aftermath and building something real.",
-    relatedTypes: ["the-becoming", "the-split"],
+    description: "You're consciously putting yourself back together.",
+    image: "/assets/identity types/the-rebuilder.jpg",
+    relatedTypes: ["the-becoming"],
+  },
+
+  "the-sage": {
+    id: "the-sage",
+    name: "The Sage",
+    tagline: "Your identity is rooted in wisdom and understanding.",
+    tier: "grounded",
+    corePattern: "Identity defined by wisdom, reflection, and clear seeing.",
+    psychologicalTraits: [
+      "Contemplative",
+      "Wisdom-seeking",
+      "Deeply reflective",
+      "Emotionally intelligent",
+      "Clear-sighted",
+    ],
+    strengths: [
+      "Wisdom",
+      "Emotional clarity",
+      "Non-judgment",
+      "Deep understanding",
+      "Calm presence",
+    ],
+    weaknesses: [
+      "Detachment",
+      "Over-thinking",
+      "Difficulty with action",
+      "Can appear cold",
+      "Isolation",
+    ],
+    keyDimensions: [
+      { dimension: "emotionalAlignment", importance: "primary", targetScore: 75 },
+      { dimension: "selfAwareness", importance: "primary", targetScore: 85 },
+      { dimension: "innerConsistency", importance: "secondary", targetScore: 80 },
+      { dimension: "authenticity", importance: "secondary", targetScore: 75 },
+      { dimension: "externalInfluence", importance: "tertiary", targetScore: 20 },
+    ],
+    description: "You understand yourself and the world with clarity.",
+    image: "/assets/identity types/the-sage.jpg",
+    relatedTypes: ["the-observer", "the-creator"],
   },
 
   "the-seeker": {
@@ -613,8 +516,7 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     name: "The Seeker",
     tagline: "Actively exploring to find your authentic self.",
     tier: "growth",
-    corePattern:
-      "Intentionally exploring to discover authentic identity. Experimental and open.",
+    corePattern: "Intentionally exploring to discover authentic identity.",
     psychologicalTraits: [
       "Intentional exploration",
       "Open to possibilities",
@@ -638,210 +540,116 @@ export const IDENTITIES: Record<IdentityType, Identity> = {
     ],
     keyDimensions: [
       { dimension: "selfAwareness", importance: "primary", targetScore: 55 },
-      {
-        dimension: "externalInfluence",
-        importance: "primary",
-        targetScore: 85,
-      },
+      { dimension: "externalInfluence", importance: "primary", targetScore: 75 },
       { dimension: "authenticity", importance: "secondary", targetScore: 50 },
-      {
-        dimension: "decisionClarity",
-        importance: "secondary",
-        targetScore: 30,
-      },
-      {
-        dimension: "identityStability",
-        importance: "tertiary",
-        targetScore: 35,
-      },
+      { dimension: "decisionClarity", importance: "secondary", targetScore: 30 },
+      { dimension: "identityStability", importance: "tertiary", targetScore: 35 },
     ],
-    description:
-      "You're on a journey to find the real you. You try different things, explore different identities, and stay open to where the journey leads. It's uncertain, but the exploration feels necessary and authentic.",
-    opposite: "the-controller",
-    relatedTypes: ["the-becoming", "the-rooted-explorer"],
+    description: "You're on a journey to find the real you.",
+    image: "/assets/identity types/the-seeker.jpg",
+    relatedTypes: ["the-becoming", "the-pioneer"],
   },
 
-  "the-performer": {
-    id: "the-performer",
-    name: "The Performer",
-    tagline: "Identity performed for approval and appearance.",
-    tier: "performance",
-    corePattern:
-      "Identity performed for external validation and appearance. Self-conscious, role-oriented.",
+  "the-shifter": {
+    id: "the-shifter",
+    name: "The Shifter",
+    tagline: "Your identity changes with your environment.",
+    tier: "conflicted",
+    corePattern: "Unstable identity; shifts based on context.",
     psychologicalTraits: [
-      "Self-conscious presentation",
-      "Role-oriented behavior",
-      "Seeks approval through appearance",
-      "Calculates reactions",
-      "Anxiety about image",
+      "Chameleon-like adaptation",
+      "Difficulty finding core self",
+      "Reactive to relationships",
+      "Context-dependent identity",
+      "High external dependence",
     ],
     strengths: [
-      "Social awareness",
       "Adaptability",
-      "Entertainment value",
-      "Championship capacity",
-      "Reading audiences",
+      "Empathy through mirroring",
+      "Social flexibility",
+      "Can fit anywhere",
     ],
     weaknesses: [
-      "Inauthenticity",
-      "Image anxiety",
-      "Shallow connections",
-      "Exhaustion from performing",
-      "Approval dependency",
+      "No core sense of self",
+      "Chronic confusion",
+      "Dependent on feedback",
+      "Difficulty with independence",
+      "Exhausting adaptation",
     ],
     keyDimensions: [
-      {
-        dimension: "externalInfluence",
-        importance: "primary",
-        targetScore: 80,
-      },
-      { dimension: "socialExpression", importance: "primary", targetScore: 80 },
-      { dimension: "authenticity", importance: "secondary", targetScore: 30 },
-      {
-        dimension: "emotionalAlignment",
-        importance: "secondary",
-        targetScore: 35,
-      },
-      {
-        dimension: "identityStability",
-        importance: "tertiary",
-        targetScore: 45,
-      },
+      { dimension: "identityStability", importance: "primary", targetScore: 20 },
+      { dimension: "externalInfluence", importance: "primary", targetScore: 85 },
+      { dimension: "selfAwareness", importance: "secondary", targetScore: 35 },
+      { dimension: "authenticity", importance: "secondary", targetScore: 25 },
+      { dimension: "innerConsistency", importance: "tertiary", targetScore: 25 },
     ],
-    description:
-      "You've learned that your value comes from how others perceive you. So you perform—a version calculated to get approval. You're socially skilled and entertaining, but the real you is hidden behind the role.",
-    relatedTypes: ["the-masked", "the-shifter"],
+    description: "You become different people in different contexts.",
+    image: "/assets/identity types/the-shifter.jpg",
+    opposite: "the-anchored",
+    relatedTypes: ["the-masked"],
   },
 
-  "the-controller": {
-    id: "the-controller",
-    name: "The Controller",
-    tagline: "Controlling identity to prevent chaos.",
-    tier: "performance",
-    corePattern:
-      "Identity controlled to prevent uncertainty and chaos. Perfectionist and protective.",
+  "the-split": {
+    id: "the-split",
+    name: "The Split",
+    tagline: "Aware of your contradictions, struggling to integrate them.",
+    tier: "conflicted",
+    corePattern: "Contradictory self-images; aware of internal conflict.",
     psychologicalTraits: [
-      "Rigid self-management",
-      "Perfectionism",
-      "Control-oriented",
-      "Anxiety-driven",
-      "Protective mechanisms",
+      "Aware of contradictions",
+      "Feels genuinely torn",
+      "Internal debate constant",
+      "Struggles with integration",
+      "Self-awareness of paradox",
     ],
     strengths: [
-      "Organization",
-      "Discipline",
-      "Preventive thinking",
-      "Reliability",
-      "Consistency",
+      "Self-awareness of complexity",
+      "Nuance and depth",
+      "Avoids false certainty",
+      "Can hold multiple perspectives",
     ],
     weaknesses: [
-      "Rigidity",
-      "Anxiety-driven",
-      "Inability to adapt",
-      "Over-control",
-      "Emotional suppression",
+      "Decision paralysis",
+      "Identity confusion",
+      "Emotional volatility",
+      "Difficult relationships",
+      "Exhausting conflict",
     ],
     keyDimensions: [
-      {
-        dimension: "identityStability",
-        importance: "primary",
-        targetScore: 80,
-      },
-      { dimension: "innerConsistency", importance: "primary", targetScore: 75 },
-      {
-        dimension: "externalInfluence",
-        importance: "primary",
-        targetScore: 20,
-      },
-      {
-        dimension: "emotionalAlignment",
-        importance: "secondary",
-        targetScore: 40,
-      },
-      { dimension: "authenticity", importance: "secondary", targetScore: 60 },
+      { dimension: "selfAwareness", importance: "primary", targetScore: 70 },
+      { dimension: "innerConsistency", importance: "primary", targetScore: 30 },
+      { dimension: "identityStability", importance: "secondary", targetScore: 30 },
+      { dimension: "emotionalAlignment", importance: "secondary", targetScore: 45 },
+      { dimension: "decisionClarity", importance: "tertiary", targetScore: 35 },
     ],
-    description:
-      "You maintain your identity through tight control. You manage every aspect to prevent chaos or uncertainty. You're disciplined and reliable, but the effort is exhausting and you struggle when things don't go according to plan.",
-    opposite: "the-seeker",
-    relatedTypes: ["the-anchored", "the-performer"],
-  },
-
-  "the-drifter": {
-    id: "the-drifter",
-    name: "The Drifter",
-    tagline: "Going with the flow, unexamined and reactive.",
-    tier: "performance",
-    corePattern:
-      "No active engagement with identity; passive acceptance. Reactive to circumstances.",
-    psychologicalTraits: [
-      "Goes with flow",
-      "Unexamined identity",
-      "Reactive to circumstances",
-      "Low agency",
-      "Unconscious drift",
-    ],
-    strengths: [
-      "Low anxiety",
-      "Adaptability",
-      "Peace with inconsistency",
-      "Flexibility",
-      "Reduced stress",
-    ],
-    weaknesses: [
-      "No agency",
-      "No purposeful growth",
-      "Easily influenced",
-      "Lack of direction",
-      "Unexamined living",
-    ],
-    keyDimensions: [
-      { dimension: "selfAwareness", importance: "primary", targetScore: 25 },
-      {
-        dimension: "externalInfluence",
-        importance: "primary",
-        targetScore: 70,
-      },
-      {
-        dimension: "decisionClarity",
-        importance: "secondary",
-        targetScore: 20,
-      },
-      { dimension: "authenticity", importance: "secondary", targetScore: 35 },
-      {
-        dimension: "identityStability",
-        importance: "tertiary",
-        targetScore: 35,
-      },
-    ],
-    description:
-      "You're not really thinking about who you are—you're just living day to day, going with whatever comes. No internal compass, no purposeful direction, just drifting based on circumstances and what others suggest.",
-    opposite: "the-idealist",
-    relatedTypes: ["the-avoider", "the-shifter"],
+    description: "You're aware you're genuinely conflicted.",
+    image: "/assets/identity types/the-split.jpg",
+    relatedTypes: ["the-becoming", "the-rebuilder"],
   },
 };
 
 export const IDENTITY_TIERS = {
-  grounded: ["the-anchored", "the-rooted-explorer", "the-idealist"],
+  grounded: ["the-anchored", "the-caregiver", "the-creator", "the-lover", "the-sage"],
   conflicted: ["the-split", "the-masked", "the-shifter"],
-  disconnected: ["the-detached", "the-avoider", "the-observer"],
-  growth: ["the-becoming", "the-rebuilder", "the-seeker"],
-  performance: ["the-performer", "the-controller", "the-drifter"],
+  disconnected: ["the-detached", "the-observer"],
+  growth: ["the-becoming", "the-rebuilder", "the-seeker", "the-pioneer"],
+  performance: ["the-drifter"],
 };
 
 export const IDENTITY_COLORS: Record<IdentityType, string> = {
   "the-anchored": "bg-blue-500",
-  "the-rooted-explorer": "bg-teal-500",
-  "the-idealist": "bg-purple-500",
-  "the-split": "bg-orange-500",
-  "the-masked": "bg-indigo-500",
-  "the-shifter": "bg-pink-500",
-  "the-detached": "bg-gray-500",
-  "the-avoider": "bg-slate-500",
-  "the-observer": "bg-cyan-500",
   "the-becoming": "bg-emerald-500",
-  "the-rebuilder": "bg-amber-500",
-  "the-seeker": "bg-lime-500",
-  "the-performer": "bg-rose-500",
-  "the-controller": "bg-violet-500",
+  "the-caregiver": "bg-pink-500",
+  "the-creator": "bg-purple-500",
+  "the-detached": "bg-gray-500",
   "the-drifter": "bg-zinc-500",
+  "the-lover": "bg-rose-500",
+  "the-masked": "bg-indigo-500",
+  "the-observer": "bg-cyan-500",
+  "the-pioneer": "bg-orange-500",
+  "the-rebuilder": "bg-amber-500",
+  "the-sage": "bg-violet-500",
+  "the-seeker": "bg-lime-500",
+  "the-shifter": "bg-pink-500",
+  "the-split": "bg-orange-500",
 };

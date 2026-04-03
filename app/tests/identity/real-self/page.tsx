@@ -143,7 +143,8 @@ export default function RealSelfPage() {
 
   const currentQuestion = REAL_SELF_QUESTIONS[currentQuestionIndex];
   const currentAnswer = answers[currentQuestionIndex];
-  const progress = ((currentQuestionIndex + 1) / REAL_SELF_QUESTIONS.length) * 100;
+  const progress =
+    ((currentQuestionIndex + 1) / REAL_SELF_QUESTIONS.length) * 100;
   const isLastQuestion =
     currentQuestionIndex === REAL_SELF_QUESTIONS.length - 1;
 

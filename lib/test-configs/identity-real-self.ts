@@ -99,14 +99,17 @@ const test5Config: TestConfig = {
   },
   generateResult: (score: RealSelfResult) => {
     const result = score as RealSelfResult;
-    
+
     return {
       badgeText: "Identity Profile",
       title: "Your real self vs your current self",
       subtitle: result.message,
       description: `Gap Level: ${result.gapLevel}`,
       traits: (Object.keys(result.dimensions) as RealSelfDimension[])
-        .filter((dim) => dim !== "internal_conflict" && dim !== "identity_suppression")
+        .filter(
+          (dim) =>
+            dim !== "internal_conflict" && dim !== "identity_suppression",
+        )
         .map((dim) => {
           const metadata = dimensionMetadata[dim];
           return {
@@ -121,7 +124,9 @@ const test5Config: TestConfig = {
         {
           title: "What's really going on",
           content: `You are operating as ${result.currentIdentity}, carrying patterns of ${
-            result.dimensions.internal_conflict > 50 ? "internal conflict" : "suppressed identity"
+            result.dimensions.internal_conflict > 50
+              ? "internal conflict"
+              : "suppressed identity"
           }. Your real self, ${result.realIdentity}, is waiting beneath the surface.`,
           type: "normal" as const,
         },
@@ -134,7 +139,7 @@ const test5Config: TestConfig = {
                 ? "noticeable distance between who you are and who you're becoming"
                 : "relatively good alignment, though room for deeper authenticity exists"
           }.`,
-          type: 
+          type:
             result.gapLevel === "High"
               ? ("warning" as const)
               : result.gapLevel === "Moderate"
@@ -152,7 +157,8 @@ const test5Config: TestConfig = {
         {
           title: "Your hidden strengths",
           content:
-            result.dimensions.authenticity > 50 && result.dimensions.self_awareness > 50
+            result.dimensions.authenticity > 50 &&
+            result.dimensions.self_awareness > 50
               ? "You have the self-knowledge and potential authenticity to bridge this gap. Your challenge is translating awareness into action."
               : "Your journey begins with self-discovery. Every step toward authenticity is a step toward your real self.",
           type: "normal" as const,
@@ -208,7 +214,9 @@ function generateResult(result: RealSelfResult): GeneratedResult {
     title: "Your real self vs your current self",
     subtitle: result.message,
     traits: (Object.keys(result.dimensions) as RealSelfDimension[])
-      .filter((dim) => dim !== "internal_conflict" && dim !== "identity_suppression")
+      .filter(
+        (dim) => dim !== "internal_conflict" && dim !== "identity_suppression",
+      )
       .map((dim) => ({
         name: dim,
         value: result.dimensions[dim],
@@ -218,7 +226,9 @@ function generateResult(result: RealSelfResult): GeneratedResult {
       {
         title: "What's really going on",
         content: `You are operating as ${result.currentIdentity}, carrying patterns of ${
-          result.dimensions.internal_conflict > 50 ? "internal conflict" : "suppressed identity"
+          result.dimensions.internal_conflict > 50
+            ? "internal conflict"
+            : "suppressed identity"
         }. Your real self, ${result.realIdentity}, is waiting beneath the surface.`,
         type: "normal",
       },
@@ -249,7 +259,8 @@ function generateResult(result: RealSelfResult): GeneratedResult {
       {
         title: "Your hidden strengths",
         content:
-          result.dimensions.authenticity > 50 && result.dimensions.self_awareness > 50
+          result.dimensions.authenticity > 50 &&
+          result.dimensions.self_awareness > 50
             ? "You have the self-knowledge and potential authenticity to bridge this gap. Your challenge is translating awareness into action."
             : "Your journey begins with self-discovery. Every step toward authenticity is a step toward your real self.",
         type: "success",
@@ -294,7 +305,9 @@ function generateActionSteps(result: RealSelfResult): string {
   }
 
   if (result.dimensions.action_consistency < 60) {
-    steps.push("Choose one area: Commit to follow-through on one small decision");
+    steps.push(
+      "Choose one area: Commit to follow-through on one small decision",
+    );
   }
 
   if (steps.length === 0) {
@@ -310,7 +323,9 @@ function generateStrengths(result: RealSelfResult): string[] {
   const strengths = [];
 
   if (result.dimensions.self_awareness > 60) {
-    strengths.push(`Strong self-awareness (${result.dimensions.self_awareness}%)`);
+    strengths.push(
+      `Strong self-awareness (${result.dimensions.self_awareness}%)`,
+    );
   }
 
   if (result.dimensions.emotional_clarity > 60) {
@@ -320,7 +335,9 @@ function generateStrengths(result: RealSelfResult): string[] {
   }
 
   if (result.dimensions.authenticity > 60) {
-    strengths.push(`Authenticity potential (${result.dimensions.authenticity}%)`);
+    strengths.push(
+      `Authenticity potential (${result.dimensions.authenticity}%)`,
+    );
   }
 
   if (result.dimensions.confidence > 60) {

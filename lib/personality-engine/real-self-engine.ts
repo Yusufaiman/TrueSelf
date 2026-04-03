@@ -1,9 +1,6 @@
 // Real Self vs Current Self Scoring Engine
 
-import {
-  RealSelfDimension,
-  REAL_SELF_QUESTIONS,
-} from "./real-self-questions";
+import { RealSelfDimension, REAL_SELF_QUESTIONS } from "./real-self-questions";
 
 export type AnswerValue = 1 | 2 | 3 | 4 | 5;
 
@@ -31,9 +28,9 @@ export interface RealSelfResult {
 const SCORE_MAP: Record<AnswerValue, number> = {
   1: -2, // strongly_disagree
   2: -1, // disagree
-  3: 0,  // neutral
-  4: 1,  // agree
-  5: 2,  // strongly_agree
+  3: 0, // neutral
+  4: 1, // agree
+  5: 2, // strongly_agree
 };
 
 const MAX_SCORE_PER_DIMENSION = 4; // 2 questions × max 2 points each
@@ -137,7 +134,11 @@ function generateGapMessage(current: string, real: string): string {
   return `You are currently living as ${current}, but your deeper self aligns with ${real}.`;
 }
 
-function detectFlips(d: DimensionScores, current: string, real: string): string[] {
+function detectFlips(
+  d: DimensionScores,
+  current: string,
+  real: string,
+): string[] {
   const flips: string[] = [];
 
   // Core gap insight

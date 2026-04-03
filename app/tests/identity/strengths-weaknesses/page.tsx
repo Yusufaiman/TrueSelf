@@ -224,7 +224,7 @@ export default function StrengthsWeaknessesPage() {
               Your strengths & weaknesses
             </h1>
             <h2 className="text-4xl md:text-5xl font-bold text-blue-600 mb-2">
-              {result.personality}
+              {result.title}
             </h2>
             <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mt-4">
               This profile reveals how you perform across 8 key psychological
@@ -285,9 +285,7 @@ export default function StrengthsWeaknessesPage() {
               </h3>
             </div>
             <p className="text-base text-slate-700 leading-relaxed">
-              Your psychology shows a distinctive pattern across these 8 traits.
-              The combination of your strengths and growth areas defines your
-              behavioral style, resilience, and potential for development.
+              {result.whatIsReallyGoing}
             </p>
           </div>
 
@@ -300,11 +298,7 @@ export default function StrengthsWeaknessesPage() {
               </h3>
             </div>
             <div className="space-y-3">
-              {[
-                "Your strengths represent areas where you naturally excel and invest energy effectively.",
-                "Your growth areas show where intentional development can unlock new capabilities.",
-                "The interplay between traits creates unique patterns in how you operate.",
-              ].map((item, idx) => (
+              {result.howYouPerform.map((item, idx) => (
                 <div
                   key={idx}
                   className="bg-white border border-slate-200 rounded-xl p-4 flex gap-3 items-start"
@@ -328,11 +322,7 @@ export default function StrengthsWeaknessesPage() {
               </h3>
             </div>
             <div className="space-y-3">
-              {[
-                "You may overestimate your strengths and underestimate growth areas.",
-                "Traits shown as weaknesses are often untapped potential, not limitations.",
-                "Your performance can vary significantly across different contexts.",
-              ].map((item, idx) => (
+              {result.blindSpots.map((item, idx) => (
                 <div
                   key={idx}
                   className="bg-red-50 border border-red-100 rounded-xl p-4 flex gap-3 items-start"
@@ -356,14 +346,7 @@ export default function StrengthsWeaknessesPage() {
               </h3>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {[
-                "Self-awareness",
-                "Adaptability",
-                "Resilience",
-                "Growth mindset",
-                "Authenticity",
-                "Potential",
-              ].map((strength, idx) => (
+              {result.hiddenStrengths.map((strength, idx) => (
                 <div
                   key={idx}
                   className="bg-emerald-50 border border-emerald-100 rounded-lg p-3 flex items-start gap-2"
@@ -381,7 +364,7 @@ export default function StrengthsWeaknessesPage() {
           </div>
 
           {/* Key Insights */}
-          {result.flips && result.flips.length > 0 && (
+          {result.importantInsights && result.importantInsights.length > 0 && (
             <div className="bg-yellow-50 border border-yellow-100 rounded-2xl p-6 mb-8">
               <div className="flex items-center gap-2 mb-4">
                 <Eye size={20} className="text-yellow-600" />
@@ -390,7 +373,7 @@ export default function StrengthsWeaknessesPage() {
                 </h3>
               </div>
               <div className="space-y-3">
-                {result.flips.map((insight, idx) => (
+                {result.importantInsights.map((insight, idx) => (
                   <p key={idx} className="text-sm text-slate-700">
                     • {insight}
                   </p>
@@ -408,12 +391,7 @@ export default function StrengthsWeaknessesPage() {
               </h3>
             </div>
             <div className="space-y-3">
-              {[
-                "Notice which traits show up strongest in your daily decisions",
-                "Identify one weakness you want to develop intentionally",
-                "Find mentors or examples of people strong in your growth areas",
-                "Practice small experiments to stretch beyond your natural pattern",
-              ].map((step, idx) => (
+              {result.whatToStartDoing.map((step, idx) => (
                 <div
                   key={idx}
                   className="bg-white border border-slate-200 rounded-xl p-4 flex gap-4 items-start"
@@ -428,6 +406,96 @@ export default function StrengthsWeaknessesPage() {
               ))}
             </div>
           </div>
+
+          {/* Identity Types That Resonate */}
+          {result.identityResonance && result.identityResonance.length > 0 && (
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-8">
+              <h3 className="text-lg font-semibold text-slate-900 mb-4">
+                Identity types that resonate:
+              </h3>
+              <div className="flex flex-wrap gap-3">
+                {result.identityResonance.map((identity, idx) => {
+                  const colorMap: Record<
+                    string,
+                    { bg: string; text: string; border: string }
+                  > = {
+                    "the-anchored": {
+                      bg: "bg-blue-50",
+                      text: "text-blue-700",
+                      border: "border-blue-200",
+                    },
+                    "the-shifter": {
+                      bg: "bg-purple-50",
+                      text: "text-purple-700",
+                      border: "border-purple-200",
+                    },
+                    "the-seeker": {
+                      bg: "bg-pink-50",
+                      text: "text-pink-700",
+                      border: "border-pink-200",
+                    },
+                    "the-drifter": {
+                      bg: "bg-slate-50",
+                      text: "text-slate-700",
+                      border: "border-slate-200",
+                    },
+                    "the-becoming": {
+                      bg: "bg-emerald-50",
+                      text: "text-emerald-700",
+                      border: "border-emerald-200",
+                    },
+                    "the-split": {
+                      bg: "bg-amber-50",
+                      text: "text-amber-700",
+                      border: "border-amber-200",
+                    },
+                    "the-controller": {
+                      bg: "bg-indigo-50",
+                      text: "text-indigo-700",
+                      border: "border-indigo-200",
+                    },
+                  };
+
+                  const colors = (
+                    colorMap[identity as keyof typeof colorMap] || colorMap["the-anchored"]
+                  );
+
+                  const displayName = identity
+                    .split("-")
+                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ");
+
+                  return (
+                    <span
+                      key={idx}
+                      className={`inline-block px-4 py-2 rounded-full border ${colors.bg} ${colors.text} ${colors.border} text-sm font-medium`}
+                    >
+                      {displayName}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Related Personality Types */}
+          {result.relatedPersonalities && result.relatedPersonalities.length > 0 && (
+            <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-8">
+              <h3 className="text-lg font-semibold text-slate-900 mb-4">
+                Related personality types:
+              </h3>
+              <div className="flex flex-wrap gap-3">
+                {result.relatedPersonalities.map((personality, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-block px-4 py-2 rounded-full border border-slate-300 bg-slate-50 text-slate-700 text-sm font-medium"
+                  >
+                    {personality}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* CTA Card */}
           <div className="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 text-center">
@@ -639,17 +707,19 @@ export default function StrengthsWeaknessesPage() {
 
         {/* Progress indicator dots */}
         <div className="flex justify-center gap-1 mt-10">
-          {STRENGTHS_WEAKNESSES_QUESTIONS.map((_: (typeof STRENGTHS_WEAKNESSES_QUESTIONS)[0], index: number) => (
-            <div
-              key={index}
-              className="h-2 rounded-full transition-all"
-              style={{
-                width: index <= currentQuestionIndex ? "24px" : "8px",
-                backgroundColor:
-                  index <= currentQuestionIndex ? "#4399E6" : "#D1D5DB",
-              }}
-            />
-          ))}
+          {STRENGTHS_WEAKNESSES_QUESTIONS.map(
+            (_: (typeof STRENGTHS_WEAKNESSES_QUESTIONS)[0], index: number) => (
+              <div
+                key={index}
+                className="h-2 rounded-full transition-all"
+                style={{
+                  width: index <= currentQuestionIndex ? "24px" : "8px",
+                  backgroundColor:
+                    index <= currentQuestionIndex ? "#4399E6" : "#D1D5DB",
+                }}
+              />
+            ),
+          )}
         </div>
       </div>
     </div>

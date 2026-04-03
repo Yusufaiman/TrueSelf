@@ -1,7 +1,7 @@
 // Your Strengths & Weaknesses Test - 16 Questions
 // Maps to 8 traits (2 questions per trait)
 
-export type StrengthsTrait = 
+export type StrengthsTrait =
   | "strategic_thinking"
   | "emotional_awareness"
   | "discipline"

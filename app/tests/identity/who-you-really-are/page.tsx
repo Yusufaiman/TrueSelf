@@ -28,9 +28,9 @@ import {
 } from "@/lib/identity-system/types";
 import {
   getCompleteResult,
-  validateBecomingMatch,
   identifyType,
 } from "@/lib/identity-system/profileMatching";
+import { IdentityImage } from "@/lib/identity-system/identityImages";
 
 type AnswerValue = 1 | 2 | 3 | 4 | 5;
 
@@ -220,15 +220,24 @@ export default function WhoYouReallyArePage() {
             <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
               You are
             </h1>
-            <h2 className="text-4xl md:text-5xl font-bold mb-2 text-blue-600">
+            <h2 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-blue-500 to-cyan-500 bg-clip-text text-transparent">
               {completeResult.primary.name}
             </h2>
             <p className="text-lg md:text-xl text-slate-500 italic mb-4">
               "{primaryIdentity.tagline}"
             </p>
-            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mb-8">
               {completeResult.primary.description}
             </p>
+
+            {/* Identity Image */}
+            <div className="flex justify-center mb-12">
+              <IdentityImage
+                type={completeResult.primary.type}
+                name={completeResult.primary.name}
+                size="large"
+              />
+            </div>
           </div>
 
           {/* Dimensions Grid */}

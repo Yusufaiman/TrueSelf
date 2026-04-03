@@ -171,7 +171,8 @@ const test4Config: TestConfig = {
           : []),
       ],
       strengths: result.strengths.map(
-        (s: StrengthsTrait) => `${traitMetadata[s].label} (${result.traits[s]}%)`,
+        (s: StrengthsTrait) =>
+          `${traitMetadata[s].label} (${result.traits[s]}%)`,
       ),
       secondaryMatch: {
         name: result.personality.toUpperCase(),

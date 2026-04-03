@@ -391,3 +391,32 @@ export function calculateDimensionScores(
 
   return averageScores;
 }
+
+/**
+ * Calculate raw dimension scores (array of all scores per dimension)
+ * Used by the V2 pattern matching engine for variance detection
+ */
+export function calculateDimensionScoresRaw(
+  responses: Record<number, number>,
+): Record<keyof DimensionScores, number[]> {
+  const dimensionScores: Record<keyof DimensionScores, number[]> = {
+    selfAwareness: [],
+    authenticity: [],
+    externalInfluence: [],
+    identityStability: [],
+    emotionalAlignment: [],
+    decisionClarity: [],
+    innerConsistency: [],
+    socialExpression: [],
+  };
+
+  IDENTITY_QUESTIONS.forEach((question) => {
+    const response = responses[question.id];
+    if (response !== undefined) {
+      const score = scoreResponse(response, question.reversed);
+      dimensionScores[question.dimension].push(score);
+    }
+  });
+
+  return dimensionScores;
+}
