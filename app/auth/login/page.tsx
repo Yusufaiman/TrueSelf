@@ -25,14 +25,17 @@ export default function LoginPage() {
       });
 
       if (loginError) {
-        setError(loginError.message);
+        console.error("Login error:", loginError);
+        setError(loginError.message || "Failed to sign in");
         setLoading(false);
         return;
       }
 
       router.push("/tests");
     } catch (err) {
-      setError("An unexpected error occurred");
+      console.error("Login exception:", err);
+      const errorMessage = err instanceof Error ? err.message : "Failed to connect to authentication service";
+      setError(errorMessage);
       setLoading(false);
     }
   };
