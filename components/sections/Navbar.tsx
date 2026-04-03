@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import {
   User,
@@ -17,8 +17,11 @@ import {
   ChevronDown,
   Menu,
   X,
+  BarChart3,
+  LogOut,
 } from "lucide-react";
 import { categoryThemes, type CategoryKey } from "@/config/categoryTheme";
+import { getClientUser, clientSignOut } from "@/utils/supabase/client-auth";
 
 interface TestCategory {
   title: string;
@@ -111,7 +114,42 @@ export const Navbar: React.FC = () => {
   const [showTestsMenu, setShowTestsMenu] = useState(false);
   const [activeNav, setActiveNav] = useState<string>("home");
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const user = await getClientUser();
+        if (user) {
+          setIsLoggedIn(true);
+          setUserEmail(user.email || null);
+        } else {
+          setIsLoggedIn(false);
+        }
+      } catch (err) {
+        console.error("Error checking auth:", err);
+        setIsLoggedIn(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [pathname]);
+
+  const handleLogout = async () => {
+    const success = await clientSignOut();
+    if (success) {
+      setIsLoggedIn(false);
+      setUserEmail(null);
+      router.push("/");
+    }
+  };
 
   const isActive = (href: string) => {
     if (href === "/" && pathname === "/") return true;
@@ -155,6 +193,7 @@ export const Navbar: React.FC = () => {
                 <div key={item.label} className="relative">
                   {item.hasDropdown ? (
                     <button
+                      onClick={() => router.push("/tests")}
                       className={`flex items-center gap-2 text-base font-medium transition-all duration-200 ${
                         isItemActive
                           ? "text-transparent bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text"
@@ -190,6 +229,25 @@ export const Navbar: React.FC = () => {
                       onMouseEnter={() => setShowTestsMenu(true)}
                       onMouseLeave={() => setShowTestsMenu(false)}
                     >
+                      {/* View All Tests Link */}
+                      <Link 
+                        href="/tests"
+                        className="flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-150 cursor-pointer hover:bg-blue-50 group mb-2 border border-blue-200 bg-blue-50"
+                      >
+                        <div className="flex-1 text-left">
+                          <div className="text-sm font-semibold text-blue-600">
+                            View All Tests
+                          </div>
+                          <div className="text-xs mt-0.5 text-blue-500">
+                            Explore all available assessments
+                          </div>
+                        </div>
+                      </Link>
+
+                      {/* Divider */}
+                      <div className="my-2 border-t border-slate-200"></div>
+
+                      {/* Categories */}
                       <div className="space-y-1">
                         {testCategories.map((category) => {
                           const iconColor = iconColorMap[category.categoryKey];
@@ -224,17 +282,103 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Auth Buttons */}
+          {/* Auth Buttons / User Menu */}
           <div className="flex items-center gap-3">
-            {/* Sign In Button */}
-            <button className="hidden sm:block text-gray-700 font-medium px-5 py-2 rounded-lg border border-slate-300 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200">
-              Sign In
-            </button>
+            {isLoading ? (
+              // Loading state
+              <div className="hidden sm:flex items-center gap-2 px-3 py-2">
+                <div className="h-8 w-8 rounded-full bg-slate-200 animate-pulse"></div>
+              </div>
+            ) : isLoggedIn ? (
+              <>
+                {/* Dashboard Button - Desktop */}
+                <Link
+                  href="/dashboard"
+                  className="hidden md:flex items-center gap-2 text-gray-700 font-medium px-5 py-2 rounded-lg border border-slate-300 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200"
+                >
+                  <BarChart3 size={18} />
+                  Dashboard
+                </Link>
 
-            {/* Sign Up Button */}
-            <button className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium px-5 py-2 rounded-xl hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105 transition-all duration-200">
-              Sign Up
-            </button>
+                {/* Profile Menu - Desktop */}
+                <div className="relative hidden sm:block">
+                  <button
+                    onClick={() => setShowProfileMenu(!showProfileMenu)}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors"
+                    title="Profile menu"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-white font-semibold">
+                      {userEmail?.[0]?.toUpperCase() || "U"}
+                    </div>
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform duration-200 ${
+                        showProfileMenu ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+
+                  {/* Profile Dropdown */}
+                  {showProfileMenu && (
+                    <div
+                      className="absolute right-0 top-full mt-1 rounded-xl border border-slate-200 bg-white shadow-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200 w-48"
+                      onMouseLeave={() => setShowProfileMenu(false)}
+                    >
+                      <div className="px-4 py-3 border-b border-slate-200">
+                        <div className="text-xs font-medium text-slate-500">
+                          Logged in as
+                        </div>
+                        <div className="text-sm font-medium text-slate-900 truncate">
+                          {userEmail}
+                        </div>
+                      </div>
+                      <Link
+                        href="/profile"
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors text-slate-700 hover:text-blue-600"
+                      >
+                        <User size={16} />
+                        <span>My Profile</span>
+                      </Link>
+                      <Link
+                        href="/dashboard"
+                        className="md:hidden flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors text-slate-700 hover:text-blue-600"
+                      >
+                        <BarChart3 size={16} />
+                        <span>Dashboard</span>
+                      </Link>
+                      <button
+                        onClick={() => {
+                          setShowProfileMenu(false);
+                          handleLogout();
+                        }}
+                        className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 transition-colors text-red-600 border-t border-slate-200"
+                      >
+                        <LogOut size={16} />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                {/* Sign In Button */}
+                <Link
+                  href="/auth/login"
+                  className="hidden sm:block text-gray-700 font-medium px-5 py-2 rounded-lg border border-slate-300 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200"
+                >
+                  Sign In
+                </Link>
+
+                {/* Sign Up Button */}
+                <Link
+                  href="/auth/signup"
+                  className="inline-block bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium px-5 py-2 rounded-xl hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105 transition-all duration-200"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
 
             {/* Hamburger Menu Button - Mobile Only */}
             <button
@@ -261,7 +405,10 @@ export const Navbar: React.FC = () => {
                   <div key={item.label}>
                     {item.hasDropdown ? (
                       <button
-                        onClick={() => setShowTestsMenu(!showTestsMenu)}
+                        onClick={() => {
+                          router.push("/tests");
+                          setShowTestsMenu(!showTestsMenu);
+                        }}
                         className={`w-full text-left px-4 py-2 font-medium text-base transition-all duration-200 flex items-center justify-between ${
                           isItemActive
                             ? "text-blue-600 bg-blue-50"

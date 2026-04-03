@@ -29,6 +29,7 @@ import {
   calculateStrengthsWeaknessesResult,
   type AnswerValue,
 } from "@/lib/personality-engine/strengths-weaknesses-engine";
+import { saveTestResult } from "@/utils/supabase/client-results";
 
 interface TraitMetadata {
   label: string;
@@ -194,6 +195,30 @@ export default function StrengthsWeaknessesPage() {
     hasStarted,
     isCompleted,
   ]);
+
+  // Save result when completed (background, non-blocking)
+  useEffect(() => {
+    if (isCompleted && answers.some(a => a !== null)) {
+      const saveAsync = async () => {
+        const responses: Record<number, AnswerValue> = {};
+        answers.forEach((answer, idx) => {
+          if (answer !== null) {
+            responses[STRENGTHS_WEAKNESSES_QUESTIONS[idx].id] = answer;
+          }
+        });
+
+        const result = calculateStrengthsWeaknessesResult(responses);
+        
+        // Save in background, don't block UI
+        await saveTestResult('test_4', result.traits, result);
+      };
+
+      saveAsync().catch(err => {
+        console.error('Failed to save result:', err);
+        // Silently fail - user experience not affected
+      });
+    }
+  }, [isCompleted]);
 
   // RESULTS SCREEN
   if (isCompleted) {

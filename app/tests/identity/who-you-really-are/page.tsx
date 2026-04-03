@@ -31,6 +31,7 @@ import {
   identifyType,
 } from "@/lib/identity-system/profileMatching";
 import { IdentityImage } from "@/lib/identity-system/identityImages";
+import { saveTestResult } from "@/utils/supabase/client-results";
 
 type AnswerValue = 1 | 2 | 3 | 4 | 5;
 
@@ -189,6 +190,32 @@ export default function WhoYouReallyArePage() {
     hasStarted,
     isCompleted,
   ]);
+
+  // Save result when completed (background, non-blocking)
+  useEffect(() => {
+    if (isCompleted && answers.some(a => a !== null)) {
+      const saveAsync = async () => {
+        const responses: Record<number, number> = {};
+        answers.forEach((answer, idx) => {
+          if (answer !== null) {
+            responses[IDENTITY_QUESTIONS[idx].id] = answer;
+          }
+        });
+
+        const scores = calculateDimensionScores(responses);
+        const identityType = identifyType(scores);
+        const result = getCompleteResult(scores);
+        
+        // Save in background, don't block UI
+        await saveTestResult('test_1', scores, result);
+      };
+
+      saveAsync().catch(err => {
+        console.error('Failed to save result:', err);
+        // Silently fail - user experience not affected
+      });
+    }
+  }, [isCompleted]);
 
   // RESULTS SCREEN
   if (isCompleted) {

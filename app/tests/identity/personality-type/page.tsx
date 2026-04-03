@@ -24,6 +24,7 @@ import {
   Compass,
 } from "lucide-react";
 import Link from "next/link";
+import { saveTestResult } from "@/utils/supabase/client-results";
 
 type AnswerValue = 1 | 2 | 3 | 4 | 5;
 
@@ -683,6 +684,36 @@ export default function PersonalityTypeTest() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
+
+  // Save result when generated (background, non-blocking)
+  useEffect(() => {
+    if (result) {
+      const saveAsync = async () => {
+        const scores = {
+          logic: result.scores.logic,
+          intuition: result.scores.intuition,
+          reflection: result.scores.reflection,
+          decisiveness: result.scores.decisiveness,
+          emotionalSensitivity: result.scores.emotionalSensitivity,
+          emotionalControl: result.scores.emotionalControl,
+          socialEnergy: result.scores.socialEnergy,
+          socialDepth: result.scores.socialDepth,
+          discipline: result.scores.discipline,
+          impulsiveness: result.scores.impulsiveness,
+          riskTolerance: result.scores.riskTolerance,
+          flexibility: result.scores.flexibility,
+        };
+
+        // Save in background, don't block UI
+        await saveTestResult('test_2', scores, result);
+      };
+
+      saveAsync().catch(err => {
+        console.error('Failed to save result:', err);
+        // Silently fail - user experience not affected
+      });
+    }
+  }, [result]);
 
   // ========== STAGE: INTRO ==========
   if (stage === "intro") {

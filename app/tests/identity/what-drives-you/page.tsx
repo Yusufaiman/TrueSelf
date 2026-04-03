@@ -26,6 +26,7 @@ import {
   calculateDriverResult,
   DriverType,
 } from "@/lib/personality-engine/driver-engine";
+import { saveTestResult } from "@/utils/supabase/client-results";
 
 type AnswerValue = 1 | 2 | 3 | 4 | 5;
 
@@ -169,6 +170,30 @@ export default function WhatDrivesYouPage() {
     hasStarted,
     isCompleted,
   ]);
+
+  // Save result when completed (background, non-blocking)
+  useEffect(() => {
+    if (isCompleted && answers.some(a => a !== null)) {
+      const saveAsync = async () => {
+        const responses: Record<number, AnswerValue> = {};
+        answers.forEach((answer, idx) => {
+          if (answer !== null) {
+            responses[DRIVER_QUESTIONS[idx].id] = answer;
+          }
+        });
+
+        const result = calculateDriverResult(responses);
+        
+        // Save in background, don't block UI
+        await saveTestResult('test_3', result.drivers, result);
+      };
+
+      saveAsync().catch(err => {
+        console.error('Failed to save result:', err);
+        // Silently fail - user experience not affected
+      });
+    }
+  }, [isCompleted]);
 
   // RESULTS SCREEN
   if (isCompleted) {
