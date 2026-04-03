@@ -3,6 +3,7 @@
 ## Problem
 
 You're seeing this error in the console:
+
 ```
 Error fetching results - Code: "PGRST205"
 Error fetching results - Message: "Could not find the table 'public.test_results' in the schema cache"
@@ -39,7 +40,7 @@ Copy **all the SQL code** from that file.
 1. Go to **SQL Editor** → **New Query**
 2. Run this verification query:
    ```sql
-   SELECT table_name FROM information_schema.tables 
+   SELECT table_name FROM information_schema.tables
    WHERE table_schema = 'public' AND table_name = 'test_results';
    ```
 3. You should see one row with `test_results` in the result
@@ -51,6 +52,7 @@ Copy **all the SQL code** from that file.
 The SQL script creates:
 
 ### 1. **test_results Table**
+
 ```
 - id: UUID (auto-generated)
 - user_id: UUID (links to auth.users)
@@ -61,11 +63,13 @@ The SQL script creates:
 ```
 
 ### 2. **Indexes** (for performance)
+
 - `user_id` - Fast lookups by user
 - `created_at` - Fast ordering by date
 - `test_type` - Fast filtering by test type
 
 ### 3. **Row Level Security (RLS) Policies**
+
 - Users can only see/modify **their own** test results
 - Automatically enforced by Supabase
 - No one can access another user's data
@@ -93,6 +97,7 @@ If you want to test with sample data:
    ```
 3. Copy that user ID
 4. Run this insert:
+
    ```sql
    INSERT INTO public.test_results (user_id, test_type, result)
    VALUES (
@@ -139,6 +144,7 @@ If you want to test with sample data:
 ### ❌ Still getting errors?
 
 Check the Supabase logs:
+
 1. Go to **Logs** in sidebar
 2. Click **API** tab
 3. Look for requests to `/rest/v1/test_results`
@@ -179,14 +185,14 @@ Once the table is created:
 
 ### test_results Table
 
-| Column | Type | Description |
-|--------|------|-------------|
-| `id` | UUID | Primary key |
-| `user_id` | UUID | Foreign key to auth.users |
-| `test_type` | VARCHAR(50) | Test identifier (test_1, test_2, etc.) |
-| `created_at` | TIMESTAMP | When result was created |
-| `updated_at` | TIMESTAMP | When result was last updated |
-| `result` | JSONB | Test result data (flexible JSON) |
+| Column       | Type        | Description                            |
+| ------------ | ----------- | -------------------------------------- |
+| `id`         | UUID        | Primary key                            |
+| `user_id`    | UUID        | Foreign key to auth.users              |
+| `test_type`  | VARCHAR(50) | Test identifier (test_1, test_2, etc.) |
+| `created_at` | TIMESTAMP   | When result was created                |
+| `updated_at` | TIMESTAMP   | When result was last updated           |
+| `result`     | JSONB       | Test result data (flexible JSON)       |
 
 ### Sample Result Data
 
@@ -205,15 +211,18 @@ Once the table is created:
 ## Security
 
 ✅ **Row Level Security (RLS) Enabled**
+
 - Each user can only access their own test results
 - Database enforces this at the query level
 - Impossible for users to access other users' data
 
 ✅ **Encrypted in Transit**
+
 - All data sent over HTTPS/SSL
 - Supabase provides automatic encryption
 
 ✅ **Encrypted at Rest** (Supabase Pro)
+
 - Data stored encrypted in PostgreSQL
 - Available with Professional plan
 

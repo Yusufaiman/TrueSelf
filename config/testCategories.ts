@@ -12,7 +12,17 @@ import {
   LucideIcon,
 } from "lucide-react";
 
-export type IconType = "user" | "users" | "briefcase" | "map" | "brain" | "heart" | "refresh" | "wallet" | "alert" | "zap";
+export type IconType =
+  | "user"
+  | "users"
+  | "briefcase"
+  | "map"
+  | "brain"
+  | "heart"
+  | "refresh"
+  | "wallet"
+  | "alert"
+  | "zap";
 
 export interface TestCategory {
   id: string;
@@ -20,7 +30,19 @@ export interface TestCategory {
   description: string;
   icon: IconType;
   colorClass: string;
-  color: "blue" | "purple" | "orange" | "red" | "pink" | "indigo" | "violet" | "cyan" | "rose" | "amber" | "green" | "gray";
+  color:
+    | "blue"
+    | "purple"
+    | "orange"
+    | "red"
+    | "pink"
+    | "indigo"
+    | "violet"
+    | "cyan"
+    | "rose"
+    | "amber"
+    | "green"
+    | "gray";
   href: string;
   tests: string[];
 }
@@ -164,19 +186,66 @@ export const TEST_CATEGORIES: TestCategory[] = [
 ];
 
 export const getColorClasses = (color: TestCategory["color"]) => {
-  const colorMap: Record<TestCategory["color"], { bg: string; text: string; border: string }> = {
-    blue: { bg: "bg-blue-50", text: "text-blue-600", border: "border-blue-200" },
-    purple: { bg: "bg-purple-50", text: "text-purple-600", border: "border-purple-200" },
-    orange: { bg: "bg-orange-50", text: "text-orange-600", border: "border-orange-200" },
+  const colorMap: Record<
+    TestCategory["color"],
+    { bg: string; text: string; border: string }
+  > = {
+    blue: {
+      bg: "bg-blue-50",
+      text: "text-blue-600",
+      border: "border-blue-200",
+    },
+    purple: {
+      bg: "bg-purple-50",
+      text: "text-purple-600",
+      border: "border-purple-200",
+    },
+    orange: {
+      bg: "bg-orange-50",
+      text: "text-orange-600",
+      border: "border-orange-200",
+    },
     red: { bg: "bg-red-50", text: "text-red-600", border: "border-red-200" },
-    pink: { bg: "bg-pink-50", text: "text-pink-600", border: "border-pink-200" },
-    indigo: { bg: "bg-indigo-50", text: "text-indigo-600", border: "border-indigo-200" },
-    violet: { bg: "bg-violet-50", text: "text-violet-600", border: "border-violet-200" },
-    cyan: { bg: "bg-cyan-50", text: "text-cyan-600", border: "border-cyan-200" },
-    rose: { bg: "bg-rose-50", text: "text-rose-600", border: "border-rose-200" },
-    amber: { bg: "bg-amber-50", text: "text-amber-600", border: "border-amber-200" },
-    green: { bg: "bg-green-50", text: "text-green-600", border: "border-green-200" },
-    gray: { bg: "bg-gray-50", text: "text-gray-600", border: "border-gray-200" },
+    pink: {
+      bg: "bg-pink-50",
+      text: "text-pink-600",
+      border: "border-pink-200",
+    },
+    indigo: {
+      bg: "bg-indigo-50",
+      text: "text-indigo-600",
+      border: "border-indigo-200",
+    },
+    violet: {
+      bg: "bg-violet-50",
+      text: "text-violet-600",
+      border: "border-violet-200",
+    },
+    cyan: {
+      bg: "bg-cyan-50",
+      text: "text-cyan-600",
+      border: "border-cyan-200",
+    },
+    rose: {
+      bg: "bg-rose-50",
+      text: "text-rose-600",
+      border: "border-rose-200",
+    },
+    amber: {
+      bg: "bg-amber-50",
+      text: "text-amber-600",
+      border: "border-amber-200",
+    },
+    green: {
+      bg: "bg-green-50",
+      text: "text-green-600",
+      border: "border-green-200",
+    },
+    gray: {
+      bg: "bg-gray-50",
+      text: "text-gray-600",
+      border: "border-gray-200",
+    },
   };
   return colorMap[color];
 };

@@ -230,7 +230,7 @@ export const Navbar: React.FC = () => {
                       onMouseLeave={() => setShowTestsMenu(false)}
                     >
                       {/* View All Tests Link */}
-                      <Link 
+                      <Link
                         href="/tests"
                         className="flex items-center gap-3 px-3 py-3 rounded-lg transition-all duration-150 cursor-pointer hover:bg-blue-50 group mb-2 border border-blue-200 bg-blue-50"
                       >

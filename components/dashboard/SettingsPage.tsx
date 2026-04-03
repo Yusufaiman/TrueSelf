@@ -63,7 +63,7 @@ export function SettingsPage() {
         setDisplayName(
           currentUser.user_metadata?.display_name ||
             currentUser.email?.split("@")[0] ||
-            ""
+            "",
         );
       } catch (err) {
         console.error("Error fetching user:", err);

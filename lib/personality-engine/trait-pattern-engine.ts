@@ -51,25 +51,29 @@ function getLevel(score: number): "high" | "medium" | "low" {
 }
 
 // Get top 2 traits
-function getTopTraits(
-  traits: TraitScores
-): [StrengthsTrait, StrengthsTrait] {
+function getTopTraits(traits: TraitScores): [StrengthsTrait, StrengthsTrait] {
   const sorted = Object.entries(traits)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 2)
     .map(([key]) => key as StrengthsTrait);
-  return [sorted[0], sorted[1] || sorted[0]] as [StrengthsTrait, StrengthsTrait];
+  return [sorted[0], sorted[1] || sorted[0]] as [
+    StrengthsTrait,
+    StrengthsTrait,
+  ];
 }
 
 // Get bottom 2 traits
 function getWeakestTraits(
-  traits: TraitScores
+  traits: TraitScores,
 ): [StrengthsTrait, StrengthsTrait | undefined] {
   const sorted = Object.entries(traits)
     .sort((a, b) => a[1] - b[1])
     .slice(0, 2)
     .map(([key]) => key as StrengthsTrait);
-  return [sorted[0], sorted[1] || sorted[0]] as [StrengthsTrait, StrengthsTrait | undefined];
+  return [sorted[0], sorted[1] || sorted[0]] as [
+    StrengthsTrait,
+    StrengthsTrait | undefined,
+  ];
 }
 
 // Format trait name for display
@@ -143,7 +147,9 @@ export function detectPattern(traits: TraitScores): string {
   }
 
   // Rule 7: Balanced but Unoptimized
-  const allMediumOrHigh = Object.values(traits).every((s) => s >= 50 && s <= 75);
+  const allMediumOrHigh = Object.values(traits).every(
+    (s) => s >= 50 && s <= 75,
+  );
   if (allMediumOrHigh) {
     return "Balanced but Unoptimized";
   }
@@ -204,7 +210,7 @@ export function getHiddenStrengths(traits: TraitScores): StrengthsTrait[] {
 // Generate core insight
 export function generateCoreInsight(
   strengths: StrengthsTrait[],
-  weaknesses: StrengthsTrait[]
+  weaknesses: StrengthsTrait[],
 ): string {
   if (strengths.length === 0 || weaknesses.length === 0) {
     return "Your profile reveals a distinctive balance of traits that shapes how you perform and interact with challenges.";
@@ -219,7 +225,7 @@ export function generateCoreInsight(
 // Generate what's really going on
 export function generateWhatIsReallyGoing(
   pattern: string,
-  strengths: StrengthsTrait[]
+  strengths: StrengthsTrait[],
 ): string {
   if (strengths.length === 0) {
     return "Your pattern reveals a profile that needs intentional development across multiple areas.";
@@ -231,25 +237,27 @@ export function generateWhatIsReallyGoing(
 // Generate how you perform
 export function generateHowYouPerform(
   strengths: StrengthsTrait[],
-  traits: TraitScores
+  traits: TraitScores,
 ): string[] {
   const result = [];
 
   if (strengths.length >= 2) {
     result.push(
-      `You perform best when leveraging your ${formatTraitName(strengths[0])} and ${formatTraitName(strengths[1])}.`
+      `You perform best when leveraging your ${formatTraitName(strengths[0])} and ${formatTraitName(strengths[1])}.`,
     );
   } else if (strengths.length === 1) {
-    result.push(`You perform best when using ${formatTraitName(strengths[0])}.`);
+    result.push(
+      `You perform best when using ${formatTraitName(strengths[0])}.`,
+    );
   } else {
     result.push("You have balanced performance across most situations.");
   }
 
   result.push(
-    "Your pattern shows consistent traits that define how you handle challenges."
+    "Your pattern shows consistent traits that define how you handle challenges.",
   );
   result.push(
-    "You perform optimally in environments that align with your natural strengths."
+    "You perform optimally in environments that align with your natural strengths.",
   );
 
   return result;
@@ -268,7 +276,7 @@ export function generateBlindSpots(weaknesses: StrengthsTrait[]): string[] {
     .slice(0, 2)
     .map(
       (trait) =>
-        `Your ${formatTraitName(trait)} may limit your performance if left unaddressed.`
+        `Your ${formatTraitName(trait)} may limit your performance if left unaddressed.`,
     );
 }
 
@@ -277,27 +285,31 @@ export function generateImportantInsights(
   pattern: string,
   strengths: StrengthsTrait[],
   weaknesses: StrengthsTrait[],
-  traits: TraitScores
+  traits: TraitScores,
 ): string[] {
   const insights: string[] = [];
 
   if (strengths.length > 0 && weaknesses.length > 0) {
     insights.push(
-      `Right now, your strength in ${formatTraitName(strengths[0])} is not fully balanced by ${formatTraitName(weaknesses[0])}.`
+      `Right now, your strength in ${formatTraitName(strengths[0])} is not fully balanced by ${formatTraitName(weaknesses[0])}.`,
     );
   }
 
   insights.push(
-    "Growth will come from improving your weaker areas without losing your strengths."
+    "Growth will come from improving your weaker areas without losing your strengths.",
   );
 
   // Specific pattern insights
   if (pattern.includes("High")) {
-    insights.push("Your high performance in some areas can mask development needs.");
+    insights.push(
+      "Your high performance in some areas can mask development needs.",
+    );
   }
 
   if (pattern.includes("Low")) {
-    insights.push("Begin by focusing on one low area rather than trying to improve all at once.");
+    insights.push(
+      "Begin by focusing on one low area rather than trying to improve all at once.",
+    );
   }
 
   return insights;
@@ -306,27 +318,29 @@ export function generateImportantInsights(
 // Generate what to start doing
 export function generateWhatToStartDoing(
   weaknesses: StrengthsTrait[],
-  hidden: StrengthsTrait[]
+  hidden: StrengthsTrait[],
 ): string[] {
   const actions: string[] = [];
 
   if (weaknesses.length > 0) {
     actions.push(
-      `Focus on improving your ${formatTraitName(weaknesses[0])} through small daily actions.`
+      `Focus on improving your ${formatTraitName(weaknesses[0])} through small daily actions.`,
     );
   }
 
   if (weaknesses.length > 1) {
     actions.push(
-      `Be aware of how your ${formatTraitName(weaknesses[0])} affects your decisions.`
+      `Be aware of how your ${formatTraitName(weaknesses[0])} affects your decisions.`,
     );
   }
 
-  actions.push("Practice balancing your natural strengths with intentional growth.");
+  actions.push(
+    "Practice balancing your natural strengths with intentional growth.",
+  );
 
   if (hidden.length > 0) {
     actions.push(
-      `Develop your emerging strength in ${formatTraitName(hidden[0])}.`
+      `Develop your emerging strength in ${formatTraitName(hidden[0])}.`,
     );
   }
 
@@ -432,10 +446,10 @@ export function buildTraitPattern(traits: TraitScores): TraitPatternResult {
   return {
     pattern,
     strengths: strengthTraits.map(
-      (trait) => TRAIT_DESCRIPTIONS[trait].strength
+      (trait) => TRAIT_DESCRIPTIONS[trait].strength,
     ),
     weaknesses: weaknessTraits.map(
-      (trait) => TRAIT_DESCRIPTIONS[trait].weakness
+      (trait) => TRAIT_DESCRIPTIONS[trait].weakness,
     ),
     hiddenStrengths: hiddenTraits.map((trait) => formatTraitName(trait)),
     insight: generateCoreInsight(strengthTraits, weaknessTraits),
@@ -446,7 +460,7 @@ export function buildTraitPattern(traits: TraitScores): TraitPatternResult {
       pattern,
       strengthTraits,
       weaknessTraits,
-      traits
+      traits,
     ),
     whatToStartDoing: generateWhatToStartDoing(weaknessTraits, hiddenTraits),
     identityResonance: getResonatingIdentities(traits),

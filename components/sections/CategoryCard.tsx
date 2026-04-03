@@ -3,7 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { TestCategory, getColorClasses, getIcon } from "@/config/testCategories";
+import {
+  TestCategory,
+  getColorClasses,
+  getIcon,
+} from "@/config/testCategories";
 
 interface CategoryCardProps {
   category: TestCategory;
@@ -17,7 +21,9 @@ export function CategoryCard({ category }: CategoryCardProps) {
     <Link href={category.href}>
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 hover:scale-105 cursor-pointer h-full flex flex-col">
         {/* Gradient Header */}
-        <div className={`bg-gradient-to-r ${category.colorClass} h-24 flex items-center justify-center`}>
+        <div
+          className={`bg-gradient-to-r ${category.colorClass} h-24 flex items-center justify-center`}
+        >
           <IconComponent size={28} className="text-white" />
         </div>
 
@@ -42,7 +48,9 @@ export function CategoryCard({ category }: CategoryCardProps) {
                     key={idx}
                     className="text-xs text-slate-600 flex items-center gap-2"
                   >
-                    <div className={`w-1.5 h-1.5 rounded-full ${colorClasses.bg}`}></div>
+                    <div
+                      className={`w-1.5 h-1.5 rounded-full ${colorClasses.bg}`}
+                    ></div>
                     {test}
                   </div>
                 ))}
@@ -51,7 +59,9 @@ export function CategoryCard({ category }: CategoryCardProps) {
           )}
 
           {/* Button */}
-          <div className={`inline-flex items-center gap-2 font-semibold ${colorClasses.text} hover:gap-3 transition-all duration-200`}>
+          <div
+            className={`inline-flex items-center gap-2 font-semibold ${colorClasses.text} hover:gap-3 transition-all duration-200`}
+          >
             Explore Category
             <ArrowRight size={16} />
           </div>

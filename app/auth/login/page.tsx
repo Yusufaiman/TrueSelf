@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -30,9 +30,9 @@ export default function LoginPage() {
         return;
       }
 
-      router.push('/tests');
+      router.push("/tests");
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError("An unexpected error occurred");
       setLoading(false);
     }
   };
@@ -42,7 +42,9 @@ export default function LoginPage() {
       <div className="max-w-md w-full bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-slate-900 mb-2">Welcome back</h1>
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">
+            Welcome back
+          </h1>
           <p className="text-sm text-slate-600">
             Log in to continue with TrueSelf
           </p>
@@ -59,7 +61,10 @@ export default function LoginPage() {
         <form onSubmit={handleLogin} className="space-y-4">
           {/* Email Input */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-900 mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-slate-900 mb-2"
+            >
               Email
             </label>
             <input
@@ -75,7 +80,10 @@ export default function LoginPage() {
 
           {/* Password Input */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-slate-900 mb-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-slate-900 mb-2"
+            >
               Password
             </label>
             <input
@@ -95,15 +103,18 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02]"
           >
-            {loading ? 'Logging in...' : 'Log in'}
+            {loading ? "Logging in..." : "Log in"}
           </button>
         </form>
 
         {/* Signup Link */}
         <div className="mt-6 text-center">
           <p className="text-sm text-slate-600">
-            Don't have an account?{' '}
-            <Link href="/auth/signup" className="text-blue-600 hover:text-blue-700 font-medium">
+            Don't have an account?{" "}
+            <Link
+              href="/auth/signup"
+              className="text-blue-600 hover:text-blue-700 font-medium"
+            >
               Sign up
             </Link>
           </p>

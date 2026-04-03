@@ -15,7 +15,9 @@ export default function TestsPage() {
               Explore All Tests
             </h1>
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              Discover different aspects of yourself across identity, behavior, mindset, and life patterns. Each test takes just a few minutes and provides personalized insights.
+              Discover different aspects of yourself across identity, behavior,
+              mindset, and life patterns. Each test takes just a few minutes and
+              provides personalized insights.
             </p>
           </div>
 
@@ -37,7 +39,8 @@ export default function TestsPage() {
                 Start Your Self-Discovery Journey
               </h2>
               <p className="text-lg text-slate-600 mb-8">
-                Take any test above to unlock personalized insights about yourself. No sign-up required to get started.
+                Take any test above to unlock personalized insights about
+                yourself. No sign-up required to get started.
               </p>
               <p className="text-sm text-slate-500">
                 💡 Tip: Start with the Identity test if you're new to TrueSelf

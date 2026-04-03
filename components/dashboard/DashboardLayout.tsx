@@ -98,7 +98,10 @@ export function DashboardLayout({ page, children }: DashboardLayoutProps) {
           >
             {showMobileSidebar ? <X size={24} /> : <Menu size={24} />}
           </button>
-          <Link href="/" className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition"
+          >
             <ArrowLeft size={18} />
             <span className="text-sm">Back</span>
           </Link>

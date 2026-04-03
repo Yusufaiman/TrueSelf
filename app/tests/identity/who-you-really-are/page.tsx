@@ -193,7 +193,7 @@ export default function WhoYouReallyArePage() {
 
   // Save result when completed (background, non-blocking)
   useEffect(() => {
-    if (isCompleted && answers.some(a => a !== null)) {
+    if (isCompleted && answers.some((a) => a !== null)) {
       const saveAsync = async () => {
         const responses: Record<number, number> = {};
         answers.forEach((answer, idx) => {
@@ -205,13 +205,13 @@ export default function WhoYouReallyArePage() {
         const scores = calculateDimensionScores(responses);
         const identityType = identifyType(scores);
         const result = getCompleteResult(scores);
-        
+
         // Save in background, don't block UI
-        await saveTestResult('test_1', scores, result);
+        await saveTestResult("test_1", scores, result);
       };
 
-      saveAsync().catch(err => {
-        console.error('Failed to save result:', err);
+      saveAsync().catch((err) => {
+        console.error("Failed to save result:", err);
         // Silently fail - user experience not affected
       });
     }

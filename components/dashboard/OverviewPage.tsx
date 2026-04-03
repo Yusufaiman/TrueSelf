@@ -6,12 +6,7 @@ import {
   getUserResults,
 } from "@/utils/supabase/client-results";
 import { getClientUser } from "@/utils/supabase/client-auth";
-import {
-  TrendingUp,
-  Calendar,
-  Zap,
-  Target,
-} from "lucide-react";
+import { TrendingUp, Calendar, Zap, Target } from "lucide-react";
 
 interface TestResult {
   id: string;
@@ -22,7 +17,9 @@ interface TestResult {
 
 export function OverviewPage() {
   const [user, setUser] = useState<any>(null);
-  const [latestResults, setLatestResults] = useState<Record<string, TestResult>>({});
+  const [latestResults, setLatestResults] = useState<
+    Record<string, TestResult>
+  >({});
   const [allResults, setAllResults] = useState<TestResult[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -62,7 +59,12 @@ export function OverviewPage() {
         const latest = await getLatestResults();
         const allRes = await getUserResults();
 
-        console.log("Data fetched - latest:", Object.keys(latest).length, "all:", allRes.length);
+        console.log(
+          "Data fetched - latest:",
+          Object.keys(latest).length,
+          "all:",
+          allRes.length,
+        );
         setLatestResults(latest);
         setAllResults(allRes);
       } catch (err) {
@@ -90,11 +92,17 @@ export function OverviewPage() {
     yesterday.setDate(yesterday.getDate() - 1);
 
     if (date.toDateString() === today.toDateString()) {
-      return date.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+      return date.toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+      });
     } else if (date.toDateString() === yesterday.toDateString()) {
       return "Yesterday";
     } else {
-      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      });
     }
   };
 
@@ -124,7 +132,9 @@ export function OverviewPage() {
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-200">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <p className="text-slate-600 text-sm font-medium">Total Tests Taken</p>
+              <p className="text-slate-600 text-sm font-medium">
+                Total Tests Taken
+              </p>
               <p className="text-3xl font-bold text-slate-900 mt-2">
                 {allResults.length}
               </p>
@@ -134,7 +144,8 @@ export function OverviewPage() {
             </div>
           </div>
           <p className="text-xs text-slate-500">
-            You've completed {allResults.length} test{allResults.length !== 1 ? "s" : ""}
+            You've completed {allResults.length} test
+            {allResults.length !== 1 ? "s" : ""}
           </p>
         </div>
 
@@ -169,7 +180,7 @@ export function OverviewPage() {
                 {Object.values(latestResults).length > 0
                   ? getResultTitle(
                       Object.keys(latestResults)[0],
-                      Object.values(latestResults)[0].result
+                      Object.values(latestResults)[0].result,
                     )
                   : "—"}
               </p>
@@ -184,13 +195,21 @@ export function OverviewPage() {
 
       {/* Latest Results Cards */}
       <div>
-        <h2 className="text-2xl font-semibold text-slate-900 mb-6">Your Latest Results</h2>
+        <h2 className="text-2xl font-semibold text-slate-900 mb-6">
+          Your Latest Results
+        </h2>
 
-        {Object.keys(testNames).length === 0 || Object.keys(latestResults).length === 0 ? (
+        {Object.keys(testNames).length === 0 ||
+        Object.keys(latestResults).length === 0 ? (
           <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-16 flex flex-col items-center justify-center">
             <div className="text-5xl mb-4">🧠</div>
-            <p className="text-lg text-slate-700 font-medium mb-2">No insights yet</p>
-            <p className="text-slate-500 text-center mb-8 max-w-sm">Start your first test to unlock your personalized profile and discover insights about yourself.</p>
+            <p className="text-lg text-slate-700 font-medium mb-2">
+              No insights yet
+            </p>
+            <p className="text-slate-500 text-center mb-8 max-w-sm">
+              Start your first test to unlock your personalized profile and
+              discover insights about yourself.
+            </p>
             <a
               href="/tests"
               className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"

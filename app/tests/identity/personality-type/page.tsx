@@ -705,11 +705,11 @@ export default function PersonalityTypeTest() {
         };
 
         // Save in background, don't block UI
-        await saveTestResult('test_2', scores, result);
+        await saveTestResult("test_2", scores, result);
       };
 
-      saveAsync().catch(err => {
-        console.error('Failed to save result:', err);
+      saveAsync().catch((err) => {
+        console.error("Failed to save result:", err);
         // Silently fail - user experience not affected
       });
     }

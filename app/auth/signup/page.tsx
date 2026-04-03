@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
-import { CheckCircle2 } from 'lucide-react';
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+import { CheckCircle2 } from "lucide-react";
 
 export default function SignupPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -33,13 +33,13 @@ export default function SignupPage() {
       }
 
       setSuccess(true);
-      
+
       // Small delay before redirect to show success state
       setTimeout(() => {
-        router.push('/tests');
+        router.push("/tests");
       }, 1500);
     } catch (err) {
-      setError('An unexpected error occurred');
+      setError("An unexpected error occurred");
       setLoading(false);
     }
   };
@@ -53,7 +53,9 @@ export default function SignupPage() {
               <CheckCircle2 size={32} className="text-emerald-600" />
             </div>
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 mb-2">Account created!</h1>
+          <h1 className="text-2xl font-bold text-slate-900 mb-2">
+            Account created!
+          </h1>
           <p className="text-slate-600 mb-6">
             Welcome to TrueSelf. Redirecting you to get started...
           </p>
@@ -84,7 +86,10 @@ export default function SignupPage() {
         <form onSubmit={handleSignup} className="space-y-4">
           {/* Email Input */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-900 mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-slate-900 mb-2"
+            >
               Email
             </label>
             <input
@@ -100,7 +105,10 @@ export default function SignupPage() {
 
           {/* Password Input */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-slate-900 mb-2">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-slate-900 mb-2"
+            >
               Password
             </label>
             <input
@@ -120,15 +128,18 @@ export default function SignupPage() {
             disabled={loading}
             className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:scale-[1.02]"
           >
-            {loading ? 'Creating account...' : 'Sign up'}
+            {loading ? "Creating account..." : "Sign up"}
           </button>
         </form>
 
         {/* Login Link */}
         <div className="mt-6 text-center">
           <p className="text-sm text-slate-600">
-            Already have an account?{' '}
-            <Link href="/auth/login" className="text-blue-600 hover:text-blue-700 font-medium">
+            Already have an account?{" "}
+            <Link
+              href="/auth/login"
+              className="text-blue-600 hover:text-blue-700 font-medium"
+            >
               Log in
             </Link>
           </p>

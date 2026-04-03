@@ -85,9 +85,7 @@ export function MyResultsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-4xl font-bold text-slate-900 mb-2">My Results</h1>
-        <p className="text-slate-600">
-          All your test results in one place
-        </p>
+        <p className="text-slate-600">All your test results in one place</p>
       </div>
 
       {results.length === 0 ? (

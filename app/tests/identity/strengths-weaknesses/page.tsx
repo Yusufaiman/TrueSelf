@@ -198,7 +198,7 @@ export default function StrengthsWeaknessesPage() {
 
   // Save result when completed (background, non-blocking)
   useEffect(() => {
-    if (isCompleted && answers.some(a => a !== null)) {
+    if (isCompleted && answers.some((a) => a !== null)) {
       const saveAsync = async () => {
         const responses: Record<number, AnswerValue> = {};
         answers.forEach((answer, idx) => {
@@ -208,13 +208,13 @@ export default function StrengthsWeaknessesPage() {
         });
 
         const result = calculateStrengthsWeaknessesResult(responses);
-        
+
         // Save in background, don't block UI
-        await saveTestResult('test_4', result.traits, result);
+        await saveTestResult("test_4", result.traits, result);
       };
 
-      saveAsync().catch(err => {
-        console.error('Failed to save result:', err);
+      saveAsync().catch((err) => {
+        console.error("Failed to save result:", err);
         // Silently fail - user experience not affected
       });
     }
@@ -481,9 +481,9 @@ export default function StrengthsWeaknessesPage() {
                     },
                   };
 
-                  const colors = (
-                    colorMap[identity as keyof typeof colorMap] || colorMap["the-anchored"]
-                  );
+                  const colors =
+                    colorMap[identity as keyof typeof colorMap] ||
+                    colorMap["the-anchored"];
 
                   const displayName = identity
                     .split("-")
@@ -504,23 +504,24 @@ export default function StrengthsWeaknessesPage() {
           )}
 
           {/* Related Personality Types */}
-          {result.relatedPersonalities && result.relatedPersonalities.length > 0 && (
-            <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-8">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">
-                Related personality types:
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {result.relatedPersonalities.map((personality, idx) => (
-                  <span
-                    key={idx}
-                    className="inline-block px-4 py-2 rounded-full border border-slate-300 bg-slate-50 text-slate-700 text-sm font-medium"
-                  >
-                    {personality}
-                  </span>
-                ))}
+          {result.relatedPersonalities &&
+            result.relatedPersonalities.length > 0 && (
+              <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-8">
+                <h3 className="text-lg font-semibold text-slate-900 mb-4">
+                  Related personality types:
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  {result.relatedPersonalities.map((personality, idx) => (
+                    <span
+                      key={idx}
+                      className="inline-block px-4 py-2 rounded-full border border-slate-300 bg-slate-50 text-slate-700 text-sm font-medium"
+                    >
+                      {personality}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {/* CTA Card */}
           <div className="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 text-center">

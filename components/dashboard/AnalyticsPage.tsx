@@ -68,9 +68,7 @@ export function AnalyticsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-4xl font-bold text-slate-900 mb-2">Analytics</h1>
-        <p className="text-slate-600">
-          Insights from your test performance
-        </p>
+        <p className="text-slate-600">Insights from your test performance</p>
       </div>
 
       {/* Test Frequency */}
@@ -106,7 +104,7 @@ export function AnalyticsPage() {
             {Object.entries(frequency).length > 0
               ? testNames[
                   Object.entries(frequency).sort(
-                    ([, a], [, b]) => b - a
+                    ([, a], [, b]) => b - a,
                   )[0]?.[0] || "test_1"
                 ]
               : "—"}
@@ -119,7 +117,9 @@ export function AnalyticsPage() {
         <div className="bg-white border border-slate-200 rounded-2xl p-6">
           <div className="flex items-center gap-3 mb-4">
             <TrendingUp size={24} className="text-purple-600" />
-            <h3 className="text-lg font-bold text-slate-900">Total Engagement</h3>
+            <h3 className="text-lg font-bold text-slate-900">
+              Total Engagement
+            </h3>
           </div>
           <p className="text-2xl font-bold text-slate-900">{results.length}</p>
           <p className="text-sm text-slate-600 mt-2">

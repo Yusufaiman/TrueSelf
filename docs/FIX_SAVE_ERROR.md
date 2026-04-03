@@ -3,6 +3,7 @@
 ## Problem
 
 You're seeing this error when trying to save a test result:
+
 ```
 Error saving test result: {}
 ```
@@ -12,6 +13,7 @@ There are two potential causes:
 ### ❌ **Cause 1: Missing `scores` Column** (Most Likely)
 
 The application code tries to save:
+
 ```javascript
 {
   user_id: user.id,
@@ -69,6 +71,7 @@ Now run the updated `DATABASE_SETUP.sql` which includes the `scores` column:
 ### Updated Table Schema
 
 **Before:**
+
 ```sql
 CREATE TABLE public.test_results (
   id UUID PRIMARY KEY,
@@ -81,6 +84,7 @@ CREATE TABLE public.test_results (
 ```
 
 **After:**
+
 ```sql
 CREATE TABLE public.test_results (
   id UUID PRIMARY KEY,
@@ -102,6 +106,7 @@ The `scores` column now exists and can store the test scoring data.
 ### ❌ "Table already exists" Error
 
 Solution: Run this first to drop the old table:
+
 ```sql
 DROP TABLE IF EXISTS public.test_results;
 ```
@@ -118,23 +123,25 @@ Then run the full DATABASE_SETUP.sql again.
    - Start: `npm run dev`
 
 3. **Verify the table exists:**
+
    ```sql
-   SELECT table_name FROM information_schema.tables 
+   SELECT table_name FROM information_schema.tables
    WHERE table_schema = 'public' AND table_name = 'test_results';
    ```
 
 4. **Check the columns:**
    ```sql
-   SELECT column_name, data_type 
-   FROM information_schema.columns 
+   SELECT column_name, data_type
+   FROM information_schema.columns
    WHERE table_name = 'test_results';
    ```
 
 You should see:
+
 - id (uuid)
 - user_id (uuid)
 - test_type (character varying)
-- scores (jsonb)          ← ✅ Must exist!
+- scores (jsonb) ← ✅ Must exist!
 - result (jsonb)
 - created_at (timestamp with time zone)
 - updated_at (timestamp with time zone)
@@ -142,6 +149,7 @@ You should see:
 ### ❌ "Permission denied" Error
 
 Check RLS policies are enabled:
+
 1. Supabase Dashboard → **Authentication** → **Policies**
 2. You should see 4 policies for `test_results`:
    - Users can view their own test results
@@ -169,11 +177,11 @@ After this fix, here's what happens:
 
 ## Summary
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
+| Issue                          | Cause                   | Solution                                        |
+| ------------------------------ | ----------------------- | ----------------------------------------------- |
 | "Error saving test result: {}" | Missing `scores` column | Drop old table + run updated DATABASE_SETUP.sql |
-| Table doesn't exist | Never ran setup | Run DATABASE_SETUP.sql from `docs/` folder |
-| RLS permission errors | Policies not enabled | Run DATABASE_SETUP.sql (creates policies) |
+| Table doesn't exist            | Never ran setup         | Run DATABASE_SETUP.sql from `docs/` folder      |
+| RLS permission errors          | Policies not enabled    | Run DATABASE_SETUP.sql (creates policies)       |
 
 **One setup = All problems fixed!** ✅
 

@@ -173,7 +173,7 @@ export default function WhatDrivesYouPage() {
 
   // Save result when completed (background, non-blocking)
   useEffect(() => {
-    if (isCompleted && answers.some(a => a !== null)) {
+    if (isCompleted && answers.some((a) => a !== null)) {
       const saveAsync = async () => {
         const responses: Record<number, AnswerValue> = {};
         answers.forEach((answer, idx) => {
@@ -183,13 +183,13 @@ export default function WhatDrivesYouPage() {
         });
 
         const result = calculateDriverResult(responses);
-        
+
         // Save in background, don't block UI
-        await saveTestResult('test_3', result.drivers, result);
+        await saveTestResult("test_3", result.drivers, result);
       };
 
-      saveAsync().catch(err => {
-        console.error('Failed to save result:', err);
+      saveAsync().catch((err) => {
+        console.error("Failed to save result:", err);
         // Silently fail - user experience not affected
       });
     }
