@@ -1,11 +1,71 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import { useRouter } from "next/navigation";
+import { getClientUser } from "@/utils/supabase/client-auth";
+import { STRIPE_PRICES } from "@/lib/stripe-config";
 
 export default function PricingPage() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleCheckout = async (planName: string) => {
+    try {
+      setIsLoading(planName);
+      setError(null);
+
+      // Check if user is logged in
+      const user = await getClientUser();
+      if (!user) {
+        router.push(`/auth/signup?plan=${planName.toLowerCase()}`);
+        return;
+      }
+
+      // Determine price ID based on plan
+      const priceId = planName === "Monthly" ? STRIPE_PRICES.MONTHLY : STRIPE_PRICES.YEARLY;
+      
+      if (!priceId) {
+        setError("Stripe is not configured. Contact support or try again later.");
+        return;
+      }
+
+      // Create checkout session
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          priceId,
+          userId: user.id,
+          email: user.email,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to create checkout session");
+      }
+
+      const { url } = await res.json();
+
+      if (url) {
+        window.location.href = url;
+      } else {
+        setError("Failed to create checkout session");
+      }
+    } catch (err: any) {
+      console.error("Checkout error:", err);
+      setError(err.message || "Failed to process checkout");
+    } finally {
+      setIsLoading(null);
+    }
+  };
+
   const plans = [
     {
       name: "Monthly",
@@ -120,20 +180,19 @@ export default function PricingPage() {
                 </div>
 
                 {/* CTA Button */}
-                <Link
-                  href="/tests/identity/who-you-really-are"
-                  className="block mb-3"
+                <button
+                  onClick={() => handleCheckout(plan.name)}
+                  disabled={isLoading !== null}
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-200 block mb-3 ${
+                    isLoading === plan.name ? "opacity-75 cursor-not-allowed" : ""
+                  } ${
+                    plan.highlighted
+                      ? "bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white"
+                      : "bg-slate-100 hover:bg-slate-200 text-dark-grey"
+                  }`}
                 >
-                  <button
-                    className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-200 ${
-                      plan.highlighted
-                        ? "bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white"
-                        : "bg-slate-100 hover:bg-slate-200 text-dark-grey"
-                    }`}
-                  >
-                    {plan.cta}
-                  </button>
-                </Link>
+                  {isLoading === plan.name ? "Processing..." : plan.cta}
+                </button>
 
                 {/* Microcopy */}
                 <p className="text-xs text-soft-grey text-center">
@@ -164,6 +223,13 @@ export default function PricingPage() {
             </div>
           ))}
         </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mt-8 max-w-4xl mx-auto p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-sm text-red-700">{error}</p>
+          </div>
+        )}
 
         {/* FAQ Section */}
         <div className="mt-24 max-w-3xl mx-auto">

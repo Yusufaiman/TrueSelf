@@ -9,6 +9,7 @@ Your Stripe webhook integration is ready. Here's how to test it locally.
 Choose one of these methods:
 
 **Method A: Direct Download (Easiest)**
+
 1. Download: https://github.com/stripe/stripe-cli/releases/latest (Windows AMD64 `.zip`)
 2. Extract to folder (e.g., `C:\stripe-cli`)
 3. Add to PATH:
@@ -17,11 +18,13 @@ Choose one of these methods:
    - Restart PowerShell
 
 **Method B: Scoop (if you have it)**
+
 ```powershell
 scoop install stripe
 ```
 
 **Method C: Chocolatey (if you have it)**
+
 ```powershell
 choco install stripe
 ```
@@ -31,11 +34,13 @@ choco install stripe
 Once installed:
 
 **Terminal 1 - Start your dev server:**
+
 ```bash
 npm run dev
 ```
 
 **Terminal 2 - Forward webhook events:**
+
 ```bash
 stripe listen --forward-to localhost:3000/api/webhook
 ```
@@ -43,11 +48,13 @@ stripe listen --forward-to localhost:3000/api/webhook
 (Or use your API key if needed: `stripe login --api-key YOUR_STRIPE_SECRET_KEY`)
 
 **Expected output:**
+
 ```
 > Ready! Your webhook signing secret is: whsec_xxxxxxxxxxxxxx
 ```
 
 **Copy this signing secret** → Add to `.env.local`:
+
 ```
 STRIPE_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxx
 ```
@@ -57,6 +64,7 @@ STRIPE_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxx
 **Terminal 3 - Trigger a test event:**
 
 While webhook listener is running, go to:
+
 - Browser: http://localhost:3000/pricing
 - Click "Get Started - Monthly"
 - Use test card: **4242 4242 4242 4242**
@@ -65,16 +73,19 @@ While webhook listener is running, go to:
 - Complete payment
 
 **You should see in Terminal 2:**
+
 ```
 2026-04-05 10:30:45   → checkout.session.completed
 ```
 
 **Check Supabase:**
+
 ```sql
 SELECT * FROM subscriptions WHERE user_id = 'YOUR_USER_ID' ORDER BY created_at DESC LIMIT 1;
 ```
 
 Should show:
+
 - `status: 'active'` ✅
 - `plan: 'monthly'` ✅
 - `stripe_subscription_id: sub_...` ✅
@@ -145,6 +156,7 @@ Run: `node test-webhook.js`
 Your webhook handler expects these events:
 
 ### 1. checkout.session.completed
+
 ```json
 {
   "type": "checkout.session.completed",
@@ -158,9 +170,11 @@ Your webhook handler expects these events:
   }
 }
 ```
+
 → Creates subscription in Supabase with `status: 'active'`
 
 ### 2. invoice.payment_failed
+
 ```json
 {
   "type": "invoice.payment_failed",
@@ -172,9 +186,11 @@ Your webhook handler expects these events:
   }
 }
 ```
+
 → Updates subscription to `status: 'past_due'`
 
 ### 3. customer.subscription.deleted
+
 ```json
 {
   "type": "customer.subscription.deleted",
@@ -185,9 +201,11 @@ Your webhook handler expects these events:
   }
 }
 ```
+
 → Updates subscription to `status: 'cancelled'`
 
 ### 4. customer.subscription.updated
+
 ```json
 {
   "type": "customer.subscription.updated",
@@ -204,11 +222,13 @@ Your webhook handler expects these events:
   }
 }
 ```
+
 → Syncs all subscription details in Supabase
 
 ## Troubleshooting
 
 ### Webhook not firing?
+
 - [ ] Check Stripe Dashboard → Developers → Webhooks → Recent deliveries
 - [ ] Verify webhook URL is correct
 - [ ] Check `.env.local` has `STRIPE_WEBHOOK_SECRET`
@@ -216,6 +236,7 @@ Your webhook handler expects these events:
 - [ ] Check application logs for errors
 
 ### "Payment failed" after checkout?
+
 - [ ] Verify you added both price IDs to `.env.local`:
   - `NEXT_PUBLIC_STRIPE_PRICE_ID_MONTHLY`
   - `NEXT_PUBLIC_STRIPE_PRICE_ID_YEARLY`
@@ -223,12 +244,14 @@ Your webhook handler expects these events:
 - [ ] Verify Stripe keys haven't expired
 
 ### Subscription not saving to Supabase?
+
 - [ ] Check Supabase subscriptions table exists
 - [ ] Verify RLS policies are correct (see SUBSCRIPTIONS_TABLE_MIGRATION.sql)
 - [ ] Check `SUPABASE_SERVICE_ROLE_KEY` is valid
 - [ ] View Supabase logs for SQL errors
 
 ### 401 Unauthorized from Stripe?
+
 - [ ] Verify `STRIPE_SECRET_KEY` in `.env.local`
 - [ ] Check API key hasn't been revoked in Stripe Dashboard
 - [ ] Restart dev server after env var changes

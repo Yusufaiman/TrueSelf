@@ -1,9 +1,12 @@
-import { stripe } from "@/lib/stripe";
+import { getStripeClient } from "@/lib/stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 export async function POST(req: Request) {
+  // Initialize Stripe client
+  const stripe = getStripeClient();
+
   // Initialize Supabase client with service role (allows bypass of RLS)
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
