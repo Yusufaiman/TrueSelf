@@ -1,140 +1,90 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { getUserResults } from "@/utils/supabase/client-results";
-import { BarChart3, TrendingUp } from "lucide-react";
+import { TrendingUp } from "lucide-react";
+import { useGlobalProfile } from "@/hooks/useGlobalProfile";
+import { useUser } from "@/hooks/useUser";
+import { GlobalSpiderChartExpanded } from "./GlobalSpiderChartExpanded";
+import { CategoryBreakdownAnalytics } from "./CategoryBreakdownAnalytics";
+import { ContradictionDetector } from "./ContradictionDetector";
+import { BehaviorProfile } from "./BehaviorProfile";
+import { GlobalBlindSpots } from "./GlobalBlindSpots";
 
-interface TestResult {
-  id: string;
-  test_type: string;
-  created_at: string;
-  result: any;
-  scores?: Record<string, number>;
-}
-
+/**
+ * Analytics page - Deep dive into global profile
+ */
 export function AnalyticsPage() {
-  const [results, setResults] = useState<TestResult[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { user } = useUser();
+  const { profile, loading } = useGlobalProfile(user?.id);
 
-  const testNames: Record<string, string> = {
-    test_1: "Identity Profile",
-    test_2: "Personality Type",
-    test_3: "Life Drivers",
-    test_4: "Strengths & Weaknesses",
-  };
-
-  useEffect(() => {
-    const fetchResults = async () => {
-      try {
-        console.log("Fetching results for Analytics...");
-        const allResults = await getUserResults();
-        console.log("Fetched:", allResults.length, "results");
-        setResults(allResults);
-      } catch (err) {
-        console.error("Error fetching results:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchResults();
-  }, []);
-
-  const getTestFrequency = () => {
-    const frequency: Record<string, number> = {};
-    results.forEach((result) => {
-      frequency[result.test_type] = (frequency[result.test_type] || 0) + 1;
-    });
-    return frequency;
-  };
-
-  const getAverageScores = () => {
-    if (results.length === 0) return {};
-    // This is a simplified version - in production you'd aggregate scores properly
-    return {};
-  };
-
-  const frequency = getTestFrequency();
-
-  if (isLoading) {
+  if (loading) {
     return (
-      <div className="flex justify-center">
+      <div className="flex justify-center py-12">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
       </div>
     );
   }
 
+  if (!profile) {
+    return (
+      <div className="space-y-8 animate-fade-in">
+        <div>
+          <h1 className="text-4xl font-bold text-slate-900 mb-2">Analytics</h1>
+          <p className="text-slate-600">
+            Deep insights from your psychological profile
+          </p>
+        </div>
+
+        <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-16 flex flex-col items-center justify-center">
+          <TrendingUp className="w-12 h-12 text-slate-400 mb-4" />
+          <p className="text-lg text-slate-700 font-medium mb-2">
+            No analytics yet
+          </p>
+          <p className="text-slate-500 text-center mb-8 max-w-sm">
+            Take more tests to unlock detailed analytics and deeper insights
+            about your patterns
+          </p>
+          <a
+            href="/tests"
+            className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
+          >
+            Take More Tests
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-12 animate-fade-in">
+      {/* Page Header */}
       <div>
         <h1 className="text-4xl font-bold text-slate-900 mb-2">Analytics</h1>
-        <p className="text-slate-600">Insights from your test performance</p>
-      </div>
-
-      {/* Test Frequency */}
-      <div className="bg-white border border-slate-200 rounded-2xl p-8">
-        <div className="flex items-center gap-3 mb-6">
-          <BarChart3 size={24} className="text-blue-600" />
-          <h2 className="text-2xl font-bold text-slate-900">Test Frequency</h2>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {Object.entries(testNames).map(([testType, testName]) => (
-            <div
-              key={testType}
-              className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center"
-            >
-              <div className="text-2xl font-bold text-blue-600">
-                {frequency[testType] || 0}
-              </div>
-              <div className="text-sm text-slate-600 mt-2">{testName}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white border border-slate-200 rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <TrendingUp size={24} className="text-green-600" />
-            <h3 className="text-lg font-bold text-slate-900">Most Attempted</h3>
-          </div>
-          <p className="text-2xl font-bold text-slate-900">
-            {Object.entries(frequency).length > 0
-              ? testNames[
-                  Object.entries(frequency).sort(
-                    ([, a], [, b]) => b - a,
-                  )[0]?.[0] || "test_1"
-                ]
-              : "—"}
-          </p>
-          <p className="text-sm text-slate-600 mt-2">
-            You've engaged most with this test category
-          </p>
-        </div>
-
-        <div className="bg-white border border-slate-200 rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <TrendingUp size={24} className="text-purple-600" />
-            <h3 className="text-lg font-bold text-slate-900">
-              Total Engagement
-            </h3>
-          </div>
-          <p className="text-2xl font-bold text-slate-900">{results.length}</p>
-          <p className="text-sm text-slate-600 mt-2">
-            Total number of tests completed
-          </p>
-        </div>
-      </div>
-
-      {/* Note */}
-      <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
-        <p className="text-slate-700">
-          💡 <strong>Tip:</strong> Keep taking tests to unlock more detailed
-          analytics and insights about your patterns!
+        <p className="text-slate-600">
+          Deep insights from your unified psychological profile
         </p>
       </div>
+
+      {/* Global Spider Chart */}
+      <GlobalSpiderChartExpanded profile={profile} />
+
+      {/* Category Breakdown */}
+      <CategoryBreakdownAnalytics profile={profile} />
+
+      {/* Behavior Profile */}
+      <BehaviorProfile profile={profile} />
+
+      {/* Contradictions */}
+      <div>
+        <h3 className="text-2xl font-semibold text-slate-900 mb-4">
+          Internal Patterns
+        </h3>
+        <ContradictionDetector profile={profile} />
+      </div>
+
+      {/* Blind Spots */}
+      {profile.insights.blindSpots.length > 0 && (
+        <GlobalBlindSpots profile={profile} />
+      )}
     </div>
   );
 }

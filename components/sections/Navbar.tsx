@@ -19,9 +19,11 @@ import {
   X,
   BarChart3,
   LogOut,
+  CreditCard,
 } from "lucide-react";
 import { categoryThemes, type CategoryKey } from "@/config/categoryTheme";
 import { getClientUser, clientSignOut } from "@/utils/supabase/client-auth";
+import { useProfile } from "@/lib/profile-context";
 
 interface TestCategory {
   title: string;
@@ -115,11 +117,12 @@ export const Navbar: React.FC = () => {
   const [activeNav, setActiveNav] = useState<string>("home");
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const { profile } = useProfile();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -127,13 +130,17 @@ export const Navbar: React.FC = () => {
         const user = await getClientUser();
         if (user) {
           setIsLoggedIn(true);
-          setUserEmail(user.email || null);
+          // In production, fetch subscription status from Supabase
+          // For now, set to true if user exists (demo purposes)
+          setIsSubscribed(true);
         } else {
           setIsLoggedIn(false);
+          setIsSubscribed(false);
         }
       } catch (err) {
         console.error("Error checking auth:", err);
         setIsLoggedIn(false);
+        setIsSubscribed(false);
       } finally {
         setIsLoading(false);
       }
@@ -146,7 +153,6 @@ export const Navbar: React.FC = () => {
     const success = await clientSignOut();
     if (success) {
       setIsLoggedIn(false);
-      setUserEmail(null);
       router.push("/");
     }
   };
@@ -289,9 +295,9 @@ export const Navbar: React.FC = () => {
               <div className="hidden sm:flex items-center gap-2 px-3 py-2">
                 <div className="h-8 w-8 rounded-full bg-slate-200 animate-pulse"></div>
               </div>
-            ) : isLoggedIn ? (
+            ) : isLoggedIn && isSubscribed ? (
               <>
-                {/* Dashboard Button - Desktop */}
+                {/* Dashboard Button - Desktop (For Subscribed Users) */}
                 <Link
                   href="/dashboard"
                   className="hidden md:flex items-center gap-2 text-gray-700 font-medium px-5 py-2 rounded-lg border border-slate-300 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200"
@@ -307,9 +313,17 @@ export const Navbar: React.FC = () => {
                     className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors"
                     title="Profile menu"
                   >
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-white font-semibold">
-                      {userEmail?.[0]?.toUpperCase() || "U"}
-                    </div>
+                    {profile?.avatar_url ? (
+                      <img
+                        src={profile.avatar_url}
+                        alt={profile.name}
+                        className="w-8 h-8 rounded-full object-cover border border-slate-200"
+                      />
+                    ) : (
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-white font-semibold text-sm">
+                        {profile?.name?.[0]?.toUpperCase() || "U"}
+                      </div>
+                    )}
                     <ChevronDown
                       size={16}
                       className={`transition-transform duration-200 ${
@@ -329,11 +343,11 @@ export const Navbar: React.FC = () => {
                           Logged in as
                         </div>
                         <div className="text-sm font-medium text-slate-900 truncate">
-                          {userEmail}
+                          {profile?.name || profile?.email || "User"}
                         </div>
                       </div>
                       <Link
-                        href="/profile"
+                        href="/dashboard/profile"
                         className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors text-slate-700 hover:text-blue-600"
                       >
                         <User size={16} />
@@ -345,6 +359,13 @@ export const Navbar: React.FC = () => {
                       >
                         <BarChart3 size={16} />
                         <span>Dashboard</span>
+                      </Link>
+                      <Link
+                        href="/dashboard/billing"
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-slate-50 transition-colors text-slate-700 hover:text-blue-600"
+                      >
+                        <CreditCard size={16} />
+                        <span>Billing</span>
                       </Link>
                       <button
                         onClick={() => {
@@ -359,6 +380,24 @@ export const Navbar: React.FC = () => {
                     </div>
                   )}
                 </div>
+              </>
+            ) : isLoggedIn && !isSubscribed ? (
+              <>
+                {/* Get Started Button - For Logged In but Not Subscribed */}
+                <Link
+                  href="/pricing"
+                  className="hidden sm:block text-gray-700 font-medium px-5 py-2 rounded-lg border border-slate-300 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200"
+                >
+                  View Plans
+                </Link>
+
+                {/* Subscribe Button */}
+                <Link
+                  href="/pricing"
+                  className="inline-block bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium px-5 py-2 rounded-xl hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105 transition-all duration-200"
+                >
+                  Get Started
+                </Link>
               </>
             ) : (
               <>

@@ -6,7 +6,7 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
   console.warn(
-    "Supabase environment variables are not set. Server client won't function properly."
+    "Supabase environment variables are not set. Server client won't function properly.",
   );
 }
 

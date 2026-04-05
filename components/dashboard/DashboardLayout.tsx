@@ -11,11 +11,20 @@ import {
   ArrowLeft,
   Menu,
   X,
+  LogOut,
 } from "lucide-react";
 import { getClientUser } from "@/utils/supabase/client-auth";
+import { clientSignOut } from "@/utils/supabase/client-auth";
+import { useProfile } from "@/lib/profile-context";
 
 interface DashboardLayoutProps {
-  page: "overview" | "results" | "analytics" | "progress" | "settings";
+  page:
+    | "overview"
+    | "results"
+    | "analytics"
+    | "progress"
+    | "settings"
+    | "billing";
   children: React.ReactNode;
 }
 
@@ -44,20 +53,32 @@ const SIDEBAR_ITEMS = [
     href: "/dashboard/progress",
     icon: TrendingUp,
   },
+];
+
+// Account section - separator and links
+import { CreditCard, Settings as SettingsIcon } from "lucide-react";
+
+const ACCOUNT_ITEMS = [
   {
     label: "Settings",
     page: "settings" as const,
     href: "/dashboard/settings",
-    icon: Settings,
+    icon: SettingsIcon,
+  },
+  {
+    label: "Billing",
+    page: "billing" as const,
+    href: "/dashboard/billing",
+    icon: CreditCard,
   },
 ];
 
 export function DashboardLayout({ page, children }: DashboardLayoutProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const [user, setUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
+  const { profile } = useProfile();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -67,7 +88,6 @@ export function DashboardLayout({ page, children }: DashboardLayoutProps) {
           router.push("/auth/login");
           return;
         }
-        setUser(currentUser);
       } catch (err) {
         console.error("Error checking auth:", err);
         router.push("/auth/login");
@@ -114,20 +134,31 @@ export function DashboardLayout({ page, children }: DashboardLayoutProps) {
           {/* User Info */}
           <div className="p-6 border-b border-slate-200">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-white font-semibold">
-                {user?.email?.[0]?.toUpperCase() || "U"}
-              </div>
+              {profile?.avatar_url ? (
+                <img
+                  src={profile.avatar_url}
+                  alt={profile.name}
+                  className="w-10 h-10 rounded-full object-cover border border-slate-200"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-white font-semibold">
+                  {profile?.name?.[0]?.toUpperCase() || "U"}
+                </div>
+              )}
               <div className="min-w-0">
                 <p className="text-sm font-medium text-slate-900 truncate">
-                  {user?.email?.split("@")[0] || "User"}
+                  {profile?.name || "User"}
                 </p>
-                <p className="text-xs text-slate-500 truncate">{user?.email}</p>
+                <p className="text-xs text-slate-500 truncate">
+                  {profile?.email}
+                </p>
               </div>
             </div>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-6 space-y-2">
+          <nav className="flex-1 p-6 space-y-2 flex flex-col overflow-y-auto">
+            {/* Main Navigation */}
             {SIDEBAR_ITEMS.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
@@ -146,6 +177,43 @@ export function DashboardLayout({ page, children }: DashboardLayoutProps) {
                 </Link>
               );
             })}
+
+            {/* Separator */}
+            <div className="h-px bg-slate-200 my-2"></div>
+
+            {/* Account Items */}
+            {ACCOUNT_ITEMS.map((item) => {
+              const Icon = item.icon;
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.page}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+                    isActive
+                      ? "bg-blue-50 text-blue-600 border border-blue-200"
+                      : "text-slate-700 hover:bg-slate-100"
+                  }`}
+                >
+                  <Icon size={20} />
+                  <span>{item.label}</span>
+                </Link>
+              );
+            })}
+
+            {/* Logout */}
+            <div className="mt-auto pt-2 border-t border-slate-200">
+              <button
+                onClick={async () => {
+                  await clientSignOut();
+                  router.push("/auth/login");
+                }}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-red-600 hover:bg-red-50 transition-all duration-200"
+              >
+                <LogOut size={20} />
+                <span>Logout</span>
+              </button>
+            </div>
           </nav>
         </aside>
 
@@ -155,22 +223,31 @@ export function DashboardLayout({ page, children }: DashboardLayoutProps) {
             {/* User Info */}
             <div className="p-6 border-b border-slate-200">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-white font-semibold">
-                  {user?.email?.[0]?.toUpperCase() || "U"}
-                </div>
+                {profile?.avatar_url ? (
+                  <img
+                    src={profile.avatar_url}
+                    alt={profile.name}
+                    className="w-10 h-10 rounded-full object-cover border border-slate-200"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-white font-semibold">
+                    {profile?.name?.[0]?.toUpperCase() || "U"}
+                  </div>
+                )}
                 <div className="min-w-0">
                   <p className="text-sm font-medium text-slate-900 truncate">
-                    {user?.email?.split("@")[0] || "User"}
+                    {profile?.name || "User"}
                   </p>
                   <p className="text-xs text-slate-500 truncate">
-                    {user?.email}
+                    {profile?.email}
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Navigation */}
-            <nav className="p-6 space-y-2">
+            <nav className="p-6 space-y-2 flex flex-col overflow-y-auto">
+              {/* Main Navigation */}
               {SIDEBAR_ITEMS.map((item) => {
                 const Icon = item.icon;
                 const isActive = pathname === item.href;
@@ -190,6 +267,45 @@ export function DashboardLayout({ page, children }: DashboardLayoutProps) {
                   </Link>
                 );
               })}
+
+              {/* Separator */}
+              <div className="h-px bg-slate-200 my-2"></div>
+
+              {/* Account Items */}
+              {ACCOUNT_ITEMS.map((item) => {
+                const Icon = item.icon;
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.page}
+                    href={item.href}
+                    onClick={() => setShowMobileSidebar(false)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
+                      isActive
+                        ? "bg-blue-50 text-blue-600 border border-blue-200"
+                        : "text-slate-700 hover:bg-slate-100"
+                    }`}
+                  >
+                    <Icon size={20} />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+
+              {/* Logout */}
+              <div className="mt-auto pt-2 border-t border-slate-200">
+                <button
+                  onClick={async () => {
+                    setShowMobileSidebar(false);
+                    await clientSignOut();
+                    router.push("/auth/login");
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-red-600 hover:bg-red-50 transition-all duration-200"
+                >
+                  <LogOut size={20} />
+                  <span>Logout</span>
+                </button>
+              </div>
             </nav>
           </aside>
         )}

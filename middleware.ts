@@ -41,6 +41,6 @@ export const config = {
     // - favicon.ico (favicon file)
     // - auth/* (public auth pages)
     // - api/auth/* (auth API routes)
-    "/((?!_next/static|_next/image|favicon.ico|auth|api/auth).*)" 
+    "/((?!_next/static|_next/image|favicon.ico|auth|api/auth).*)",
   ],
 };

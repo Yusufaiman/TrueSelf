@@ -3,7 +3,10 @@
  * Safe to use in Client Components
  */
 import { createClient } from "@/utils/supabase/client";
+import { processGlobalProfile } from "@/lib/psychology/profileEngine";
+import type { TestResult as DimensionTestResult } from "@/lib/psychology/dimensions";
 
+// Local type for database records
 export interface TestResult {
   id: string;
   user_id: string;
@@ -64,6 +67,47 @@ export async function saveTestResult(
       console.error("Error saving test result - Hint:", error.hint);
       console.error("Error saving test result - Full:", JSON.stringify(error));
       return null;
+    }
+
+    // ✅ NEW: After test is saved, calculate and save global profile
+    console.log("[Profile] Test saved! Calculating global profile...");
+    try {
+      // Fetch all test results for this user
+      const { data: allResults, error: fetchError } = await supabase
+        .from("test_results")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (fetchError) {
+        console.error("[Profile] Error fetching all results:", fetchError);
+      } else if (allResults && allResults.length > 0) {
+        // Convert database records to DimensionTestResult format
+        const testResults: DimensionTestResult[] = allResults.map((r: any) => ({
+          testId: r.id,
+          testType: r.test_type,
+          scores: r.scores || {},
+          result: r.result || { title: "" },
+          createdAt: r.created_at,
+        }));
+
+        // Calculate and save global profile
+        const profile = await processGlobalProfile({
+          userId: user.id,
+          allTestResults: testResults,
+        });
+
+        if (profile) {
+          console.log("[Profile] ✓ Global profile updated successfully!", {
+            dimensions: Object.keys(profile.dimensions),
+            consistencyScore: profile.consistencyScore,
+          });
+        } else {
+          console.error("[Profile] Failed to process global profile");
+        }
+      }
+    } catch (profileErr) {
+      console.error("[Profile] Exception processing profile:", profileErr);
     }
 
     return data?.[0] || null;

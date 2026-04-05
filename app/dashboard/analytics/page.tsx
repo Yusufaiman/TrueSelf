@@ -1,6 +1,7 @@
 import React from "react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { AnalyticsPage } from "@/components/dashboard/AnalyticsPage";
+import { RouteProtection } from "@/components/RouteProtection";
 
 export const metadata = {
   title: "Analytics - TrueSelf Dashboard",
@@ -9,8 +10,10 @@ export const metadata = {
 
 export default function AnalyticsPageRoute() {
   return (
-    <DashboardLayout page="analytics">
-      <AnalyticsPage />
-    </DashboardLayout>
+    <RouteProtection>
+      <DashboardLayout page="analytics">
+        <AnalyticsPage />
+      </DashboardLayout>
+    </RouteProtection>
   );
 }

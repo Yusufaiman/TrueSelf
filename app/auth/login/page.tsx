@@ -34,7 +34,10 @@ export default function LoginPage() {
       router.push("/tests");
     } catch (err) {
       console.error("Login exception:", err);
-      const errorMessage = err instanceof Error ? err.message : "Failed to connect to authentication service";
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "Failed to connect to authentication service";
       setError(errorMessage);
       setLoading(false);
     }

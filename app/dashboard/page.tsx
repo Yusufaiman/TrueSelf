@@ -1,6 +1,7 @@
 import React from "react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { OverviewPage } from "@/components/dashboard/OverviewPage";
+import { RouteProtection } from "@/components/RouteProtection";
 
 export const metadata = {
   title: "Dashboard - TrueSelf",
@@ -9,8 +10,10 @@ export const metadata = {
 
 export default function DashboardOverview() {
   return (
-    <DashboardLayout page="overview">
-      <OverviewPage />
-    </DashboardLayout>
+    <RouteProtection>
+      <DashboardLayout page="overview">
+        <OverviewPage />
+      </DashboardLayout>
+    </RouteProtection>
   );
 }
