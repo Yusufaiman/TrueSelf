@@ -119,6 +119,7 @@ export const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showMobileProfileMenu, setShowMobileProfileMenu] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -517,6 +518,97 @@ export const Navbar: React.FC = () => {
                   </div>
                 );
               })}
+
+              {/* Mobile User Menu - Show only on mobile for logged in users */}
+              {isLoggedIn && (
+                <>
+                  <div className="border-t border-slate-200 my-2 pt-2">
+                    <button
+                      onClick={() =>
+                        setShowMobileProfileMenu(!showMobileProfileMenu)
+                      }
+                      className="w-full text-left px-4 py-3 font-medium text-base transition-all duration-200 flex items-center justify-between text-gray-600 hover:text-blue-600 hover:bg-slate-50"
+                    >
+                      <div className="flex items-center gap-2">
+                        {profile?.avatar_url ? (
+                          <img
+                            src={profile.avatar_url}
+                            alt={profile.name}
+                            className="w-6 h-6 rounded-full object-cover border border-slate-200"
+                          />
+                        ) : (
+                          <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 flex items-center justify-center text-white font-semibold text-xs">
+                            {profile?.name?.[0]?.toUpperCase() || "U"}
+                          </div>
+                        )}
+                        <span>
+                          {profile?.name || profile?.email || "Account"}
+                        </span>
+                      </div>
+                      <ChevronDown
+                        size={16}
+                        className={`transition-transform duration-200 ${
+                          showMobileProfileMenu ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+
+                    {/* Mobile Profile Dropdown */}
+                    {showMobileProfileMenu && (
+                      <div className="bg-slate-50 border-t border-slate-200">
+                        {isSubscribed && (
+                          <>
+                            <Link
+                              href="/dashboard"
+                              onClick={() => {
+                                setShowMobileMenu(false);
+                                setShowMobileProfileMenu(false);
+                              }}
+                              className="flex items-center gap-3 px-6 py-3 hover:bg-white transition-colors text-slate-700 hover:text-blue-600 border-b border-slate-200"
+                            >
+                              <BarChart3 size={16} />
+                              <span>Dashboard</span>
+                            </Link>
+                          </>
+                        )}
+                        <Link
+                          href="/dashboard/profile"
+                          onClick={() => {
+                            setShowMobileMenu(false);
+                            setShowMobileProfileMenu(false);
+                          }}
+                          className="flex items-center gap-3 px-6 py-3 hover:bg-white transition-colors text-slate-700 hover:text-blue-600 border-b border-slate-200"
+                        >
+                          <User size={16} />
+                          <span>My Profile</span>
+                        </Link>
+                        <Link
+                          href="/dashboard/billing"
+                          onClick={() => {
+                            setShowMobileMenu(false);
+                            setShowMobileProfileMenu(false);
+                          }}
+                          className="flex items-center gap-3 px-6 py-3 hover:bg-white transition-colors text-slate-700 hover:text-blue-600 border-b border-slate-200"
+                        >
+                          <CreditCard size={16} />
+                          <span>Billing</span>
+                        </Link>
+                        <button
+                          onClick={() => {
+                            setShowMobileMenu(false);
+                            setShowMobileProfileMenu(false);
+                            handleLogout();
+                          }}
+                          className="w-full flex items-center gap-3 px-6 py-3 hover:bg-red-50 transition-colors text-red-600"
+                        >
+                          <LogOut size={16} />
+                          <span>Logout</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           </nav>
         )}
