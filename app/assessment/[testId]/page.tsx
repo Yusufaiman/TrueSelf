@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Clipboard, CheckCircle2 } from "lucide-react";
 import TestQuestionTemplate from "@/components/test/TestQuestionTemplate";
 import TestResultTemplate from "@/components/test/TestResultTemplate";
 import { getTestConfig, type AnswerValue } from "@/lib/test-config";
+import { useSubscription } from "@/hooks/useSubscription";
 
 interface PageProps {
   params: Promise<{
@@ -15,6 +17,8 @@ interface PageProps {
 export default function GenericTestPage({ params }: PageProps) {
   const { testId } = React.use(params);
   const config = getTestConfig(testId);
+  const router = useRouter();
+  const { isSubscribed, isLoading: isSubscriptionLoading } = useSubscription();
 
   const [screen, setScreen] = useState<"start" | "question" | "result">(
     "start",
@@ -51,6 +55,13 @@ export default function GenericTestPage({ params }: PageProps) {
     setAnswers(newAnswers);
 
     if (isLastQuestion) {
+      // PAYWALL CHECK: Block results for non-subscribers
+      if (!isSubscriptionLoading && !isSubscribed) {
+        console.log("[Test] Paywall: Blocking result for non-subscriber");
+        router.push("/paywall?source=test-complete");
+        return;
+      }
+
       // Calculate result
       const calculatedResult = config.scoring(newAnswers);
       const resultTemplate = config.generateResult(
