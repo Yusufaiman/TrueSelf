@@ -12,6 +12,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();
   const { isSubscribed, isLoading } = useSubscription();
 
+  React.useEffect(() => {
+    document.documentElement.classList.add("dashboard-scroll-lock");
+    document.body.classList.add("dashboard-scroll-lock");
+
+    return () => {
+      document.documentElement.classList.remove("dashboard-scroll-lock");
+      document.body.classList.remove("dashboard-scroll-lock");
+    };
+  }, []);
+
   // If not subscribed and subscription check is complete, redirect to paywall
   React.useEffect(() => {
     if (!isLoading && !isSubscribed) {

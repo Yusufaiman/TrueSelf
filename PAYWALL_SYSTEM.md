@@ -30,10 +30,10 @@ Manages global subscription state:
 
 ```typescript
 interface SubscriptionContextType {
-  isSubscribed: boolean;           // True if user has active subscription
+  isSubscribed: boolean; // True if user has active subscription
   subscriptionPlan: "monthly" | "yearly" | null;
-  isLoading: boolean;              // Loading state while checking
-  nextBillingDate: string | null;  // When next payment is due
+  isLoading: boolean; // Loading state while checking
+  nextBillingDate: string | null; // When next payment is due
   status: "active" | "inactive" | "cancelled" | "past_due" | null;
   checkSubscription: () => Promise<void>;
 }
@@ -48,9 +48,9 @@ if (isLastQuestion) {
   // Check subscription before showing result
   if (!isSubscribed) {
     router.push("/paywall?source=test-complete");
-    return;  // Don't show result
+    return; // Don't show result
   }
-  
+
   // Show result only to subscribers
   setScreen("result");
 }
@@ -82,25 +82,30 @@ if (!isLoading && !isSubscribed) {
 ### Psychological Optimization
 
 ✅ **Progress Indicator**
+
 - Shows "100% Complete" badge when test is finished
 - Users feel invested before paywall
 
 ✅ **Result Teaser**
+
 - Displays blurred result preview
 - Creates curiosity gap (main conversion driver)
 - Can't see details without subscription
 
 ✅ **Value Stack**
+
 - Lists 8 concrete benefits
 - Shows scope of what they unlock
 - Global access, not per-test
 
 ✅ **Urgency Messaging**
+
 - "Most users discover patterns they've never noticed before"
 - "Don't leave your results unseen"
 - Emotional hook before pricing
 
 ✅ **Trust Signals**
+
 - Secure Stripe checkout
 - Cancel anytime (no lock-in)
 - 7-day trial option
@@ -130,8 +135,8 @@ Uses your configured Stripe price IDs:
 
 ```typescript
 // Environment variables needed in .env.local:
-NEXT_PUBLIC_STRIPE_PRICE_ID_MONTHLY=price_xxx
-NEXT_PUBLIC_STRIPE_PRICE_ID_YEARLY=price_yyy
+NEXT_PUBLIC_STRIPE_PRICE_ID_MONTHLY = price_xxx;
+NEXT_PUBLIC_STRIPE_PRICE_ID_YEARLY = price_yyy;
 ```
 
 The paywall redirects to Stripe Checkout on selection.
@@ -164,13 +169,13 @@ import { useSubscription } from "@/hooks/useSubscription";
 
 export function MyComponent() {
   const { isSubscribed, isLoading, status } = useSubscription();
-  
+
   if (isLoading) return <div>Checking...</div>;
-  
+
   if (!isSubscribed) {
     return <button onClick={() => router.push('/paywall')}>Upgrade</button>;
   }
-  
+
   return <div>Premium content here</div>;
 }
 ```
@@ -269,7 +274,7 @@ To fully activate the paywall:
 ```typescript
 // Check if subscription check is working
 const { isSubscribed, isLoading } = useSubscription();
-console.log('Subscribed:', isSubscribed, 'Loading:', isLoading);
+console.log("Subscribed:", isSubscribed, "Loading:", isLoading);
 
 // Check if user has subscription in DB
 // Query subscriptions table for user_id with status='active'

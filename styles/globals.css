@@ -14,6 +14,8 @@
 
   html {
     scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   body {
@@ -24,11 +26,136 @@
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  *::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+    background: transparent;
+  }
+}
+
+html,
+body,
+* {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb,
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-thumb {
+  display: none !important;
+  background: transparent !important;
 }
 
 @layer utilities {
   .animate-fade-in {
     animation: fadeIn 0.3s ease-out;
+  }
+
+  .scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .types-modal-scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .types-modal-scrollbar-hidden::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+    background: transparent;
+  }
+
+  .types-modal-scrollbar-hidden::-webkit-scrollbar-track,
+  .types-modal-scrollbar-hidden::-webkit-scrollbar-thumb {
+    display: none;
+    background: transparent;
+  }
+
+  html.dashboard-scroll-lock,
+  body.dashboard-scroll-lock {
+    overflow: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  html.dashboard-scroll-lock::-webkit-scrollbar,
+  body.dashboard-scroll-lock::-webkit-scrollbar {
+    display: none;
+  }
+
+  html.tests-scrollbar-hidden,
+  body.tests-scrollbar-hidden {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  html.tests-scrollbar-hidden::-webkit-scrollbar,
+  body.tests-scrollbar-hidden::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+    background: transparent;
+  }
+
+  html:has(.tests-page-root),
+  body:has(.tests-page-root) {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  html:has(.tests-page-root)::-webkit-scrollbar,
+  body:has(.tests-page-root)::-webkit-scrollbar,
+  html:has(.tests-page-root) *::-webkit-scrollbar,
+  body:has(.tests-page-root) *::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0 !important;
+    display: none !important;
+    background: transparent !important;
+  }
+
+  button,
+  [role="button"],
+  a[href][class*="px-"][class*="py-"],
+  a[href][class*="rounded-lg"],
+  a[href][class*="rounded-xl"] {
+    border-radius: 9999px !important;
+  }
+
+  div[class*="rounded-lg"]:not([class*="rounded-full"]):not([class*="w-"]):not([class*="h-"]),
+  div[class*="rounded-xl"]:not([class*="rounded-full"]):not([class*="w-"]):not([class*="h-"]),
+  div[class*="rounded-2xl"]:not([class*="rounded-full"]):not([class*="w-"]):not([class*="h-"]),
+  article[class*="rounded-lg"]:not([class*="rounded-full"]),
+  article[class*="rounded-xl"]:not([class*="rounded-full"]),
+  article[class*="rounded-2xl"]:not([class*="rounded-full"]),
+  section[class*="rounded-lg"]:not([class*="rounded-full"]),
+  section[class*="rounded-xl"]:not([class*="rounded-full"]),
+  section[class*="rounded-2xl"]:not([class*="rounded-full"]) {
+    border-radius: 1.75rem !important;
   }
 }

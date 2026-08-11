@@ -5,8 +5,11 @@ import { useRouter } from "next/navigation";
 import { Clipboard, CheckCircle2 } from "lucide-react";
 import TestQuestionTemplate from "@/components/test/TestQuestionTemplate";
 import TestResultTemplate from "@/components/test/TestResultTemplate";
+import TrueSelf16ResultTemplate from "@/components/test/TrueSelf16ResultTemplate";
 import { getTestConfig, type AnswerValue } from "@/lib/test-config";
+import "@/lib/test-configs";
 import { useSubscription } from "@/hooks/useSubscription";
+import { saveTestResult } from "@/utils/supabase/client-results";
 
 interface PageProps {
   params: Promise<{
@@ -48,7 +51,7 @@ export default function GenericTestPage({ params }: PageProps) {
     setCurrentAnswer(value);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentAnswer === null) return;
 
     const newAnswers = { ...answers, [currentQuestion.id]: currentAnswer };
@@ -68,6 +71,15 @@ export default function GenericTestPage({ params }: PageProps) {
         calculatedResult,
         newAnswers,
       );
+
+      if (config.persistence) {
+        await saveTestResult(
+          config.persistence.testType,
+          config.persistence.buildScores(calculatedResult, newAnswers),
+          config.persistence.buildResult(calculatedResult, newAnswers),
+        );
+      }
+
       setResult(resultTemplate);
       setScreen("result");
     } else {
@@ -157,6 +169,10 @@ export default function GenericTestPage({ params }: PageProps) {
 
   // RESULT SCREEN
   if (screen === "result" && result) {
+    if (result.variant === "trueself-16-type") {
+      return <TrueSelf16ResultTemplate {...result} onRetake={handleRetake} />;
+    }
+
     return <TestResultTemplate {...result} onRetake={handleRetake} />;
   }
 

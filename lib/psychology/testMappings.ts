@@ -11,7 +11,22 @@ export interface TestDimensionMapping {
 }
 
 export const TEST_DIMENSION_MAP: Record<string, TestDimensionMapping> = {
+  trueself_16_type: {
+    selfAwareness: 0.2,
+    decisionClarity: 0.2,
+    socialExpression: 0.2,
+    innerConsistency: 0.15,
+    adaptability: 0.15,
+    emotionalAlignment: 0.1,
+  },
+
   // Identity Tests
+  test_1: {
+    selfAwareness: 0.35,
+    identityStability: 0.3,
+    authenticity: 0.2,
+    innerConsistency: 0.15,
+  },
   test_1_identity: {
     selfAwareness: 0.35,
     identityStability: 0.3,
@@ -20,6 +35,12 @@ export const TEST_DIMENSION_MAP: Record<string, TestDimensionMapping> = {
   },
 
   // Personality Type Test
+  test_2: {
+    selfAwareness: 0.25,
+    emotionalAlignment: 0.25,
+    decisionClarity: 0.25,
+    socialExpression: 0.25,
+  },
   test_2_personality: {
     selfAwareness: 0.25,
     emotionalAlignment: 0.25,
@@ -28,6 +49,12 @@ export const TEST_DIMENSION_MAP: Record<string, TestDimensionMapping> = {
   },
 
   // Motivation/Drivers Test
+  test_3: {
+    motivationStrength: 0.4,
+    decisionClarity: 0.2,
+    externalInfluence: 0.2,
+    riskTolerance: 0.2,
+  },
   test_3_motivation: {
     motivationStrength: 0.4,
     decisionClarity: 0.2,
@@ -36,6 +63,12 @@ export const TEST_DIMENSION_MAP: Record<string, TestDimensionMapping> = {
   },
 
   // Strengths & Weaknesses Test
+  test_4: {
+    discipline: 0.25,
+    adaptability: 0.25,
+    emotionalAlignment: 0.25,
+    decisionClarity: 0.25,
+  },
   test_4_strengths: {
     discipline: 0.25,
     adaptability: 0.25,

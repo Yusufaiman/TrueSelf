@@ -1,41 +1,40 @@
 /**
  * Category Color Theme System
- * Centralized configuration for all category visual identities
- * Used across navbar, category pages, buttons, badges, and UI elements
+ * Centralized configuration for all category visual identities.
  */
 
 export type CategoryKey =
+  | "personality"
   | "identity"
   | "relationships"
   | "career"
-  | "life-direction"
-  | "mindset"
-  | "emotional-health"
-  | "life-patterns"
-  | "money"
-  | "reality-check";
+  | "mind"
+  | "motivation"
+  | "growth"
+  | "stress-emotions"
+  | "life";
 
 export interface CategoryTheme {
   name: string;
   slug: string;
-  primary: string; // Main color (e.g., "blue-500")
-  light: string; // Light background (e.g., "blue-100")
-  lighter: string; // Lighter background (e.g., "blue-50")
-  border: string; // Border color (e.g., "blue-200")
-  text: string; // Text color (e.g., "blue-700")
-  icon: string; // Icon color (e.g., "blue-500")
+  primary: string;
+  light: string;
+  lighter: string;
+  border: string;
+  text: string;
+  icon: string;
   gradient: {
-    from: string; // Gradient start (e.g., "from-blue-50")
-    to: string; // Gradient end (e.g., "to-white")
+    from: string;
+    to: string;
   };
-  rgb: string; // RGB for opacity (e.g., "59, 130, 246") - blue-500
-  semanticMeaning: string; // What this color represents
+  rgb: string;
+  semanticMeaning: string;
 }
 
 export const categoryThemes: Record<CategoryKey, CategoryTheme> = {
-  identity: {
-    name: "Identity",
-    slug: "identity",
+  personality: {
+    name: "Personality",
+    slug: "personality",
     primary: "blue-500",
     light: "blue-100",
     lighter: "blue-50",
@@ -44,7 +43,20 @@ export const categoryThemes: Record<CategoryKey, CategoryTheme> = {
     icon: "blue-500",
     gradient: { from: "from-blue-50", to: "to-white" },
     rgb: "59, 130, 246",
-    semanticMeaning: "Clarity, self-understanding, trust",
+    semanticMeaning: "Core type, self-map, cognitive pattern",
+  },
+  identity: {
+    name: "Identity",
+    slug: "identity",
+    primary: "indigo-500",
+    light: "indigo-100",
+    lighter: "indigo-50",
+    border: "indigo-200",
+    text: "indigo-700",
+    icon: "indigo-500",
+    gradient: { from: "from-indigo-50", to: "to-white" },
+    rgb: "99, 102, 241",
+    semanticMeaning: "Authenticity, self-concept, social mask",
   },
   relationships: {
     name: "Relationships",
@@ -57,37 +69,24 @@ export const categoryThemes: Record<CategoryKey, CategoryTheme> = {
     icon: "pink-500",
     gradient: { from: "from-pink-50", to: "to-white" },
     rgb: "236, 72, 153",
-    semanticMeaning: "Connection, emotion, intimacy",
+    semanticMeaning: "Connection, communication, conflict, love",
   },
   career: {
     name: "Career",
     slug: "career",
-    primary: "indigo-500",
-    light: "indigo-100",
-    lighter: "indigo-50",
-    border: "indigo-200",
-    text: "indigo-700",
-    icon: "indigo-500",
-    gradient: { from: "from-indigo-50", to: "to-white" },
-    rgb: "99, 102, 241",
-    semanticMeaning: "Ambition, purpose, growth",
+    primary: "violet-500",
+    light: "violet-100",
+    lighter: "violet-50",
+    border: "violet-200",
+    text: "violet-700",
+    icon: "violet-500",
+    gradient: { from: "from-violet-50", to: "to-white" },
+    rgb: "139, 92, 246",
+    semanticMeaning: "Work fit, leadership, role alignment",
   },
-  "life-direction": {
-    name: "Life Direction",
-    slug: "life-direction",
-    primary: "purple-500",
-    light: "purple-100",
-    lighter: "purple-50",
-    border: "purple-200",
-    text: "purple-700",
-    icon: "purple-500",
-    gradient: { from: "from-purple-50", to: "to-white" },
-    rgb: "168, 85, 247",
-    semanticMeaning: "Vision, direction, meaning",
-  },
-  mindset: {
-    name: "Mindset",
-    slug: "mindset",
+  mind: {
+    name: "Mind",
+    slug: "mind",
     primary: "cyan-500",
     light: "cyan-100",
     lighter: "cyan-50",
@@ -96,37 +95,24 @@ export const categoryThemes: Record<CategoryKey, CategoryTheme> = {
     icon: "cyan-500",
     gradient: { from: "from-cyan-50", to: "to-white" },
     rgb: "34, 211, 238",
-    semanticMeaning: "Clarity, expansion, perspective",
+    semanticMeaning: "Thinking, learning, attention, creativity",
   },
-  "emotional-health": {
-    name: "Emotional Health",
-    slug: "emotional-health",
-    primary: "red-500",
-    light: "red-100",
-    lighter: "red-50",
-    border: "red-200",
-    text: "red-700",
-    icon: "red-500",
-    gradient: { from: "from-red-50", to: "to-white" },
-    rgb: "239, 68, 68",
-    semanticMeaning: "Vitality, emotion, intensity",
+  motivation: {
+    name: "Motivation",
+    slug: "motivation",
+    primary: "orange-500",
+    light: "orange-100",
+    lighter: "orange-50",
+    border: "orange-200",
+    text: "orange-700",
+    icon: "orange-500",
+    gradient: { from: "from-orange-50", to: "to-white" },
+    rgb: "249, 115, 22",
+    semanticMeaning: "Drive, discipline, reward, procrastination",
   },
-  "life-patterns": {
-    name: "Life Patterns",
-    slug: "life-patterns",
-    primary: "amber-500",
-    light: "amber-100",
-    lighter: "amber-50",
-    border: "amber-200",
-    text: "amber-700",
-    icon: "amber-500",
-    gradient: { from: "from-amber-50", to: "to-white" },
-    rgb: "245, 158, 11",
-    semanticMeaning: "Cycles, rhythm, awareness",
-  },
-  money: {
-    name: "Money",
-    slug: "money",
+  growth: {
+    name: "Growth",
+    slug: "growth",
     primary: "green-500",
     light: "green-100",
     lighter: "green-50",
@@ -135,33 +121,40 @@ export const categoryThemes: Record<CategoryKey, CategoryTheme> = {
     icon: "green-500",
     gradient: { from: "from-green-50", to: "to-white" },
     rgb: "34, 197, 94",
-    semanticMeaning: "Growth, abundance, stability",
+    semanticMeaning: "Strengths, blind spots, resilience, potential",
   },
-  "reality-check": {
-    name: "Reality Check",
-    slug: "reality-check",
-    primary: "slate-500",
-    light: "slate-100",
-    lighter: "slate-50",
-    border: "slate-200",
-    text: "slate-700",
-    icon: "slate-500",
-    gradient: { from: "from-slate-50", to: "to-white" },
-    rgb: "107, 114, 128",
-    semanticMeaning: "Truth, clarity, objectivity",
+  "stress-emotions": {
+    name: "Stress & Emotions",
+    slug: "stress-emotions",
+    primary: "red-500",
+    light: "red-100",
+    lighter: "red-50",
+    border: "red-200",
+    text: "red-700",
+    icon: "red-500",
+    gradient: { from: "from-red-50", to: "to-white" },
+    rgb: "239, 68, 68",
+    semanticMeaning: "Stress, emotional processing, burnout, recovery",
+  },
+  life: {
+    name: "Life",
+    slug: "life",
+    primary: "teal-500",
+    light: "teal-100",
+    lighter: "teal-50",
+    border: "teal-200",
+    text: "teal-700",
+    icon: "teal-500",
+    gradient: { from: "from-teal-50", to: "to-white" },
+    rgb: "20, 184, 166",
+    semanticMeaning: "Purpose, direction, lifestyle, priorities",
   },
 };
 
-/**
- * Get theme by category key
- */
 export const getTheme = (category: CategoryKey): CategoryTheme => {
   return categoryThemes[category];
 };
 
-/**
- * Get all categories for mapping
- */
 export const getCategories = (): Array<{
   key: CategoryKey;
   name: string;
@@ -174,11 +167,6 @@ export const getCategories = (): Array<{
   }));
 };
 
-/**
- * Helper: Generate Tailwind class strings dynamically
- * Note: These must be valid Tailwind classes that exist in your config
- * Dynamic class names (with brackets) won't work in production builds
- */
 export const getThemeClasses = (
   category: CategoryKey,
   type: "primary" | "light" | "lighter" | "border" | "text" | "icon",
@@ -186,17 +174,14 @@ export const getThemeClasses = (
   return categoryThemes[category][type];
 };
 
-/**
- * Category to icon mapping with semantic colors
- */
-export const categoryIcons = {
-  identity: "User",
+export const categoryIcons: Record<CategoryKey, string> = {
+  personality: "Dna",
+  identity: "UserRound",
   relationships: "Users",
   career: "Briefcase",
-  "life-direction": "Map",
-  mindset: "Brain",
-  "emotional-health": "Heart",
-  "life-patterns": "RefreshCw",
-  money: "Wallet",
-  "reality-check": "AlertCircle",
+  mind: "Brain",
+  motivation: "Flame",
+  growth: "Sprout",
+  "stress-emotions": "Heart",
+  life: "Compass",
 };

@@ -19,52 +19,44 @@ export function CategoryCard({ category }: CategoryCardProps) {
 
   return (
     <Link href={category.href}>
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-200 hover:scale-105 cursor-pointer h-full flex flex-col">
-        {/* Gradient Header */}
-        <div
-          className={`bg-gradient-to-r ${category.colorClass} h-24 flex items-center justify-center`}
-        >
-          <IconComponent size={28} className="text-white" />
+      <div className="flex h-full cursor-pointer flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg">
+        <div className="mb-5 flex items-center justify-between gap-3">
+          <span
+            className={`flex h-11 w-11 items-center justify-center rounded-full ${colorClasses.bg} ${colorClasses.text}`}
+          >
+            <IconComponent size={22} />
+          </span>
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-semibold ${colorClasses.bg} ${colorClasses.text}`}
+          >
+            {category.journeyStage}
+          </span>
         </div>
 
-        {/* Content */}
-        <div className="p-6 flex flex-col flex-1">
-          <h3 className="text-xl font-semibold text-slate-900 mb-2">
-            {category.name}
-          </h3>
-          <p className="text-slate-600 text-sm mb-4 flex-1">
-            {category.description}
+        <p className={`text-3xl font-black tracking-tight ${colorClasses.text}`}>
+          {category.name}
+        </p>
+        <h3 className="mt-3 text-xl font-bold text-slate-900">
+          {category.testName}
+        </h3>
+        <p className="mt-2 text-sm leading-6 text-slate-600">
+          {category.description}
+        </p>
+
+        <div className="mt-5 border-t border-slate-100 pt-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+            This test discovers
           </p>
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            {category.discover}
+          </p>
+        </div>
 
-          {/* Featured Tests */}
-          {category.tests.length > 0 && (
-            <div className="mb-4">
-              <p className="text-xs font-medium text-slate-500 mb-2">
-                Popular tests:
-              </p>
-              <div className="space-y-1">
-                {category.tests.slice(0, 3).map((test, idx) => (
-                  <div
-                    key={idx}
-                    className="text-xs text-slate-600 flex items-center gap-2"
-                  >
-                    <div
-                      className={`w-1.5 h-1.5 rounded-full ${colorClasses.bg}`}
-                    ></div>
-                    {test}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Button */}
-          <div
-            className={`inline-flex items-center gap-2 font-semibold ${colorClasses.text} hover:gap-3 transition-all duration-200`}
-          >
-            Explore Category
-            <ArrowRight size={16} />
-          </div>
+        <div
+          className={`mt-5 inline-flex items-center gap-2 font-semibold ${colorClasses.text} transition-all duration-200 hover:gap-3`}
+        >
+          Start Test
+          <ArrowRight size={16} />
         </div>
       </div>
     </Link>

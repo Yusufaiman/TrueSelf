@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
 import type { TestResultTemplateProps } from "@/components/test/TestResultTemplate";
+import type { TrueSelf16ResultTemplateProps } from "@/components/test/TrueSelf16ResultTemplate";
 
-export type AnswerValue = 1 | 2 | 3 | 4 | 5;
+export type AnswerValue = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 export interface TestQuestion {
   id: number;
@@ -21,11 +22,22 @@ export interface TestConfig {
   path: string;
   questions: TestQuestion[];
   answerOptions?: TestAnswerOption[];
-  scoring: (answers: Record<number, AnswerValue>) => any;
+  scoring: (answers: Record<number, any>) => any;
   generateResult: (
     score: any,
-    answers: Record<number, AnswerValue>,
-  ) => TestResultTemplateProps;
+    answers: Record<number, any>,
+  ) => TestResultTemplateProps | Omit<TrueSelf16ResultTemplateProps, "onRetake">;
+  persistence?: {
+    testType: string;
+    buildScores: (
+      score: any,
+      answers: Record<number, any>,
+    ) => Record<string, number>;
+    buildResult: (
+      score: any,
+      answers: Record<number, any>,
+    ) => Record<string, any>;
+  };
   startScreenContent?: {
     title: string;
     guidelines: string[];

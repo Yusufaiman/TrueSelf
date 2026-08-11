@@ -1,4 +1,5 @@
 // Load all test configs
+import "@/lib/test-configs/trueself-16-type";
 import "@/lib/test-configs/identity-who-you-really-are";
 import "@/lib/test-configs/identity-what-drives-you";
 import "@/lib/test-configs/identity-strengths-weaknesses";

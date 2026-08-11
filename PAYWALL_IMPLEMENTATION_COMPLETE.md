@@ -6,14 +6,14 @@ The complete paywall system for TrueSelf has been implemented exactly as specifi
 
 ## What Gets Blocked
 
-| Item | Free Users | Subscribers |
-|------|-----------|------------|
-| Taking tests | ✅ Yes | ✅ Yes |
-| Seeing results | ❌ No | ✅ Yes |
-| Dashboard | ❌ No | ✅ Yes |
-| Analytics | ❌ No | ✅ Yes |
-| Profile | ✅ Yes | ✅ Yes |
-| Test retakes | ✅ Yes | ✅ Yes |
+| Item           | Free Users | Subscribers |
+| -------------- | ---------- | ----------- |
+| Taking tests   | ✅ Yes     | ✅ Yes      |
+| Seeing results | ❌ No      | ✅ Yes      |
+| Dashboard      | ❌ No      | ✅ Yes      |
+| Analytics      | ❌ No      | ✅ Yes      |
+| Profile        | ✅ Yes     | ✅ Yes      |
+| Test retakes   | ✅ Yes     | ✅ Yes      |
 
 ## Core Implementation
 
@@ -27,11 +27,11 @@ const handleNext = () => {
       router.push("/paywall?source=test-complete");
       return;
     }
-    
+
     // Show result only to subscribers
     setScreen("result");
   }
-}
+};
 ```
 
 **Effect:** When a free user clicks "Complete Test", they're redirected to paywall instead of seeing results.
@@ -75,6 +75,7 @@ useEffect(() => {
 ## Files Structure
 
 ### New Files
+
 ```
 /app/paywall/page.tsx                  - Main paywall UI (250+ lines)
 /hooks/useSubscription.ts              - Subscription hook wrapper
@@ -85,6 +86,7 @@ PAYWALL_QUICK_START.md                 - Quick reference guide
 ```
 
 ### Modified Files
+
 ```
 /app/assessment/[testId]/page.tsx      - Added paywall block in handleNext()
 ```
@@ -101,12 +103,14 @@ PAYWALL_QUICK_START.md                 - Quick reference guide
 ### For Developers
 
 1. **Check subscription in any component:**
+
    ```typescript
    const { isSubscribed } = useSubscription();
    if (!isSubscribed) return <PaywallOverlay />;
    ```
 
 2. **Manually redirect to paywall:**
+
    ```typescript
    router.push("/paywall?source=my-feature");
    ```
@@ -117,6 +121,7 @@ PAYWALL_QUICK_START.md                 - Quick reference guide
 ## Testing Scenarios
 
 ### Scenario 1: Free User Takes Test
+
 ```
 1. Login as user with NO subscription
 2. Go to a test (e.g., /tests)
@@ -127,6 +132,7 @@ PAYWALL_QUICK_START.md                 - Quick reference guide
 ```
 
 ### Scenario 2: Free User Tries Dashboard
+
 ```
 1. Login as user with NO subscription
 2. Click "Dashboard" in navbar
@@ -135,6 +141,7 @@ PAYWALL_QUICK_START.md                 - Quick reference guide
 ```
 
 ### Scenario 3: Subscriber Takes Test
+
 ```
 1. Login as user WITH subscription (status='active')
 2. Go to test
@@ -145,6 +152,7 @@ PAYWALL_QUICK_START.md                 - Quick reference guide
 ```
 
 ### Scenario 4: User Subscribes Mid-Flow
+
 ```
 1. Start as free user, get redirected to paywall
 2. Complete Stripe checkout
@@ -165,6 +173,7 @@ PAYWALL_QUICK_START.md                 - Quick reference guide
    - Stripe Dashboard → Products → Your Plan → Pricing → Price ID
 
 3. **Add to `.env.local`**
+
    ```env
    NEXT_PUBLIC_STRIPE_PRICE_ID_MONTHLY=price_xxx
    NEXT_PUBLIC_STRIPE_PRICE_ID_YEARLY=price_yyy
@@ -183,13 +192,13 @@ PAYWALL_QUICK_START.md                 - Quick reference guide
 
 Track these KPIs:
 
-| Metric | Target | How to Measure |
-|--------|--------|-----------------|
-| Paywall Views | 100% of test completions | Stripe redirect rate |
-| CTA Click Rate | 25-40% | Stripe checkout starts / paywall views |
-| Checkout Completion | 60-80% | Successful payments / checkout starts |
-| Overall Conversion | 30-50% | Subscriptions / paywall views |
-| Plan Selection | 60% yearly, 40% monthly | Stripe payment breakdown |
+| Metric              | Target                   | How to Measure                         |
+| ------------------- | ------------------------ | -------------------------------------- |
+| Paywall Views       | 100% of test completions | Stripe redirect rate                   |
+| CTA Click Rate      | 25-40%                   | Stripe checkout starts / paywall views |
+| Checkout Completion | 60-80%                   | Successful payments / checkout starts  |
+| Overall Conversion  | 30-50%                   | Subscriptions / paywall views          |
+| Plan Selection      | 60% yearly, 40% monthly  | Stripe payment breakdown               |
 
 ## Optimization Tips
 
@@ -221,7 +230,9 @@ Track these KPIs:
 ## Common Issues & Fixes
 
 ### Issue: Paywall not appearing
+
 **Check:**
+
 ```typescript
 // 1. Is SubscriptionProvider wrapping the app?
 // → Check /app/layout.tsx → ClientProviders
@@ -233,7 +244,9 @@ Track these KPIs:
 ```
 
 ### Issue: Results showing when shouldn't
+
 **Check:**
+
 ```typescript
 // 1. Does DB have subscription?
 // → SELECT * FROM subscriptions WHERE user_id='xxx'
@@ -245,7 +258,9 @@ Track these KPIs:
 ```
 
 ### Issue: Dashboard showing when locked
+
 **Check:**
+
 ```typescript
 // 1. Is dashboard layout running protection?
 // → Check /app/dashboard/layout.tsx

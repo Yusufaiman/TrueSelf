@@ -186,7 +186,9 @@ function PaywallContent() {
                   </div>
 
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-700 font-medium">Connection</span>
+                    <span className="text-slate-700 font-medium">
+                      Connection
+                    </span>
                     <div className="flex items-center gap-2">
                       <div className="flex-1 h-2 bg-slate-200 rounded-full w-24"></div>
                       <span className="text-slate-600 font-semibold">72%</span>
@@ -225,10 +227,7 @@ function PaywallContent() {
                 ].map((feature, idx) => (
                   <div key={idx} className="flex items-start gap-3">
                     <div className="flex-shrink-0 mt-1">
-                      <Star
-                        size={16}
-                        className="text-blue-500 fill-blue-500"
-                      />
+                      <Star size={16} className="text-blue-500 fill-blue-500" />
                     </div>
                     <p className="text-slate-700">{feature}</p>
                   </div>
@@ -267,10 +266,7 @@ function PaywallContent() {
                       <div className="w-4 h-4 rounded-full border-2 border-blue-200 border-t-blue-600"></div>
                     </div>
                   ) : (
-                    <ChevronRight
-                      size={18}
-                      className="text-blue-500"
-                    />
+                    <ChevronRight size={18} className="text-blue-500" />
                   )}
                 </div>
               </button>
@@ -311,10 +307,7 @@ function PaywallContent() {
                       <div className="w-4 h-4 rounded-full border-2 border-blue-200 border-t-blue-600"></div>
                     </div>
                   ) : (
-                    <ChevronRight
-                      size={18}
-                      className="text-blue-500"
-                    />
+                    <ChevronRight size={18} className="text-blue-500" />
                   )}
                 </div>
               </button>

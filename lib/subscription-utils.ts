@@ -16,7 +16,9 @@ export interface Subscription {
 /**
  * Check if a subscription is active
  */
-export function isSubscriptionActive(subscription: Subscription | null): boolean {
+export function isSubscriptionActive(
+  subscription: Subscription | null,
+): boolean {
   if (!subscription) return false;
   return subscription.status === "active";
 }

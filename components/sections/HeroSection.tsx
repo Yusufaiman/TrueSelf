@@ -39,15 +39,15 @@ export const HeroSection: React.FC = () => {
           <div className="flex flex-col items-center gap-4 pt-4">
             <button
               onClick={() =>
-                (window.location.href = "/tests/identity/who-you-really-are")
+                (window.location.href = "/assessment/trueself-16-type")
               }
               className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105 flex items-center gap-2"
             >
-              Discover Your Real Self
+              Discover Your TrueSelf Type
               <ArrowRight size={20} />
             </button>
             <p className="text-sm text-slate-500">
-              No signup required. Get your results instantly.
+              Takes about 8 minutes. Built around the new TrueSelf 16 Types.
             </p>
           </div>
         </div>

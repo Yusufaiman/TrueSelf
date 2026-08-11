@@ -3,15 +3,28 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
+import { createClient, getSupabaseConfigError } from "@/utils/supabase/client";
+import { Eye, EyeOff } from "lucide-react";
+
+const getLoginErrorMessage = (err: unknown) => {
+  if (err instanceof Error) {
+    if (err.message === "Failed to fetch") {
+      return "Could not reach the authentication service. Check that your Supabase project URL is correct and reachable, then restart the dev server.";
+    }
+
+    return err.message;
+  }
+
+  return "Failed to connect to authentication service.";
+};
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const supabase = createClient();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,6 +32,15 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
+      const configError = getSupabaseConfigError();
+
+      if (configError) {
+        setError(`Supabase configuration error: ${configError}`);
+        setLoading(false);
+        return;
+      }
+
+      const supabase = createClient();
       const { error: loginError } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -34,11 +56,7 @@ export default function LoginPage() {
       router.push("/tests");
     } catch (err) {
       console.error("Login exception:", err);
-      const errorMessage =
-        err instanceof Error
-          ? err.message
-          : "Failed to connect to authentication service";
-      setError(errorMessage);
+      setError(getLoginErrorMessage(err));
       setLoading(false);
     }
   };
@@ -92,15 +110,26 @@ export default function LoginPage() {
             >
               Password
             </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              className="w-full px-4 py-3 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-            />
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                className="w-full px-4 py-3 pr-12 rounded-lg border border-slate-200 bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((current) => !current)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-slate-500 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+                title={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
 
           {/* Submit Button */}

@@ -16,6 +16,7 @@ export function ProgressPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   const testNames: Record<string, string> = {
+    trueself_16_type: "TrueSelf 16 Types",
     test_1: "Identity Profile",
     test_2: "Personality Type",
     test_3: "Life Drivers",
@@ -123,7 +124,9 @@ export function ProgressPage() {
                         </div>
                         {result.result?.title && (
                           <p className="text-sm font-medium text-slate-900 mt-1">
-                            {result.result.title}
+                            {result.result.typeCode && result.result.typeName
+                              ? `${result.result.typeCode} - ${result.result.typeName}`
+                              : result.result.title}
                           </p>
                         )}
                       </div>

@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 export interface TestResult {
   id: string;
   user_id: string;
-  test_type: "test_1" | "test_2" | "test_3" | "test_4";
+  test_type: string;
   scores: Record<string, number>;
   result: {
     title: string;
@@ -28,7 +28,7 @@ export interface TestResult {
  * Used in test result pages
  */
 export async function saveTestResult(
-  testType: "test_1" | "test_2" | "test_3" | "test_4",
+  testType: string,
   scores: Record<string, number>,
   result: any,
 ) {

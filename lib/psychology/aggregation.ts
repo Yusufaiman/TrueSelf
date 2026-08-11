@@ -41,7 +41,7 @@ export function buildGlobalProfile(input: AggregationInput): GlobalProfile {
 
   // Process each test result
   for (const result of testResults) {
-    const testId = result.testId || result.testType;
+    const testId = result.testType || result.testId;
     const mapping = TEST_DIMENSION_MAP[testId];
 
     if (!mapping) {

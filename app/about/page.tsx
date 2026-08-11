@@ -7,91 +7,12 @@ import {
   Layers,
   Zap,
   Eye,
-  User,
-  Users,
-  Briefcase,
-  Map,
-  Brain,
-  Heart,
-  RefreshCw,
-  Wallet,
-  AlertCircle,
 } from "lucide-react";
-
-const dimensions = [
-  {
-    title: "Identity",
-    description: "Understand who you are at your core",
-    icon: User,
-    slug: "identity",
-    color: "#3b82f6",
-    bgColor: "#dbeafe",
-  },
-  {
-    title: "Relationships",
-    description: "See how you connect and behave with others",
-    icon: Users,
-    slug: "relationships",
-    color: "#ec4899",
-    bgColor: "#fce7f3",
-  },
-  {
-    title: "Career",
-    description: "Discover how you work and what fits you",
-    icon: Briefcase,
-    slug: "career",
-    color: "#6366f1",
-    bgColor: "#e0e7ff",
-  },
-  {
-    title: "Life Direction",
-    description: "Understand where you are heading",
-    icon: Map,
-    slug: "life-direction",
-    color: "#14b8a6",
-    bgColor: "#ccfbf1",
-  },
-  {
-    title: "Mindset",
-    description: "Explore how you think and process reality",
-    icon: Brain,
-    slug: "mindset",
-    color: "#9333ea",
-    bgColor: "#f3e8ff",
-  },
-  {
-    title: "Emotional Health",
-    description: "Understand your emotional patterns and responses",
-    icon: Heart,
-    slug: "emotional-health",
-    color: "#dc2626",
-    bgColor: "#fee2e2",
-  },
-  {
-    title: "Life Patterns",
-    description: "Identify repeating behaviors and cycles",
-    icon: RefreshCw,
-    slug: "life-patterns",
-    color: "#059669",
-    bgColor: "#dcfce7",
-  },
-  {
-    title: "Money",
-    description: "See how you think and behave around money",
-    icon: Wallet,
-    slug: "money",
-    color: "#b91c1c",
-    bgColor: "#fecaca",
-  },
-  {
-    title: "Reality Check",
-    description: "Understand how others see you versus how you see yourself",
-    icon: AlertCircle,
-    slug: "reality-check",
-    color: "#7c3aed",
-    bgColor: "#ede9fe",
-  },
-];
+import {
+  getColorClasses,
+  getIcon,
+  TEST_CATEGORIES,
+} from "@/config/testCategories";
 
 const whatIsTrueSelf = [
   {
@@ -244,8 +165,8 @@ export default function AboutPage() {
               <p>TrueSelf does the opposite.</p>
               <p>
                 It separates your identity into multiple dimensions, including
-                identity, personality, mindset, emotional health, life patterns,
-                money behavior, and more.
+                personality, identity, relationships, career, mind, motivation,
+                growth, stress, and life direction.
               </p>
               <p>
                 This allows you to see contradictions, gaps, and hidden patterns
@@ -272,39 +193,34 @@ export default function AboutPage() {
             Choose a life area you want to understand better.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {dimensions.map((dimension) => {
-              const IconComponent = dimension.icon;
+            {TEST_CATEGORIES.map((dimension) => {
+              const IconComponent = getIcon(dimension.icon);
+              const colorClasses = getColorClasses(dimension.color);
+
               return (
                 <Link
-                  key={dimension.slug}
-                  href={`/tests/${dimension.slug}`}
+                  key={dimension.id}
+                  href={dimension.href}
                   className="block h-full group"
                 >
                   <div className="bg-white rounded-xl p-6 h-full flex flex-col border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-400 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
                     {/* Gradient overlay on hover */}
                     <div
-                      className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-400 pointer-events-none"
-                      style={{ backgroundColor: dimension.color }}
+                      className={`absolute inset-0 bg-gradient-to-r ${dimension.colorClass} opacity-0 transition-opacity duration-400 group-hover:opacity-5 pointer-events-none`}
                     />
 
                     {/* Icon Container */}
                     <div
-                      className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg relative z-10"
-                      style={{
-                        backgroundColor: dimension.bgColor,
-                      }}
+                      className={`w-12 h-12 rounded-lg mb-4 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg relative z-10 ${colorClasses.bg} ${colorClasses.text}`}
                     >
-                      <IconComponent
-                        size={24}
-                        style={{ color: dimension.color }}
-                      />
+                      <IconComponent size={24} />
                     </div>
 
                     {/* Content */}
                     <div className="flex-grow relative z-10">
                       {/* Title */}
                       <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-950 transition-colors duration-300">
-                        {dimension.title}
+                        {dimension.name}
                       </h3>
 
                       {/* Description */}
@@ -315,17 +231,7 @@ export default function AboutPage() {
 
                     {/* Explore Button */}
                     <button
-                      className="mt-6 w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-300 flex items-center justify-center gap-2 group-hover:scale-105 group-hover:shadow-lg relative z-10 active:scale-95"
-                      style={{
-                        background: `linear-gradient(135deg, ${dimension.color}, ${dimension.color})`,
-                        opacity: 0.9,
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.opacity = "1";
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.opacity = "0.9";
-                      }}
+                      className={`mt-6 w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-300 flex items-center justify-center gap-2 group-hover:scale-105 group-hover:shadow-lg relative z-10 active:scale-95 bg-gradient-to-r ${dimension.colorClass}`}
                     >
                       Explore
                       <ArrowRight

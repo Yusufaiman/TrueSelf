@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import { Navbar } from "@/components/sections/Navbar";
-import { Footer } from "@/components/sections/Footer";
 import { ClientProviders } from "@/components/ClientProviders";
+import { AppChrome } from "@/components/AppChrome";
 import "@/styles/globals.css";
 import "@/lib/test-configs"; // Register all test configurations
 
@@ -35,9 +34,7 @@ export default function RootLayout({
     >
       <body className="bg-soft-white text-soft-grey antialiased">
         <ClientProviders>
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
+          <AppChrome>{children}</AppChrome>
         </ClientProviders>
       </body>
     </html>

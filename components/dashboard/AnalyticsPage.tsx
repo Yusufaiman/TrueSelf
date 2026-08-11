@@ -1,90 +1,283 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
-import { useGlobalProfile } from "@/hooks/useGlobalProfile";
-import { useUser } from "@/hooks/useUser";
-import { GlobalSpiderChartExpanded } from "./GlobalSpiderChartExpanded";
-import { CategoryBreakdownAnalytics } from "./CategoryBreakdownAnalytics";
-import { ContradictionDetector } from "./ContradictionDetector";
-import { BehaviorProfile } from "./BehaviorProfile";
-import { GlobalBlindSpots } from "./GlobalBlindSpots";
+import Link from "next/link";
+import {
+  ArrowRight,
+  BarChart3,
+  Brain,
+  CheckCircle2,
+  Layers,
+  LineChart,
+  TrendingUp,
+} from "lucide-react";
+import { useDashboardProfile } from "@/hooks/useDashboardProfile";
+import { SpiderChart } from "./SpiderChart";
 
-/**
- * Analytics page - Deep dive into global profile
- */
+function preferenceStrength(percent: number) {
+  if (percent >= 80) {
+    return "Strong preference";
+  }
+
+  if (percent >= 65) {
+    return "Moderate preference";
+  }
+
+  return "Balanced";
+}
+
 export function AnalyticsPage() {
-  const { user } = useUser();
-  const { profile, loading } = useGlobalProfile(user?.id);
+  const { summary, loading } = useDashboardProfile();
+  const hasResults = summary.completedTests > 0;
 
   if (loading) {
     return (
       <div className="flex justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600" />
       </div>
     );
   }
 
-  if (!profile) {
+  if (!hasResults) {
     return (
       <div className="space-y-8 animate-fade-in">
         <div>
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">Analytics</h1>
+          <h1 className="mb-2 text-4xl font-bold text-slate-900">Analytics</h1>
           <p className="text-slate-600">
-            Deep insights from your psychological profile
+            Your analytics will appear as you complete assessments.
           </p>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-16 flex flex-col items-center justify-center">
-          <TrendingUp className="w-12 h-12 text-slate-400 mb-4" />
-          <p className="text-lg text-slate-700 font-medium mb-2">
+        <div className="flex flex-col items-center justify-center rounded-2xl border border-slate-200 bg-white p-16 text-center shadow-sm">
+          <TrendingUp className="mb-4 h-12 w-12 text-slate-400" />
+          <p className="mb-2 text-lg font-medium text-slate-700">
             No analytics yet
           </p>
-          <p className="text-slate-500 text-center mb-8 max-w-sm">
-            Take more tests to unlock detailed analytics and deeper insights
-            about your patterns
+          <p className="mb-8 max-w-sm text-slate-500">
+            Complete your first assessment before TrueSelf starts looking for
+            patterns across your profile.
           </p>
-          <a
-            href="/tests"
-            className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-semibold transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
+          <Link
+            href="/assessment/trueself-16-type"
+            className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 px-6 py-3 font-semibold text-white shadow-md"
           >
-            Take More Tests
-          </a>
+            Start with 16-Type
+            <ArrowRight size={18} />
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-12 animate-fade-in">
-      {/* Page Header */}
+    <div className="space-y-10 animate-fade-in">
       <div>
-        <h1 className="text-4xl font-bold text-slate-900 mb-2">Analytics</h1>
+        <h1 className="mb-2 text-4xl font-bold text-slate-900">Analytics</h1>
         <p className="text-slate-600">
-          Deep insights from your unified psychological profile
+          Deeper patterns across your completed TrueSelf assessments.
         </p>
       </div>
 
-      {/* Global Spider Chart */}
-      <GlobalSpiderChartExpanded profile={profile} />
-
-      {/* Category Breakdown */}
-      <CategoryBreakdownAnalytics profile={profile} />
-
-      {/* Behavior Profile */}
-      <BehaviorProfile profile={profile} />
-
-      {/* Contradictions */}
-      <div>
-        <h3 className="text-2xl font-semibold text-slate-900 mb-4">
-          Internal Patterns
-        </h3>
-        <ContradictionDetector profile={profile} />
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p className="text-sm font-medium text-slate-600">Tests Completed</p>
+          <p className="mt-4 text-4xl font-black text-slate-950">
+            {summary.completedTests}
+          </p>
+        </section>
+        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p className="text-sm font-medium text-slate-600">
+            Domains Explored
+          </p>
+          <p className="mt-4 text-4xl font-black text-slate-950">
+            {summary.completedDomains}/{summary.totalDomains}
+          </p>
+        </section>
+        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p className="text-sm font-medium text-slate-600">Profile Signals</p>
+          <p className="mt-4 text-4xl font-black text-slate-950">
+            {summary.profileSignals}
+          </p>
+        </section>
+        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <p className="text-sm font-medium text-slate-600">Profile Coverage</p>
+          <p className="mt-4 text-4xl font-black text-slate-950">
+            {summary.profileCompleteness}%
+          </p>
+        </section>
       </div>
 
-      {/* Blind Spots */}
-      {profile.insights.blindSpots.length > 0 && (
-        <GlobalBlindSpots profile={profile} />
-      )}
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="mb-5 flex items-center gap-2">
+          <BarChart3 className="h-5 w-5 text-blue-600" />
+          <h2 className="text-xl font-bold text-slate-900">
+            Personality Structure
+          </h2>
+        </div>
+        {summary.corePersonality ? (
+          <div className="grid gap-6 lg:grid-cols-[0.65fr_1.35fr]">
+            <div>
+              <p className="text-6xl font-black text-blue-600">
+                {summary.corePersonality.typeCode}
+              </p>
+              <p className="mt-2 text-2xl font-bold text-slate-900">
+                {summary.corePersonality.typeName}
+              </p>
+            </div>
+            <div className="overflow-hidden rounded-2xl border border-slate-200">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-slate-50 text-slate-500">
+                  <tr>
+                    <th className="px-4 py-3 font-semibold">Axis</th>
+                    <th className="px-4 py-3 font-semibold">Result</th>
+                    <th className="px-4 py-3 font-semibold">Strength</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {summary.corePersonality.axisScores.map((axis) => (
+                    <tr key={axis.axis} className="border-t border-slate-100">
+                      <td className="px-4 py-3 font-semibold text-slate-900">
+                        {axis.axis}
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {axis.preferenceLabel} {axis.percent}%
+                      </td>
+                      <td className="px-4 py-3 text-slate-600">
+                        {preferenceStrength(axis.percent)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ) : (
+          <p className="rounded-2xl bg-slate-50 p-6 text-sm text-slate-500">
+            No personality structure yet. Complete the TrueSelf 16-Type
+            Assessment to unlock this section.
+          </p>
+        )}
+      </section>
+
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="mb-5 flex items-center gap-2">
+          <Brain className="h-5 w-5 text-blue-600" />
+          <h2 className="text-xl font-bold text-slate-900">
+            Cognitive Profile
+          </h2>
+        </div>
+        <p className="rounded-2xl bg-slate-50 p-6 text-sm text-slate-500">
+          No cognitive profile data yet. Complete the Mind test when it is
+          available to measure thinking style, learning style, and processing
+          patterns.
+        </p>
+      </section>
+
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="mb-5 flex items-center gap-2">
+          <Layers className="h-5 w-5 text-blue-600" />
+          <h2 className="text-xl font-bold text-slate-900">
+            Your Profile Domains
+          </h2>
+        </div>
+        <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+          <SpiderChart
+            data={summary.domains.map((domain) => ({
+              name: domain.name,
+              value: domain.coverage,
+            }))}
+            width={380}
+            height={380}
+          />
+          <div className="space-y-3">
+            {summary.domains.map((domain) => (
+              <div
+                key={domain.id}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-bold text-slate-900">{domain.name}</p>
+                  <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-600">
+                    {domain.completed ? "Explored" : "Missing"}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm text-slate-500">
+                  {domain.completed
+                    ? `${domain.discoveredInsights} insights discovered`
+                    : "No data yet"}
+                </p>
+                {domain.resultLabel && (
+                  <p className="mt-2 text-sm font-semibold text-blue-600">
+                    {domain.resultLabel}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-2">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-bold text-slate-900">
+            Cross-Test Patterns
+          </h2>
+          {summary.completedDomains >= 3 ? (
+            <div className="mt-4 space-y-3">
+              <div className="rounded-2xl bg-slate-50 p-4">
+                <p className="font-semibold text-slate-900">
+                  Evidence building
+                </p>
+                <p className="mt-2 text-sm text-slate-500">
+                  TrueSelf has enough domain coverage to start comparing
+                  repeated signals, but detailed pattern extraction will become
+                  stronger as more standardized tests are added.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <p className="mt-4 rounded-2xl bg-slate-50 p-6 text-sm text-slate-500">
+              Not enough data yet. Complete at least 3 domains before TrueSelf
+              looks for repeated patterns.
+            </p>
+          )}
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-bold text-slate-900">
+            Consistency Analysis
+          </h2>
+          {summary.completedDomains >= 3 ? (
+            <div className="mt-4 rounded-2xl bg-slate-50 p-4">
+              <p className="font-semibold text-slate-900">
+                Confidence: {summary.evidenceConfidence}
+              </p>
+              <p className="mt-2 text-sm text-slate-500">
+                Based on {summary.completedTests} assessments,{" "}
+                {summary.completedDomains} domains, and {summary.profileSignals}{" "}
+                profile signals.
+              </p>
+            </div>
+          ) : (
+            <p className="mt-4 rounded-2xl bg-slate-50 p-6 text-sm text-slate-500">
+              Not enough data to measure consistency. Complete more assessments
+              that measure related traits.
+            </p>
+          )}
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="mb-5 flex items-center gap-2">
+          <LineChart className="h-5 w-5 text-blue-600" />
+          <h2 className="text-xl font-bold text-slate-900">
+            Change Over Time
+          </h2>
+        </div>
+        <p className="rounded-2xl bg-slate-50 p-6 text-sm text-slate-500">
+          Change tracking appears after you retake assessments that measure
+          traits suitable for tracking over time.
+        </p>
+      </section>
     </div>
   );
 }

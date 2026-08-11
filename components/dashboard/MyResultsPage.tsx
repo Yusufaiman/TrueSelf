@@ -17,6 +17,7 @@ export function MyResultsPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   const testNames: Record<string, string> = {
+    trueself_16_type: "TrueSelf 16 Types",
     test_1: "Identity Profile",
     test_2: "Personality Type",
     test_3: "Life Drivers",
@@ -24,6 +25,7 @@ export function MyResultsPage() {
   };
 
   const testBadgeColors: Record<string, string> = {
+    trueself_16_type: "bg-blue-100 text-blue-800",
     test_1: "bg-blue-100 text-blue-800",
     test_2: "bg-purple-100 text-purple-800",
     test_3: "bg-amber-100 text-amber-800",
@@ -31,6 +33,7 @@ export function MyResultsPage() {
   };
 
   const testRoutes: Record<string, string> = {
+    trueself_16_type: "/assessment/trueself-16-type",
     test_1: "/tests/identity/who-you-really-are",
     test_2: "/tests/identity/personality-type",
     test_3: "/tests/identity/what-drives-you",
@@ -66,6 +69,9 @@ export function MyResultsPage() {
   };
 
   const getResultTitle = (testType: string, result: any): string => {
+    if (result.typeCode && result.typeName) {
+      return `${result.typeCode} - ${result.typeName}`;
+    }
     if (result.title) return result.title;
     if (result.pattern) return result.pattern;
     if (result.primaryType) return result.primaryType;

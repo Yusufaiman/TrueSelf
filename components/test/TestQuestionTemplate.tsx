@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowLeft, RotateCcw } from "lucide-react";
 
-type AnswerValue = 1 | 2 | 3 | 4 | 5;
+type AnswerValue = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 interface AnswerOption {
   value: AnswerValue;

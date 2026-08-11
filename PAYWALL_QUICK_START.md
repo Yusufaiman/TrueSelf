@@ -35,11 +35,13 @@ A complete paywall system has been implemented that blocks test results for non-
 ### 1. Paywall Page (`/app/paywall/page.tsx`)
 
 **Shows when:**
+
 - User completes test and isn't subscribed
 - User tries to access dashboard
 - User tries to view results
 
 **Features:**
+
 - Progress badge: "100% Complete"
 - Blurred result preview (drives conversion)
 - 8-item value stack (benefits list)
@@ -52,25 +54,28 @@ A complete paywall system has been implemented that blocks test results for non-
 ### 2. Test Flow Block (`/app/assessment/[testId]/page.tsx`)
 
 **Modified logic:**
+
 ```typescript
 if (isLastQuestion) {
   if (!isSubscribed) {
-    router.push("/paywall?source=test-complete");  // ← NEW
+    router.push("/paywall?source=test-complete"); // ← NEW
     return;
   }
-  setScreen("result");  // Show result only to subscribers
+  setScreen("result"); // Show result only to subscribers
 }
 ```
 
 ### 3. Dashboard Protection (`/app/dashboard/layout.tsx`)
 
 **Effect:**
+
 - Non-subscribers redirected to `/paywall?source=dashboard`
 - Subscribed users see dashboard normally
 
 ### 4. Subscription Hook (`/hooks/useSubscription.ts`)
 
 **Usage:**
+
 ```typescript
 const { isSubscribed, isLoading, status } = useSubscription();
 
@@ -119,6 +124,7 @@ SELECT * FROM subscriptions WHERE user_id = 'xxx';
 ```
 
 **Important field:** `status`
+
 - Status must be `'active'` for paywall to unlock
 - Other statuses: `'inactive'`, `'cancelled'`, `'past_due'`
 
@@ -126,36 +132,41 @@ SELECT * FROM subscriptions WHERE user_id = 'xxx';
 
 The paywall shows different messages based on `source` parameter:
 
-| Source | Message | Triggered By |
-|--------|---------|--------------|
-| `test-complete` | "You've completed your test. Your results are ready." | Test completion |
-| `dashboard` | "Unlock your insights" | Dashboard access attempt |
-| `result` | "Results ready — locked until you subscribe." | Direct result access |
-| _(none)_ | "One step away" | Direct paywall URL |
+| Source          | Message                                               | Triggered By             |
+| --------------- | ----------------------------------------------------- | ------------------------ |
+| `test-complete` | "You've completed your test. Your results are ready." | Test completion          |
+| `dashboard`     | "Unlock your insights"                                | Dashboard access attempt |
+| `result`        | "Results ready — locked until you subscribe."         | Direct result access     |
+| _(none)_        | "One step away"                                       | Direct paywall URL       |
 
 ## Psychology Behind the Design
 
 ✨ **100% Complete Badge**
+
 - Shows user finished all work
 - Creates sunk cost feeling
 - Increases likelihood to convert
 
 🔒 **Blurred Result Preview**
+
 - Teases what they earned
 - Creates curiosity gap
 - ~60% of conversions driven by this
 
 📊 **Value Stack (8 Benefits)**
+
 - Shows global access (all 40+ tests)
 - Psychological anchoring
 - Justifies price
 
 💰 **Pricing Strategy**
+
 - Monthly: Low friction entry ($9.99)
 - Yearly: 40% discount ($71.88 vs $119.88)
 - Yearly drives higher LTV
 
 🛡️ **Trust Signals**
+
 - Secure Stripe checkout
 - Cancel anytime (no lock-in)
 - 7-day trial
@@ -164,6 +175,7 @@ The paywall shows different messages based on `source` parameter:
 ## Blocking Logic
 
 ### Test Results Blocked?
+
 ✅ Check: Does user have `status = 'active'` in subscriptions table?
 
 ```typescript
@@ -172,6 +184,7 @@ The paywall shows different messages based on `source` parameter:
 ```
 
 ### Dashboard Blocked?
+
 ✅ Check: Does dashboard layout see `isSubscribed = false`?
 
 ```typescript
@@ -180,6 +193,7 @@ The paywall shows different messages based on `source` parameter:
 ```
 
 ### Both Not Showing?
+
 ✅ Check: Is SubscriptionProvider wrapping your app in `/app/layout.tsx`?
 
 ```typescript

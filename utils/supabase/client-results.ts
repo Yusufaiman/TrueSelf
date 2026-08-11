@@ -10,7 +10,7 @@ import type { TestResult as DimensionTestResult } from "@/lib/psychology/dimensi
 export interface TestResult {
   id: string;
   user_id: string;
-  test_type: "test_1" | "test_2" | "test_3" | "test_4";
+  test_type: string;
   scores: Record<string, number>;
   result: {
     title: string;
@@ -29,7 +29,7 @@ export interface TestResult {
 }
 
 export async function saveTestResult(
-  testType: "test_1" | "test_2" | "test_3" | "test_4",
+  testType: string,
   scores: any,
   result: any,
 ) {

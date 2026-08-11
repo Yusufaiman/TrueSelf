@@ -5,21 +5,22 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import {
-  User,
   Users,
   Briefcase,
-  Map,
   Brain,
   Heart,
-  RefreshCw,
-  Wallet,
-  AlertCircle,
+  Compass,
+  Dna,
+  Flame,
   ChevronDown,
   Menu,
   X,
   BarChart3,
   LogOut,
   CreditCard,
+  Sprout,
+  User,
+  UserRound,
 } from "lucide-react";
 import { categoryThemes, type CategoryKey } from "@/config/categoryTheme";
 import { getClientUser, clientSignOut } from "@/utils/supabase/client-auth";
@@ -35,10 +36,17 @@ interface TestCategory {
 
 const testCategories: TestCategory[] = [
   {
+    title: "Personality",
+    description: "Find your core 16-type pattern",
+    href: "/tests/personality",
+    icon: <Dna size={20} />,
+    categoryKey: "personality",
+  },
+  {
     title: "Identity",
-    description: "Understand who you really are",
+    description: "Separate core self from social mask",
     href: "/tests/identity",
-    icon: <User size={20} />,
+    icon: <UserRound size={20} />,
     categoryKey: "identity",
   },
   {
@@ -56,60 +64,53 @@ const testCategories: TestCategory[] = [
     categoryKey: "career",
   },
   {
-    title: "Life Direction",
-    description: "Get clearer about where you are going",
-    href: "/tests/life-direction",
-    icon: <Map size={20} />,
-    categoryKey: "life-direction",
-  },
-  {
-    title: "Mindset",
-    description: "Understand how your mind works",
-    href: "/tests/mindset",
+    title: "Mind",
+    description: "Explore thinking and learning style",
+    href: "/tests/mind",
     icon: <Brain size={20} />,
-    categoryKey: "mindset",
+    categoryKey: "mind",
   },
   {
-    title: "Emotional Health",
-    description: "Understand your emotional patterns",
-    href: "/tests/emotional-health",
+    title: "Motivation",
+    description: "See what drives action or avoidance",
+    href: "/tests/motivation",
+    icon: <Flame size={20} />,
+    categoryKey: "motivation",
+  },
+  {
+    title: "Growth",
+    description: "Turn insight into development",
+    href: "/tests/growth",
+    icon: <Sprout size={20} />,
+    categoryKey: "growth",
+  },
+  {
+    title: "Stress & Emotions",
+    description: "Map pressure and recovery patterns",
+    href: "/tests/stress-emotions",
     icon: <Heart size={20} />,
-    categoryKey: "emotional-health",
+    categoryKey: "stress-emotions",
   },
   {
-    title: "Life Patterns",
-    description: "See the loops that keep repeating",
-    href: "/tests/life-patterns",
-    icon: <RefreshCw size={20} />,
-    categoryKey: "life-patterns",
-  },
-  {
-    title: "Money",
-    description: "Understand your financial behavior",
-    href: "/tests/money",
-    icon: <Wallet size={20} />,
-    categoryKey: "money",
-  },
-  {
-    title: "Reality Check",
-    description: "See what might be holding you back",
-    href: "/tests/reality-check",
-    icon: <AlertCircle size={20} />,
-    categoryKey: "reality-check",
+    title: "Life",
+    description: "Clarify purpose and priorities",
+    href: "/tests/life",
+    icon: <Compass size={20} />,
+    categoryKey: "life",
   },
 ];
 
 // Icon colors only - no background colors
 const iconColorMap: Record<CategoryKey, string> = {
-  identity: "#3b82f6",
+  personality: "#3b82f6",
+  identity: "#6366f1",
   relationships: "#ec4899",
-  career: "#6366f1",
-  "life-direction": "#a855f7",
-  mindset: "#22d3ee",
-  "emotional-health": "#ef4444",
-  "life-patterns": "#f59e0b",
-  money: "#22c55e",
-  "reality-check": "#6b7280",
+  career: "#8b5cf6",
+  mind: "#06b6d4",
+  motivation: "#f97316",
+  growth: "#22c55e",
+  "stress-emotions": "#ef4444",
+  life: "#14b8a6",
 };
 
 export const Navbar: React.FC = () => {
@@ -164,9 +165,13 @@ export const Navbar: React.FC = () => {
     return false;
   };
 
-  const navLinks = [
+  const navLinks: Array<{
+    label: string;
+    href: string;
+    hasDropdown?: boolean;
+  }> = [
     { label: "Home", href: "/" },
-    { label: "Tests", href: "/tests", hasDropdown: true },
+    { label: "Tests", href: "/tests" },
     { label: "Types", href: "/types" },
     { label: "Pricing", href: "/pricing" },
     { label: "About", href: "/about" },
@@ -184,9 +189,14 @@ export const Navbar: React.FC = () => {
           {/* Logo */}
           <Link
             href="/"
-            className="text-xl md:text-2xl font-bold text-slate-900 tracking-tight hover:opacity-70 transition-opacity"
+            className="flex h-10 w-40 items-center hover:opacity-70 transition-opacity md:w-44"
+            aria-label="TrueSelf home"
           >
-            TrueSelf
+            <img
+              src="/assets/logo/trueself-logo-navbar.png"
+              alt="TrueSelf"
+              className="h-full w-full object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}
