@@ -28,11 +28,73 @@ export interface TestResult {
   updated_at?: string;
 }
 
+const inFlightSaveKeys = new Set<string>();
+
+function stableStringify(value: any): string {
+  if (value === null || typeof value !== "object") {
+    return JSON.stringify(value);
+  }
+
+  if (Array.isArray(value)) {
+    return `[${value.map((item) => stableStringify(item)).join(",")}]`;
+  }
+
+  return `{${Object.keys(value)
+    .sort()
+    .map((key) => `${JSON.stringify(key)}:${stableStringify(value[key])}`)
+    .join(",")}}`;
+}
+
+function resultFingerprint(result: TestResult) {
+  const payload = result.result || {};
+  const primaryIdentity =
+    payload.typeCode || payload.title || payload.pattern || payload.primaryType || payload.label;
+  const createdAt = new Date(result.created_at);
+  const minuteBucket = Number.isNaN(createdAt.getTime())
+    ? result.created_at
+    : createdAt.toISOString().slice(0, 16);
+
+  return [
+    result.test_type,
+    primaryIdentity,
+    minuteBucket,
+  ].join("|");
+}
+
+export function dedupeTestResults(results: TestResult[]) {
+  const seen = new Set<string>();
+
+  return results.filter((result) => {
+    const fingerprint = resultFingerprint(result);
+    if (seen.has(fingerprint)) {
+      return false;
+    }
+
+    seen.add(fingerprint);
+    return true;
+  });
+}
+
 export async function saveTestResult(
   testType: string,
   scores: any,
   result: any,
 ) {
+  const resultIdentity =
+    result?.typeCode || result?.title || result?.pattern || result?.primaryType || result?.label;
+  const saveKey = [
+    testType,
+    resultIdentity,
+    stableStringify(scores || {}),
+  ].join("|");
+
+  if (inFlightSaveKeys.has(saveKey)) {
+    console.warn("[Results] Duplicate save skipped while previous save is still in progress.");
+    return null;
+  }
+
+  inFlightSaveKeys.add(saveKey);
+
   try {
     const supabase = createClient();
 
@@ -114,6 +176,8 @@ export async function saveTestResult(
   } catch (err) {
     console.error("Exception saving test result:", err);
     return null;
+  } finally {
+    inFlightSaveKeys.delete(saveKey);
   }
 }
 
@@ -162,8 +226,12 @@ export async function getUserResults() {
       return [];
     }
 
-    console.log("Fetched results:", data?.length || 0);
-    return (data as TestResult[]) || [];
+    const results = (data as TestResult[]) || [];
+    const uniqueResults = dedupeTestResults(results);
+
+    console.log("Fetched results:", results.length);
+    console.log("Unique results:", uniqueResults.length);
+    return uniqueResults;
   } catch (err: any) {
     console.error("Exception fetching results:", err);
     console.error("Exception details:", err.message || err);

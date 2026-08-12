@@ -1,147 +1,74 @@
 import { registerTest, TestConfig } from "@/lib/test-config";
 import {
-  IDENTITY_QUESTIONS,
-  calculateDimensionScores,
-} from "@/lib/identity-system/questions";
-import { IDENTITIES } from "@/lib/identity-system/types";
-import { getCompleteResult } from "@/lib/identity-system/profileMatching";
+  calculateIdentityResult,
+  getIdentityScoresForStorage,
+} from "@/lib/identity-profile/engine";
+import { IDENTITY_PROFILE_QUESTIONS } from "@/lib/identity-profile/data";
 
-const dimensionMetadata = {
-  selfAwareness: {
-    label: "Self Awareness",
-    colorClass: "bg-blue-500",
-    colorText: "text-blue-600",
-    lightBgClass: "bg-blue-50",
-    iconName: "Brain",
-  },
-  authenticity: {
-    label: "Authenticity",
-    colorClass: "bg-emerald-500",
-    colorText: "text-emerald-600",
-    lightBgClass: "bg-emerald-50",
-    iconName: "CheckCircle2",
-  },
-  externalInfluence: {
-    label: "External Influence",
-    colorClass: "bg-amber-500",
-    colorText: "text-amber-600",
-    lightBgClass: "bg-amber-50",
-    iconName: "Sparkles",
-  },
-  identityStability: {
-    label: "Identity Stability",
-    colorClass: "bg-violet-500",
-    colorText: "text-violet-600",
-    lightBgClass: "bg-violet-50",
-    iconName: "BookOpen",
-  },
-  emotionalAlignment: {
-    label: "Emotional Alignment",
-    colorClass: "bg-pink-500",
-    colorText: "text-pink-600",
-    lightBgClass: "bg-pink-50",
-    iconName: "Heart",
-  },
-  decisionClarity: {
-    label: "Decision Clarity",
-    colorClass: "bg-indigo-500",
-    colorText: "text-indigo-600",
-    lightBgClass: "bg-indigo-50",
-    iconName: "Compass",
-  },
-  innerConsistency: {
-    label: "Inner Consistency",
-    colorClass: "bg-cyan-500",
-    colorText: "text-cyan-600",
-    lightBgClass: "bg-cyan-50",
-    iconName: "Sparkles",
-  },
-  socialExpression: {
-    label: "Social Expression",
-    colorClass: "bg-orange-500",
-    colorText: "text-orange-600",
-    lightBgClass: "bg-orange-50",
-    iconName: "CheckCircle2",
-  },
-};
+const answerOptions = [
+  { value: 1 as const, label: "Strongly Disagree", color: "#EF4444" },
+  { value: 2 as const, label: "Disagree", color: "#F97316" },
+  { value: 3 as const, label: "Slightly Disagree", color: "#F59E0B" },
+  { value: 4 as const, label: "Neutral / Depends", color: "#9CA3AF" },
+  { value: 5 as const, label: "Slightly Agree", color: "#22C55E" },
+  { value: 6 as const, label: "Agree", color: "#14B8A6" },
+  { value: 7 as const, label: "Strongly Agree", color: "#06B6D4" },
+];
 
-const test1Config: TestConfig = {
+const identityConfig: TestConfig = {
   id: "identity-who-you-really-are",
   title: "Who You Really Are",
-  description: "Discover your core identity",
+  description:
+    "Discover how clearly you understand, maintain, and express your identity across different environments.",
   path: "/assessment/identity-who-you-really-are",
-  questions: IDENTITY_QUESTIONS,
-  scoring: (answers) => {
-    const responses: Record<number, number> = {};
-    Object.entries(answers).forEach(([key, value]) => {
-      responses[parseInt(key)] = value;
-    });
-    const dimensionScores = calculateDimensionScores(responses);
-    return getCompleteResult(dimensionScores);
-  },
-  generateResult: (score: any, answers) => {
-    const primaryType = score.primary.type as any as string;
-    // @ts-ignore
-    const primaryIdentity = IDENTITIES[primaryType];
-    const dimensionScores = calculateDimensionScores(
-      Object.fromEntries(
-        Object.entries(answers).map(([k, v]) => [parseInt(k), v]),
-      ),
-    );
-
-    return {
-      badgeText: "Identity Profile",
-      preTitle: "You are",
-      title: score.primary.name,
-      subtitle: primaryIdentity.tagline,
-      description: score.primary.description,
-      traits: Object.entries(dimensionScores).map(([key, value]) => {
-        const metadata =
-          dimensionMetadata[key as keyof typeof dimensionMetadata];
-        return {
-          label: metadata.label,
-          value,
-          colorClass: metadata.colorClass,
-          colorText: metadata.colorText,
-          lightBgClass: metadata.lightBgClass,
-          iconName: metadata.iconName,
-        };
-      }),
-      sections: [
-        {
-          title: "Your core pattern",
-          content: primaryIdentity.corePattern,
-          type: "normal" as const,
-        },
-        {
-          title: "Psychological traits",
-          content: primaryIdentity.psychologicalTraits.map((t: any) => t),
-          type: "normal" as const,
-        },
-      ],
-      strengths: primaryIdentity.strengths,
-      secondaryMatch: score.secondary
-        ? {
-            name: score.secondary.name,
-            description: score.secondary.description,
-            matchScore: score.secondary.similarityScore,
-          }
-        : undefined,
-      onRetake: () => {
-        // Will be overridden in component
-      },
-    };
+  questions: IDENTITY_PROFILE_QUESTIONS.map((question) => ({
+    id: question.id,
+    text: question.text,
+  })),
+  answerOptions,
+  scoring: (answers) => calculateIdentityResult(answers),
+  generateResult: (score) => ({
+    variant: "identity-profile",
+    result: score,
+  }),
+  persistence: {
+    testType: "identity_profile",
+    buildScores: (score) => getIdentityScoresForStorage(score),
+    buildResult: (score) => ({
+      title: score.pattern.name,
+      pattern: score.pattern.name,
+      patternId: score.pattern.id,
+      tagline: score.pattern.tagline,
+      description: score.pattern.description,
+      matchScore: score.pattern.matchScore,
+      dimensions: score.dimensions,
+      coreSocialAlignment: score.coreSocialAlignment,
+      expressionGap: score.expressionGap,
+      internalGrounding: score.internalGrounding,
+      coreSelf: score.coreSelf,
+      socialSelf: score.socialSelf,
+      groundingSignals: score.groundingSignals,
+      adaptationSignals: score.adaptationSignals,
+      insights: score.insights,
+      confidence: score.confidence,
+      confidenceNotes: score.confidenceNotes,
+      answerEvidence: score.answerEvidence,
+      category: "identity",
+      domain: "identity",
+    }),
   },
   startScreenContent: {
-    title: "Test guidelines",
+    title: "Who You Really Are",
     guidelines: [
-      "Answer each statement based on your personal opinion",
-      "You cannot skip questions, but you can return to them later",
+      "Answer based on how you usually experience yourself, not who you think you should be",
+      "Neutral is valid when your answer genuinely depends on the situation",
+      "High social adaptation or external influence is descriptive, not automatically bad",
+      "This test does not overwrite your 16-type personality result; it adds identity signals to your TrueSelf profile",
     ],
-    estimatedTime: "5 minutes",
+    estimatedTime: "6-8 minutes",
   },
 };
 
-registerTest(test1Config);
+registerTest(identityConfig);
 
-export default test1Config;
+export default identityConfig;

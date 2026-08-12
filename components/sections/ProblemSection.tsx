@@ -1,103 +1,138 @@
 "use client";
 
 import React from "react";
-import { Brain, Repeat2, Zap, Compass, Users, Cloud } from "lucide-react";
-import { ArrowRight } from "lucide-react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Briefcase,
+  Dna,
+  HeartHandshake,
+  Layers,
+  Sparkles,
+  UserRound,
+  Zap,
+} from "lucide-react";
 
-const situations = [
+const signals = [
   {
-    icon: Brain,
-    title: "You overthink everything",
+    icon: Dna,
+    title: "A single result cannot explain the whole person",
     description:
-      "You struggle to make decisions because you keep thinking too much",
+      "Your type matters, but it is only one layer. TrueSelf connects type, traits, context, behaviour, pressure, and direction.",
+    accent: "text-blue-600",
+    bg: "bg-blue-50",
   },
   {
-    icon: Repeat2,
-    title: "You keep repeating the same patterns",
-    description: "Things change on the outside but the outcome stays the same",
+    icon: UserRound,
+    title: "Your inner self and outer life do not always match",
+    description:
+      "Identity data shows where your real self, social expression, values, and external expectations line up or pull apart.",
+    accent: "text-indigo-600",
+    bg: "bg-indigo-50",
+  },
+  {
+    icon: HeartHandshake,
+    title: "Relationships reveal patterns you cannot see alone",
+    description:
+      "Connection, communication, trust, care, and conflict add real-life evidence to your profile.",
+    accent: "text-pink-600",
+    bg: "bg-pink-50",
+  },
+  {
+    icon: Briefcase,
+    title: "Career fit is about environment, not job labels",
+    description:
+      "TrueSelf looks at autonomy, structure, social work, creativity, leadership drive, stability, and how you operate.",
+    accent: "text-violet-600",
+    bg: "bg-violet-50",
   },
   {
     icon: Zap,
-    title: "You feel tired even when you did not do much",
-    description: "Your energy feels low without a clear reason",
+    title: "Stress and emotion change how your patterns show up",
+    description:
+      "Pressure, recovery, regulation, and emotional processing are measured directly instead of being guessed from one result.",
+    accent: "text-orange-600",
+    bg: "bg-orange-50",
   },
   {
-    icon: Compass,
-    title: "You are unsure about your direction",
-    description: "You are not fully clear where your life is heading",
-  },
-  {
-    icon: Users,
-    title: "Your relationships feel complicated",
-    description: "Things feel heavier than they should be",
-  },
-  {
-    icon: Cloud,
-    title: "You feel empty even when things seem okay",
-    description: "Everything looks fine but something still feels missing",
+    icon: Layers,
+    title: "Every assessment should add to the same profile",
+    description:
+      "Each completed domain contributes signals to your overview, analytics, timeline, and recommendations.",
+    accent: "text-emerald-600",
+    bg: "bg-emerald-50",
   },
 ];
 
 export const ProblemSection: React.FC = () => {
   return (
-    <section className="w-full py-20 md:py-24 px-6 bg-gradient-to-r from-blue-500 to-cyan-500 text-white">
-      <div className="max-w-6xl mx-auto">
-        {/* Headline */}
-        <h2 className="text-3xl md:text-4xl font-semibold text-center tracking-tight">
-          Something feels off, but you can't explain why
-        </h2>
+    <section className="w-full bg-slate-50 px-6 py-20 md:py-24">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <div>
+            <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm">
+              <Sparkles size={16} />
+              Connected self-profile system
+            </span>
+            <h2 className="mt-6 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">
+              Most self-tests give you pieces. TrueSelf connects them.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              TrueSelf is built around one profile that grows with evidence.
+              Your results are not scattered quiz labels; they become a living
+              map of who you are right now, what stays consistent, and what is
+              changing over time.
+            </p>
+          </div>
 
-        {/* Subtext */}
-        <p className="text-white/80 text-center max-w-2xl mx-auto mt-6 leading-relaxed text-base md:text-lg">
-          You have tried to figure things out.
-          <br />
-          You think more, you reflect more, but nothing really changes.
-          <br />
-          It is not because you are not trying.
-          <br />
-          You just have not seen the full picture yet.
-        </p>
-
-        {/* Test Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-          {situations.map((situation, index) => {
-            const IconComponent = situation.icon;
-            return (
-              <div
-                key={index}
-                className="bg-white text-gray-900 rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer"
-              >
-                {/* Icon */}
-                <div className="bg-blue-100 text-blue-500 p-2 rounded-md w-fit mb-4">
-                  <IconComponent size={24} />
-                </div>
-
-                {/* Title */}
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {situation.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {situation.description}
-                </p>
-              </div>
-            );
-          })}
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <p className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+              What TrueSelf connects
+            </p>
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              {["Profile coverage", "Domain signals", "Whole-self pattern", "Timeline changes"].map(
+                (item) => (
+                  <div
+                    key={item}
+                    className="rounded-2xl border border-slate-100 bg-slate-50 p-4"
+                  >
+                    <p className="text-sm font-bold text-slate-900">{item}</p>
+                  </div>
+                ),
+              )}
+            </div>
+            <Link
+              href="/assessment/trueself-16-type"
+              className="mt-6 inline-flex items-center gap-2 font-semibold text-blue-600"
+            >
+              Start your profile
+              <ArrowRight size={16} />
+            </Link>
+          </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="flex flex-col items-center mt-12">
-          <button
-            onClick={() => (window.location.href = "/tests/identity")}
-            className="bg-white text-blue-600 font-medium px-8 py-3 rounded-lg hover:bg-blue-50 transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2"
-          >
-            Start understanding yourself
-            <ArrowRight size={18} />
-          </button>
-          <p className="text-white/70 text-sm text-center mt-3">
-            Get your results instantly. No signup needed.
-          </p>
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {signals.map((signal) => {
+            const IconComponent = signal.icon;
+            return (
+              <article
+                key={signal.title}
+                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
+              >
+                <div
+                  className={`mb-5 flex h-11 w-11 items-center justify-center rounded-full ${signal.bg} ${signal.accent}`}
+                >
+                  <IconComponent size={22} />
+                </div>
+                <h3 className="text-lg font-bold leading-7 text-slate-950">
+                  {signal.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                  {signal.description}
+                </p>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -18,6 +18,14 @@ export function MyResultsPage() {
 
   const testNames: Record<string, string> = {
     trueself_16_type: "TrueSelf 16 Types",
+    identity_profile: "Identity Profile",
+    relationship_profile: "Relationship Profile",
+    career_profile: "Career Fit",
+    mind_profile: "Mind Profile",
+    motivation_profile: "Motivation Profile",
+    growth_profile: "Growth Profile",
+    stress_emotions_profile: "Stress & Emotions Profile",
+    life_profile: "Life Profile",
     test_1: "Identity Profile",
     test_2: "Personality Type",
     test_3: "Life Drivers",
@@ -26,18 +34,18 @@ export function MyResultsPage() {
 
   const testBadgeColors: Record<string, string> = {
     trueself_16_type: "bg-blue-100 text-blue-800",
+    identity_profile: "bg-indigo-100 text-indigo-800",
+    relationship_profile: "bg-pink-100 text-pink-800",
+    career_profile: "bg-violet-100 text-violet-800",
+    mind_profile: "bg-cyan-100 text-cyan-800",
+    motivation_profile: "bg-orange-100 text-orange-800",
+    growth_profile: "bg-green-100 text-green-800",
+    stress_emotions_profile: "bg-rose-100 text-rose-800",
+    life_profile: "bg-teal-100 text-teal-800",
     test_1: "bg-blue-100 text-blue-800",
     test_2: "bg-purple-100 text-purple-800",
     test_3: "bg-amber-100 text-amber-800",
     test_4: "bg-red-100 text-red-800",
-  };
-
-  const testRoutes: Record<string, string> = {
-    trueself_16_type: "/assessment/trueself-16-type",
-    test_1: "/tests/identity/who-you-really-are",
-    test_2: "/tests/identity/personality-type",
-    test_3: "/tests/identity/what-drives-you",
-    test_4: "/tests/identity/strengths-weaknesses",
   };
 
   useEffect(() => {
@@ -109,9 +117,10 @@ export function MyResultsPage() {
       ) : (
         <div className="space-y-4">
           {results.map((result) => (
-            <div
+            <Link
               key={result.id}
-              className="bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-md transition-all duration-200 flex items-center justify-between"
+              href={`/dashboard/results/${result.id}`}
+              className="flex items-center justify-between rounded-2xl border border-slate-200 bg-white p-6 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
             >
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-3">
@@ -133,14 +142,13 @@ export function MyResultsPage() {
                 </div>
               </div>
 
-              <Link
-                href={testRoutes[result.test_type] || "/tests"}
-                className="p-3 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+              <span
+                className="rounded-full bg-blue-50 p-3 text-blue-600 transition-colors"
                 title="View result"
               >
                 <ExternalLink size={20} />
-              </Link>
-            </div>
+              </span>
+            </Link>
           ))}
         </div>
       )}

@@ -43,7 +43,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
           {category.description}
         </p>
 
-        <div className="mt-5 border-t border-slate-100 pt-4">
+        <div className="mt-5 flex-1 border-t border-slate-100 pt-4">
           <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
             This test discovers
           </p>
@@ -53,7 +53,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
         </div>
 
         <div
-          className={`mt-5 inline-flex items-center gap-2 font-semibold ${colorClasses.text} transition-all duration-200 hover:gap-3`}
+          className={`mt-auto inline-flex items-center gap-2 pt-5 font-semibold ${colorClasses.text} transition-all duration-200 hover:gap-3`}
         >
           Start Test
           <ArrowRight size={16} />

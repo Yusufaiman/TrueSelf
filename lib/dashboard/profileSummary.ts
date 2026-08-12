@@ -68,6 +68,14 @@ export interface DashboardProfileSummary {
 
 const DOMAIN_BY_TEST_TYPE: Record<string, ProfileDomain> = {
   trueself_16_type: "personality",
+  identity_profile: "identity",
+  relationship_profile: "relationships",
+  career_profile: "career",
+  mind_profile: "mind",
+  motivation_profile: "motivation",
+  growth_profile: "growth",
+  stress_emotions_profile: "stress-emotions",
+  life_profile: "life",
   test_1: "identity",
   test_2: "personality",
   test_3: "motivation",

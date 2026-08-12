@@ -19,23 +19,25 @@ export default function TestsPage() {
 
   return (
     <div className="tests-page-root min-h-screen bg-slate-50">
-      <section className="py-16 md:py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-14 animate-fade-in">
-            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm">
-              <Sparkles size={16} />
-              9 Connected TrueSelf Tests
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-              Explore All Tests
-            </h1>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              Each category is now one complete test. No extra sub-sections, no
-              scattered quizzes, just one focused assessment for each major part
-              of your TrueSelf profile.
-            </p>
-          </div>
+      <section className="border-b border-slate-200 bg-gradient-to-b from-blue-50 via-cyan-50/50 to-white px-6 py-20 text-center md:py-24">
+        <div className="mx-auto max-w-4xl">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm">
+            <Sparkles size={16} />
+            9 Connected TrueSelf Tests
+          </span>
+          <h1 className="mt-6 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
+            Explore all TrueSelf assessments
+          </h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+            Each domain is one focused assessment. Complete personality,
+            identity, relationships, career, mind, motivation, growth, stress,
+            and life to build one connected TrueSelf profile.
+          </p>
+        </div>
+      </section>
 
+      <section className="px-6 py-16 md:py-20">
+        <div className="mx-auto max-w-6xl">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {TEST_CATEGORIES.map((category) => (
               <CategoryCard key={category.id} category={category} />

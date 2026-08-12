@@ -4,289 +4,317 @@ import React from "react";
 import Link from "next/link";
 import {
   ArrowRight,
+  BarChart3,
+  Brain,
+  CheckCircle2,
+  Compass,
+  Dna,
   Layers,
-  Zap,
-  Eye,
+  Network,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
-import {
-  getColorClasses,
-  getIcon,
-  TEST_CATEGORIES,
-} from "@/config/testCategories";
+import { CategoryCard } from "@/components/sections/CategoryCard";
+import { TEST_CATEGORIES } from "@/config/testCategories";
 
-const whatIsTrueSelf = [
+const architecture = [
   {
-    title: "Multi-Dimensional",
+    label: "Foundation",
+    title: "Start with measured evidence",
     description:
-      "TrueSelf is a structured self discovery system designed to help you understand yourself across multiple dimensions.",
-    icon: <Layers size={24} />,
-    color: "#3b82f6",
-    bgColor: "#dbeafe",
+      "The master assessment gives your profile a clean starting layer: four axes, facets, clarity, and confidence.",
+    icon: Dna,
+    color: "text-blue-600",
+    bg: "bg-blue-50",
   },
   {
-    title: "Layered Understanding",
+    label: "Domains",
+    title: "Add the rest of your life",
     description:
-      "Instead of giving you a single label, TrueSelf breaks you into layers. Each test reveals a different part of how you think, behave, and respond.",
-    icon: <Eye size={24} />,
-    color: "#ec4899",
-    bgColor: "#fce7f3",
+      "Identity, relationships, career, mind, motivation, growth, stress, and life each add their own signals.",
+    icon: Layers,
+    color: "text-indigo-600",
+    bg: "bg-indigo-50",
   },
   {
-    title: "Pattern Recognition",
+    label: "Synthesis",
+    title: "Connect patterns across domains",
     description:
-      "You are not one type. You are a combination of patterns. TrueSelf helps you see those patterns clearly.",
-    icon: <Zap size={24} />,
-    color: "#f59e0b",
-    bgColor: "#fef3c7",
+      "Analytics looks for repeated themes, tensions, and strengths across your completed assessments.",
+    icon: Network,
+    color: "text-pink-600",
+    bg: "bg-pink-50",
+  },
+  {
+    label: "Timeline",
+    title: "Separate stable traits from change",
+    description:
+      "Your dashboard keeps the current snapshot clear while timeline insights track what develops over time.",
+    icon: BarChart3,
+    color: "text-emerald-600",
+    bg: "bg-emerald-50",
   },
 ];
 
-const howItWorks = [
+const principles = [
+  "Every assessment measures its own domain instead of pretending one quiz can explain everything.",
+  "Results are stored as evidence: scores, dimensions, facets, confidence, and profile signals.",
+  "Analytics connects repeated patterns across domains, but it does not invent insights when data is missing.",
+  "The dashboard is a readable snapshot; deeper graphs, comparisons, and timelines live in Analytics.",
+];
+
+const profileLayers = [
   {
-    title: "Take Assessments",
+    title: "Current profile",
     description:
-      "Answer structured questions designed to reveal your patterns across identity, mindset, relationships, and more.",
+      "A clear snapshot of what your completed assessments currently say about you.",
+    stat: "Now",
+    color: "text-blue-600",
+    bg: "bg-blue-50",
   },
   {
-    title: "Discover Your Types",
+    title: "Domain patterns",
     description:
-      "Each result maps you into specific type systems based on real behavioral patterns, not generic personality labels.",
+      "Nine focused areas show how you think, connect, work, grow, recover, and choose direction.",
+    stat: "9",
+    color: "text-violet-600",
+    bg: "bg-violet-50",
   },
   {
-    title: "Understand Yourself Clearly",
+    title: "Cross-domain reading",
     description:
-      "You begin to see how your decisions, emotions, and behaviors connect across different areas of your life.",
+      "TrueSelf compares results across assessments to show what keeps repeating in different contexts.",
+    stat: "X",
+    color: "text-pink-600",
+    bg: "bg-pink-50",
+  },
+  {
+    title: "Change over time",
+    description:
+      "Retakes build a timeline so you can separate stable patterns from developing ones.",
+    stat: "T",
+    color: "text-emerald-600",
+    bg: "bg-emerald-50",
   },
 ];
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="bg-linear-to-b from-blue-100 via-cyan-50 to-white py-20 md:py-24">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
-            Understand What TrueSelf Is Built For
+    <div className="min-h-screen bg-slate-50">
+      <section className="border-b border-slate-200 bg-gradient-to-b from-blue-50 via-cyan-50/60 to-white px-6 py-20 text-center md:py-24">
+        <div className="mx-auto max-w-4xl">
+          <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm">
+            <Sparkles size={16} />
+            About TrueSelf
+          </span>
+          <h1 className="mt-6 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
+            One connected profile for your whole self.
           </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            TrueSelf helps you understand how you think, feel, and behave across
-            different areas of your life. It brings clarity to patterns that are
-            often invisible but shape your decisions, relationships, and
-            direction.
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+            TrueSelf connects your assessments across personality, identity,
+            relationships, career, mind, motivation, growth, stress, and life,
+            then turns them into one readable profile.
           </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link
+              href="/assessment/trueself-16-type"
+              className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-6 py-3 font-semibold text-white shadow-md transition hover:from-blue-600 hover:to-cyan-600"
+            >
+              Take the master assessment
+              <ArrowRight size={18} />
+            </Link>
+            <Link
+              href="/dashboard/analytics"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+            >
+              See profile analytics
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* What is TrueSelf Section */}
-      <section className="py-20 md:py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight text-center">
-              What is TrueSelf
-            </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto text-center mb-12">
-              A structured system to understand yourself across multiple
-              dimensions
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {whatIsTrueSelf.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white rounded-xl border border-slate-200 p-8 flex flex-col h-full shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+      <section className="bg-white px-6 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700">
+                <Dna size={16} className="text-blue-600" />
+                What TrueSelf is built for
+              </span>
+              <h2 className="mt-6 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">
+                One profile, many parts of you.
+              </h2>
+              <p className="mt-5 text-lg leading-8 text-slate-600">
+                TrueSelf is not trying to reduce you to one label. It starts
+                with measured personality evidence, then expands through the
+                major domains that shape everyday life: how you see yourself,
+                connect with people, work, think, act, handle pressure, grow,
+                and choose direction.
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {profileLayers.map((layer) => (
+                <article
+                  key={layer.title}
+                  className="rounded-3xl border border-slate-200 bg-slate-50 p-6"
                 >
-                  <div
-                    className="w-12 h-12 rounded-lg mb-4 flex items-center justify-center"
-                    style={{
-                      backgroundColor: item.bgColor,
-                      color: item.color,
-                    }}
+                  <p
+                    className={`inline-flex rounded-2xl px-3 py-1 text-4xl font-black ${layer.bg} ${layer.color}`}
                   >
-                    {item.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-slate-900 mb-3">
-                    {item.title}
-                  </h3>
-                  <p className="text-slate-600 leading-relaxed flex-1">
-                    {item.description}
+                    {layer.stat}
                   </p>
-                </div>
+                  <h3 className="mt-2 text-xl font-bold text-slate-950">
+                    {layer.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                    {layer.description}
+                  </p>
+                </article>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-20 md:py-24 bg-linear-to-b from-blue-500 to-cyan-500 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
-        </div>
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight text-center">
-            How It Works
-          </h2>
-          <p className="text-lg text-blue-100 max-w-2xl mx-auto text-center mb-12">
-            Three simple steps to understand yourself better
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {howItWorks.map((item, idx) => (
-              <div
-                key={idx}
-                className="group bg-white/95 backdrop-blur-sm rounded-2xl border border-white/30 p-8 flex flex-col h-full hover:bg-white hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
-              >
-                <div className="mb-6">
-                  <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 text-white font-bold text-lg shadow-lg group-hover:shadow-cyan-500/50">
-                    {idx + 1}
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-slate-600 leading-relaxed flex-1">
-                  {item.description}
-                </p>
-                <div className="mt-6 h-1 bg-linear-to-r from-blue-500 to-cyan-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* What Makes TrueSelf Different Section */}
-      <section className="py-20 md:py-24">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 tracking-tight">
-              What Makes TrueSelf Different
+      <section className="px-6 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+              <Brain size={16} className="text-blue-600" />
+              The architecture
+            </span>
+            <h2 className="mt-6 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">
+              From assessments to usable insight.
             </h2>
-            <div className="space-y-6 text-slate-700 text-lg leading-relaxed">
-              <p>Most systems try to define you with a single category.</p>
-              <p>TrueSelf does the opposite.</p>
-              <p>
-                It separates your identity into multiple dimensions, including
-                personality, identity, relationships, career, mind, motivation,
-                growth, stress, and life direction.
-              </p>
-              <p>
-                This allows you to see contradictions, gaps, and hidden patterns
-                that traditional systems miss.
-              </p>
-              <p className="text-xl font-semibold text-slate-900 pt-4">
-                The goal is not to label you.
-              </p>
-              <p className="text-xl font-semibold text-slate-900">
-                The goal is to make you aware.
-              </p>
-            </div>
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              Every test contributes structured data to the same TrueSelf
+              profile. The system can then show a simple overview, detailed
+              analytics, result graphs, domain type patterns, and timeline
+              changes without mixing everything into one random average.
+            </p>
           </div>
-        </div>
-      </section>
 
-      {/* Dimensions Section */}
-      <section className="py-20 md:py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight text-center">
-            What You Can Explore
-          </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto text-center mb-12">
-            Choose a life area you want to understand better.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {TEST_CATEGORIES.map((dimension) => {
-              const IconComponent = getIcon(dimension.icon);
-              const colorClasses = getColorClasses(dimension.color);
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {architecture.map((item) => {
+              const IconComponent = item.icon;
 
               return (
-                <Link
-                  key={dimension.id}
-                  href={dimension.href}
-                  className="block h-full group"
+                <article
+                  key={item.label}
+                  className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
                 >
-                  <div className="bg-white rounded-xl p-6 h-full flex flex-col border border-slate-200 shadow-md hover:shadow-2xl transition-all duration-400 hover:-translate-y-2 cursor-pointer overflow-hidden relative">
-                    {/* Gradient overlay on hover */}
+                  <div className="flex items-center justify-between gap-3">
                     <div
-                      className={`absolute inset-0 bg-gradient-to-r ${dimension.colorClass} opacity-0 transition-opacity duration-400 group-hover:opacity-5 pointer-events-none`}
-                    />
-
-                    {/* Icon Container */}
-                    <div
-                      className={`w-12 h-12 rounded-lg mb-4 flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg relative z-10 ${colorClasses.bg} ${colorClasses.text}`}
+                      className={`flex h-11 w-11 items-center justify-center rounded-full ${item.bg} ${item.color}`}
                     >
-                      <IconComponent size={24} />
+                      <IconComponent size={22} />
                     </div>
-
-                    {/* Content */}
-                    <div className="flex-grow relative z-10">
-                      {/* Title */}
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-950 transition-colors duration-300">
-                        {dimension.name}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                        {dimension.description}
-                      </p>
-                    </div>
-
-                    {/* Explore Button */}
-                    <button
-                      className={`mt-6 w-full py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-300 flex items-center justify-center gap-2 group-hover:scale-105 group-hover:shadow-lg relative z-10 active:scale-95 bg-gradient-to-r ${dimension.colorClass}`}
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-semibold ${item.bg} ${item.color}`}
                     >
-                      Explore
-                      <ArrowRight
-                        size={16}
-                        className="group-hover:translate-x-1 transition-transform duration-300"
-                      />
-                    </button>
+                      {item.label}
+                    </span>
                   </div>
-                </Link>
+                  <h3 className="mt-6 text-xl font-bold leading-7 text-slate-950">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                    {item.description}
+                  </p>
+                </article>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Purpose Section */}
-      <section className="py-20 md:py-24">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8 tracking-tight">
-              Why TrueSelf Exists
-            </h2>
-            <div className="space-y-6 text-slate-700 text-lg leading-relaxed">
-              <p>
-                Most people move through life without fully understanding
-                themselves.
+      <section className="bg-white px-6 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 md:p-8">
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="h-6 w-6 text-blue-600" />
+                <h2 className="text-3xl font-black text-slate-950">
+                  Our scoring philosophy
+                </h2>
+              </div>
+              <div className="mt-6 space-y-4">
+                {principles.map((principle) => (
+                  <div key={principle} className="flex gap-3">
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+                    <p className="text-sm leading-6 text-slate-600">
+                      {principle}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
+                Evidence before interpretation
+              </span>
+              <h2 className="mt-6 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">
+                Clear results need clean data.
+              </h2>
+              <p className="mt-5 text-lg leading-8 text-slate-600">
+                The 16-type assessment uses the familiar four-letter format as
+                one foundation, but TrueSelf is bigger than personality. Each
+                domain has its own scoring model, result type, spider chart,
+                interpretation, and profile signals.
               </p>
-              <p>
-                They repeat patterns, make decisions without clarity, and
-                struggle to explain why they feel stuck.
-              </p>
-              <p className="text-xl font-semibold text-slate-900 pt-4">
-                TrueSelf exists to give clarity.
-              </p>
-              <p>Not surface level insight, but structured understanding.</p>
-              <p className="text-xl font-semibold text-slate-900 pt-2">
-                When you understand yourself clearly, your decisions become
-                clearer.
+              <p className="mt-4 text-base leading-7 text-slate-500">
+                This keeps your profile honest: personality does not overwrite
+                relationship data, motivation does not pretend to explain stress,
+                and Analytics only connects patterns when the evidence exists.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-linear-to-r from-blue-500 to-cyan-500 py-16 md:py-20">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Start Understanding Yourself
+      <section className="px-6 py-20 md:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700">
+              <Compass size={16} className="text-blue-600" />
+              What you can explore
+            </span>
+            <h2 className="mt-6 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">
+              Nine assessments, one connected reading.
+            </h2>
+            <p className="mt-5 text-lg leading-8 text-slate-600">
+              Each category is one complete assessment. Together, they build a
+              profile that can describe your current pattern, compare domains,
+              open detailed result views, and track change over time.
+            </p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {TEST_CATEGORIES.map((category) => (
+              <CategoryCard key={category.id} category={category} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-500 px-6 py-20 text-white">
+        <div className="mx-auto max-w-4xl text-center">
+          <h2 className="text-4xl font-black tracking-tight md:text-5xl">
+            Build one profile that keeps getting clearer.
           </h2>
-          <Link href="/tests">
-            <button className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl hover:bg-slate-100 transition-all duration-300 shadow-lg hover:shadow-xl">
-              Start Your First Test
-              <ArrowRight size={20} />
-            </button>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/85">
+            Start with any assessment, then let TrueSelf connect the evidence
+            across domains into overview, analytics, recommendations, and
+            timeline insights.
+          </p>
+          <Link
+            href="/assessment/trueself-16-type"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-blue-600 shadow-md transition hover:bg-blue-50"
+          >
+            Take the master assessment
+            <ArrowRight size={18} />
           </Link>
         </div>
       </section>

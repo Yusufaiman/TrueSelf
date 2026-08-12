@@ -11,9 +11,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "TrueSelf - Understand How Your Life Actually Works",
+  title: "TrueSelf - Build Your Connected Self-Profile",
   description:
-    "Discover your patterns through structured quizzes. Understand why you think, act, and feel the way you do.",
+    "Build one connected profile across personality, identity, relationships, career, mind, motivation, growth, stress, and life.",
 };
 
 export const viewport: Viewport = {

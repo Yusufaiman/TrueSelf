@@ -159,3 +159,38 @@ body::-webkit-scrollbar,
     border-radius: 1.75rem !important;
   }
 }
+
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  html,
+  body {
+    overflow: visible !important;
+    background: #ffffff !important;
+  }
+
+  .pdf-hide,
+  nav,
+  header:has(nav) {
+    display: none !important;
+  }
+
+  .trueself-result-page {
+    background: #ffffff !important;
+    padding: 0 !important;
+  }
+
+  .trueself-result-page section,
+  .trueself-result-page article,
+  .trueself-result-page header {
+    break-inside: avoid;
+    box-shadow: none !important;
+  }
+
+  .trueself-result-page .mx-auto {
+    max-width: none !important;
+  }
+}

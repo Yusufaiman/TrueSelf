@@ -1,85 +1,106 @@
 "use client";
 
 import React from "react";
-import { ClipboardList, Eye, Compass } from "lucide-react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  Compass,
+} from "lucide-react";
 
 const steps = [
   {
     number: "01",
-    title: "Answer simple questions",
+    label: "Start",
+    title: "Begin with your foundation",
     description:
-      "Respond to questions about how you think and react in everyday situations",
-    icon: ClipboardList,
-    bgColor: "bg-blue-100",
-    iconColor: "text-blue-600",
+      "Take the 48-question 16-Type assessment to create the first layer of your TrueSelf profile.",
+    color: "text-blue-600",
+    bg: "bg-blue-50",
   },
   {
     number: "02",
-    title: "See your patterns",
+    label: "Connect",
+    title: "Add the major life domains",
     description:
-      "We show you the patterns that shape your decisions and behavior",
-    icon: Eye,
-    bgColor: "bg-cyan-100",
-    iconColor: "text-cyan-600",
+      "Identity, relationships, career, mind, motivation, growth, stress, and life each add their own evidence.",
+    color: "text-indigo-600",
+    bg: "bg-indigo-50",
   },
   {
     number: "03",
-    title: "Understand what to do next",
+    label: "Analyze",
+    title: "See your whole-self pattern",
     description:
-      "Get clear guidance on what you should focus on moving forward",
-    icon: Compass,
-    bgColor: "bg-indigo-100",
-    iconColor: "text-indigo-600",
+      "Analytics turns your results into a connected profile: axes, domain graphs, patterns, tensions, and signals.",
+    color: "text-cyan-600",
+    bg: "bg-cyan-50",
+  },
+  {
+    number: "04",
+    label: "Track",
+    title: "Watch what stays and what changes",
+    description:
+      "Your dashboard shows your current profile while Timeline separates stable traits from developing and changing ones.",
+    color: "text-emerald-600",
+    bg: "bg-emerald-50",
   },
 ];
 
 export const HowItWorksSection: React.FC = () => {
   return (
-    <section id="how-it-works" className="py-24 px-6 bg-gray-50">
-      <div className="max-w-6xl mx-auto text-center">
-        {/* Headline */}
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900 mb-3">
-          How it works
-        </h2>
+    <section id="how-it-works" className="bg-white px-6 py-20 md:py-24">
+      <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700">
+            <Compass size={16} className="text-blue-600" />
+            How TrueSelf works
+          </span>
+          <h2 className="mt-6 text-4xl font-black tracking-tight text-slate-950 md:text-5xl">
+            One profile. Nine domains. A clearer history of you.
+          </h2>
+          <p className="mt-5 text-lg leading-8 text-slate-600">
+            TrueSelf is not a stack of disconnected tests. Each assessment adds
+            evidence to the same profile, then your dashboard turns that data
+            into overview, analytics, recommendations, and timeline insights.
+          </p>
+        </div>
 
-        {/* Subtext */}
-        <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
-          Three simple steps to understand yourself better
-        </p>
-
-        {/* Steps Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mt-12">
+        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((step) => {
-            const IconComponent = step.icon;
             return (
-              <div
+              <article
                 key={step.number}
-                className="bg-white rounded-xl p-8 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100 h-full flex flex-col items-center text-center"
+                className="relative rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg"
               >
-                {/* Step Number - Light and subtle */}
-                <div className="text-4xl font-bold text-gray-200 mb-2">
-                  {step.number}
+                <div className="flex items-center justify-between gap-3">
+                  <span className="rounded-2xl bg-slate-100 px-3 py-1 text-4xl font-black text-slate-400">
+                    {step.number}
+                  </span>
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-semibold ${step.bg} ${step.color}`}
+                  >
+                    {step.label}
+                  </span>
                 </div>
-
-                {/* Icon Container */}
-                <div
-                  className={`w-12 h-12 rounded-lg flex items-center justify-center mb-6 ${step.bgColor}`}
-                >
-                  <IconComponent size={24} className={step.iconColor} />
-                </div>
-
-                {/* Title */}
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                <h3 className="mt-8 text-xl font-bold leading-7 text-slate-950">
                   {step.title}
                 </h3>
-
-                {/* Description */}
-                <p className="text-gray-600 text-sm leading-relaxed flex-grow">
+                <p className="mt-3 text-sm leading-6 text-slate-600">
                   {step.description}
                 </p>
-              </div>
+              </article>
             );
           })}
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          <Link
+            href="/assessment/trueself-16-type"
+            className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-6 py-3 font-semibold text-white shadow-md transition hover:from-blue-600 hover:to-cyan-600 hover:shadow-lg"
+          >
+            Start your first assessment
+            <ArrowRight size={18} />
+          </Link>
         </div>
       </div>
     </section>

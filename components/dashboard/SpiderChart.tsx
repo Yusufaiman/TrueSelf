@@ -11,6 +11,8 @@ interface SpiderChartProps {
   data: DataPoint[];
   width?: number;
   height?: number;
+  color?: string;
+  fillOpacity?: number;
 }
 
 /**
@@ -21,6 +23,8 @@ export function SpiderChart({
   data,
   width = 400,
   height = 400,
+  color = "#3b82f6",
+  fillOpacity = 0.15,
 }: SpiderChartProps) {
   const padding = 50;
   const radius = Math.min(width, height) / 2 - padding;
@@ -115,9 +119,9 @@ export function SpiderChart({
         {/* Polygon (filled) */}
         <path
           d={polygonPath}
-          fill="#3b82f6"
-          fillOpacity="0.15"
-          stroke="#3b82f6"
+          fill={color}
+          fillOpacity={fillOpacity}
+          stroke={color}
           strokeWidth="2"
           filter="url(#shadow)"
         />
@@ -129,7 +133,7 @@ export function SpiderChart({
             cx={p.x}
             cy={p.y}
             r="4"
-            fill="#3b82f6"
+            fill={color}
             stroke="white"
             strokeWidth="2"
           />

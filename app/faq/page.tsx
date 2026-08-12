@@ -2,57 +2,106 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, HelpCircle, ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  BarChart3,
+  ChevronDown,
+  Dna,
+  HelpCircle,
+  Layers,
+  ShieldCheck,
+  Sparkles,
+} from "lucide-react";
 
 const faqs = [
   {
+    category: "Profile",
     question: "What is TrueSelf?",
     answer:
-      "TrueSelf is a self discovery platform that helps you understand your patterns across identity, mindset, relationships, behavior, and more. It does not define you with a single label. It breaks you into multiple layers so you can see yourself clearly.",
+      "TrueSelf is a connected whole-self profile system. Each assessment measures one part of you, then the dashboard and analytics connect those results into one profile across personality, identity, relationships, career, mind, motivation, growth, stress, and life.",
   },
   {
-    question: "Are these tests accurate?",
+    category: "Assessments",
+    question: "Why are there nine assessments?",
     answer:
-      "The tests are designed to identify patterns, not give absolute definitions. Accuracy improves as you answer honestly. The goal is awareness, not perfection.",
+      "One test cannot explain your whole life. TrueSelf uses nine focused assessments so each domain contributes clean data: personality, identity, relationships, career, mind, motivation, growth, stress and emotions, and life direction.",
   },
   {
-    question: "How is this different from personality tests?",
+    category: "Data",
+    question: "What does each assessment add to my profile?",
     answer:
-      "Most personality tests give you one type. TrueSelf gives you multiple types across different areas of your life. This creates a more realistic and complete understanding of who you are.",
+      "Each assessment saves its own result type, measured dimensions, scores, interpretation, profile signals, and supporting detail. That lets TrueSelf show domain-specific insights without mixing everything into one vague average.",
   },
   {
-    question: "How long does each test take?",
+    category: "Analytics",
+    question: "What is the difference between Overview and Analytics?",
     answer:
-      "Most tests take between 5 to 10 minutes depending on the number of questions.",
+      "Overview is the quick snapshot of your current profile. Analytics is the deeper view: result graphs, domain patterns, whole-self reading, cross-domain signals, and change over time when you retake assessments.",
   },
   {
-    question: "Can my results change over time?",
+    category: "Personality",
+    question: "Where does the 16-type assessment fit?",
     answer:
-      "Yes. Your patterns can evolve as your experiences, environment, and decisions change. TrueSelf reflects your current state, not a permanent label.",
+      "The 16-type assessment is the personality foundation. It measures Energy, Information, Decision, and Structure, then stores the axis scores, confidence, facets, nearest type, and associated type pattern. It does not replace the other eight domains.",
   },
   {
-    question: "Do I need to take all tests?",
+    category: "Types",
+    question: "Are all type libraries only about personality?",
     answer:
-      "No. You can take tests based on what you want to understand. Each test reveals a different part of you.",
+      "No. The Types page now includes type systems for all major domains, not just 16 personality types. You can browse identity patterns, relationship patterns, career patterns, mind patterns, motivation patterns, growth patterns, stress patterns, and life patterns too.",
   },
   {
+    category: "Dashboard",
+    question: "Why do some areas say not enough data?",
+    answer:
+      "TrueSelf avoids pretending it knows something before you have answered enough relevant questions. Empty states are intentional: they keep your profile honest until real assessment data exists.",
+  },
+  {
+    category: "Graphs",
+    question: "What do the spider charts mean?",
+    answer:
+      "Each spider chart shows measured scores from one completed assessment. A Relationship graph shows relationship dimensions; a Mind graph shows thinking and learning dimensions; a Stress graph shows stress and emotion dimensions. The chart belongs to that domain.",
+  },
+  {
+    category: "Timeline",
+    question: "What changes over time?",
+    answer:
+      "Some patterns are relatively stable, while current-state areas can develop. Timeline insights appear when you retake assessments, helping you see whether motivation, stress response, growth, life direction, or other measurable dimensions have shifted.",
+  },
+  {
+    category: "Privacy",
     question: "Is my data private?",
     answer:
-      "Your responses are used only to generate your results. Your data is not shared publicly.",
+      "Your answers are used to generate and store your results in your account. They are not shown publicly. The dashboard and analytics use your completed results to build your profile summary, graphs, recommendations, and timeline.",
+  },
+];
+
+const highlights = [
+  {
+    title: "One connected profile",
+    description: "Every completed assessment contributes to the same TrueSelf profile.",
+    icon: Dna,
+    color: "text-blue-600",
+    bg: "bg-blue-50",
   },
   {
-    question: "What should I do after getting my results?",
-    answer:
-      "Use your results to reflect, not judge yourself. The goal is to understand your patterns so you can make better decisions moving forward.",
+    title: "Nine focused domains",
+    description: "Each domain measures its own result instead of copying one generic test.",
+    icon: Layers,
+    color: "text-indigo-600",
+    bg: "bg-indigo-50",
   },
   {
-    question: "Is TrueSelf for everyone?",
-    answer:
-      "TrueSelf is for people who want clarity. If you are willing to understand yourself honestly, the system will be useful.",
+    title: "Evidence-based analytics",
+    description: "Graphs, patterns, and timeline insights come from completed result data.",
+    icon: BarChart3,
+    color: "text-emerald-600",
+    bg: "bg-emerald-50",
   },
 ];
 
 interface FAQItemProps {
+  category: string;
   question: string;
   answer: string;
   isOpen: boolean;
@@ -61,6 +110,7 @@ interface FAQItemProps {
 }
 
 const FAQItem: React.FC<FAQItemProps> = ({
+  category,
   question,
   answer,
   isOpen,
@@ -68,70 +118,96 @@ const FAQItem: React.FC<FAQItemProps> = ({
   index,
 }) => {
   return (
-    <div className="border-b border-slate-200 last:border-b-0 group hover:bg-slate-50 transition-colors duration-200">
+    <article className="border-b border-slate-200 last:border-b-0">
       <button
         onClick={onClick}
-        className="w-full px-6 md:px-8 py-6 flex items-start gap-4 text-left"
+        className="group flex w-full items-start gap-4 px-5 py-6 text-left transition hover:bg-slate-50 md:px-7"
       >
-        {/* Number Badge */}
-        <div className="flex-shrink-0 pt-1">
-          <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-500 to-cyan-500 text-white flex items-center justify-center text-sm font-bold">
-            {index + 1}
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="flex-grow text-left">
-          <h3 className="text-lg font-semibold text-slate-900 group-hover:text-blue-600 transition-colors duration-200">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-50 text-sm font-black text-blue-600">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <div className="min-w-0 flex-1">
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+            {category}
+          </span>
+          <h3 className="mt-3 text-lg font-bold text-slate-950 transition group-hover:text-blue-600">
             {question}
           </h3>
         </div>
-
-        {/* Chevron */}
         <ChevronDown
           size={20}
-          className={`flex-shrink-0 text-slate-600 group-hover:text-slate-900 transition-all duration-300 ${
-            isOpen ? "transform rotate-180" : ""
+          className={`mt-2 shrink-0 text-slate-500 transition ${
+            isOpen ? "rotate-180" : ""
           }`}
         />
       </button>
 
-      {/* Answer */}
       {isOpen && (
-        <div className="px-6 md:px-8 pb-6 pt-0 pl-14 text-slate-600 leading-relaxed animate-in fade-in duration-200 border-l-2 border-blue-500 ml-4">
+        <div className="px-5 pb-6 pl-[4.5rem] text-sm leading-7 text-slate-600 md:px-7 md:pl-[5.25rem]">
           {answer}
         </div>
       )}
-    </div>
+    </article>
   );
 };
 
 export default function FAQPage() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="bg-linear-to-b from-blue-100 via-cyan-50 to-white py-20 md:py-24">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
-            Frequently Asked Questions
+    <div className="min-h-screen bg-slate-50">
+      <section className="border-b border-slate-200 bg-gradient-to-b from-blue-50 via-cyan-50/60 to-white px-6 py-20 text-center md:py-24">
+        <div className="mx-auto max-w-4xl">
+          <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm">
+            <Sparkles size={16} />
+            TrueSelf FAQ
+          </span>
+          <h1 className="mt-6 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
+            Questions about your connected TrueSelf profile.
           </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Everything you need to understand how TrueSelf works and what you
-            will gain from it.
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-600">
+            How assessments, domain results, profile signals, analytics,
+            result graphs, and timeline insights work together as one
+            whole-self system.
           </p>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section className="py-20 md:py-24 bg-white">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="rounded-2xl border border-slate-200 overflow-hidden shadow-lg">
+      <section className="bg-white px-6 py-16">
+        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
+          {highlights.map((item) => {
+            const IconComponent = item.icon;
+
+            return (
+              <article
+                key={item.title}
+                className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+              >
+                <div
+                  className={`flex h-11 w-11 items-center justify-center rounded-full ${item.bg} ${item.color}`}
+                >
+                  <IconComponent size={22} />
+                </div>
+                <h2 className="mt-5 text-xl font-bold text-slate-950">
+                  {item.title}
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                  {item.description}
+                </p>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="px-6 py-20 md:py-24">
+        <div className="mx-auto max-w-4xl">
+          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
             {faqs.map((faq, idx) => (
               <FAQItem
-                key={idx}
+                key={faq.question}
                 index={idx}
+                category={faq.category}
                 question={faq.question}
                 answer={faq.answer}
                 isOpen={openIndex === idx}
@@ -142,23 +218,22 @@ export default function FAQPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-linear-to-r from-blue-500 to-cyan-500 py-16 md:py-20">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="flex justify-center mb-4">
-            <HelpCircle size={48} className="text-white opacity-80" />
-          </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Still have questions?
+      <section className="bg-gradient-to-r from-blue-600 via-cyan-500 to-emerald-500 px-6 py-20 text-white">
+        <div className="mx-auto max-w-4xl text-center">
+          <HelpCircle className="mx-auto h-12 w-12 text-white/80" />
+          <h2 className="mt-5 text-4xl font-black tracking-tight md:text-5xl">
+            Your clearest answers come from your own data.
           </h2>
-          <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
-            Start exploring TrueSelf and discover yourself. No signup required.
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/85">
+            Start with one assessment, then keep adding domains so TrueSelf can
+            connect your results into a fuller profile.
           </p>
-          <Link href="/tests">
-            <button className="inline-flex items-center gap-2 px-8 py-4 bg-white text-blue-600 font-semibold rounded-xl hover:bg-slate-100 transition-all duration-300 shadow-lg hover:shadow-xl">
-              Take Your First Test
-              <ArrowRight size={20} />
-            </button>
+          <Link
+            href="/assessment/trueself-16-type"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-blue-600 shadow-md transition hover:bg-blue-50"
+          >
+            Start your first assessment
+            <ArrowRight size={18} />
           </Link>
         </div>
       </section>

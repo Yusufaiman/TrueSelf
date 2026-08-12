@@ -12,8 +12,6 @@ import {
   Menu,
   X,
   LogOut,
-  PanelLeftClose,
-  PanelLeftOpen,
 } from "lucide-react";
 import { getClientUser } from "@/utils/supabase/client-auth";
 import { clientSignOut } from "@/utils/supabase/client-auth";
@@ -209,11 +207,7 @@ export function DashboardLayout({ page, children }: DashboardLayoutProps) {
                   isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"
                 }
               >
-                {isSidebarCollapsed ? (
-                  <PanelLeftOpen size={20} />
-                ) : (
-                  <PanelLeftClose size={20} />
-                )}
+                <Menu size={20} />
               </button>
             </div>
           </div>

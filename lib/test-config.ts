@@ -1,6 +1,14 @@
 import { ReactNode } from "react";
 import type { TestResultTemplateProps } from "@/components/test/TestResultTemplate";
 import type { TrueSelf16ResultTemplateProps } from "@/components/test/TrueSelf16ResultTemplate";
+import type { IdentityResultTemplateProps } from "@/components/test/IdentityResultTemplate";
+import type { RelationshipResultTemplateProps } from "@/components/test/RelationshipResultTemplate";
+import type { CareerResultTemplateProps } from "@/components/test/CareerResultTemplate";
+import type { MindResultTemplateProps } from "@/components/test/MindResultTemplate";
+import type { MotivationResultTemplateProps } from "@/components/test/MotivationResultTemplate";
+import type { GrowthResultTemplateProps } from "@/components/test/GrowthResultTemplate";
+import type { StressEmotionResultTemplateProps } from "@/components/test/StressEmotionResultTemplate";
+import type { LifeResultTemplateProps } from "@/components/test/LifeResultTemplate";
 
 export type AnswerValue = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -26,7 +34,17 @@ export interface TestConfig {
   generateResult: (
     score: any,
     answers: Record<number, any>,
-  ) => TestResultTemplateProps | Omit<TrueSelf16ResultTemplateProps, "onRetake">;
+  ) =>
+    | TestResultTemplateProps
+    | Omit<TrueSelf16ResultTemplateProps, "onRetake">
+    | Omit<IdentityResultTemplateProps, "onRetake">
+    | Omit<RelationshipResultTemplateProps, "onRetake">
+    | Omit<CareerResultTemplateProps, "onRetake">
+    | Omit<MindResultTemplateProps, "onRetake">
+    | Omit<MotivationResultTemplateProps, "onRetake">
+    | Omit<GrowthResultTemplateProps, "onRetake">
+    | Omit<StressEmotionResultTemplateProps, "onRetake">
+    | Omit<LifeResultTemplateProps, "onRetake">;
   persistence?: {
     testType: string;
     buildScores: (

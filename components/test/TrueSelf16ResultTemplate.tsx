@@ -4,12 +4,22 @@ import React from "react";
 import Link from "next/link";
 import {
   ArrowRight,
+  BarChart3,
+  BookOpen,
   Brain,
+  Briefcase,
+  Download,
+  GraduationCap,
+  Heart,
   Layers,
   Lightbulb,
+  MessageCircle,
   RotateCcw,
   ShieldAlert,
   Sparkles,
+  Target,
+  TrendingUp,
+  Users,
 } from "lucide-react";
 import type { AxisKey, TrueSelf16Result } from "@/lib/trueself-16/types";
 import { AXES, TRUESELF_16_PROFILES } from "@/lib/trueself-16/data";
@@ -20,6 +30,8 @@ import {
   TYPE_FAMILIES,
   TYPE_FAMILY_BY_CODE,
 } from "@/lib/trueself-16/layers";
+import { getTypeDetailData } from "@/lib/trueself-16/type-detail-data";
+import { getTypeColor, type TrueSelfTypeColor } from "@/lib/trueself-16/colors";
 
 export interface TrueSelf16ResultTemplateProps {
   variant: "trueself-16-type";
@@ -39,10 +51,13 @@ export default function TrueSelf16ResultTemplate({
   result,
   onRetake,
 }: TrueSelf16ResultTemplateProps) {
+  const baseProfile = TRUESELF_16_PROFILES[result.typeCode];
+  const detail = getTypeDetailData(baseProfile);
   const family =
     result.family ?? TYPE_FAMILIES[TYPE_FAMILY_BY_CODE[result.typeCode]];
   const functionStack = result.functionStack ?? FUNCTION_STACKS[result.typeCode];
   const closestProfile = TRUESELF_16_PROFILES[result.closestType];
+  const color = getTypeColor(result.typeCode);
   const facetEntries = result.facetScores
     ? Object.entries(result.facetScores).flatMap(([axis, facets]) =>
         facets.map((facet) => ({
@@ -52,130 +67,165 @@ export default function TrueSelf16ResultTemplate({
       )
     : [];
 
+  const handleDownloadPdf = () => {
+    const originalTitle = document.title;
+    document.title = `TrueSelf ${result.typeCode} Result`;
+    window.print();
+    window.setTimeout(() => {
+      document.title = originalTitle;
+    }, 500);
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50 px-6 py-12 md:py-16">
-      <div className="mx-auto max-w-5xl">
-        <div className="mb-8 text-center">
-          <span className="inline-flex rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+    <main className="trueself-result-page min-h-screen bg-slate-50 px-6 py-10 md:py-14">
+      <div className="mx-auto max-w-6xl">
+        <div className="pdf-hide mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm font-semibold text-slate-500">
+            Your result is ready. Save it, revisit it, or keep exploring.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={handleDownloadPdf}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+            >
+              <Download size={17} />
+              Download PDF
+            </button>
+            <button
+              type="button"
+              onClick={onRetake}
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+            >
+              <RotateCcw size={17} />
+              Retake
+            </button>
+          </div>
+        </div>
+
+        <header
+          className="mb-8 rounded-[2rem] border bg-white p-8 text-center shadow-sm md:p-10"
+          style={{ borderColor: color.border }}
+        >
+          <span
+            className="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+            style={{ backgroundColor: color.soft, color: color.accent }}
+          >
             TrueSelf 16 Types
           </span>
-          <h1 className="mt-5 text-6xl font-black tracking-tight text-slate-950 md:text-8xl">
+          <h1
+            className="mt-5 text-6xl font-black tracking-tight md:text-8xl"
+            style={{ color: color.accent }}
+          >
             {result.typeCode}
           </h1>
-          <h2 className="mt-3 text-3xl font-bold text-slate-900 md:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold text-slate-950 md:text-4xl">
             {result.typeName}
           </h2>
           <p className="mt-2 text-lg italic text-slate-500">
             {result.tagline}
           </p>
           <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 md:text-lg">
-            {result.description}
+            {detail.overview.summary}
           </p>
-          <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm">
-            <Sparkles size={16} className="text-blue-600" />
-            {confidenceLabel[result.confidence]} · {result.confidenceScore}%
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Badge color={color} icon={<Sparkles size={16} />}>
+              {confidenceLabel[result.confidence]} · {result.confidenceScore}%
+            </Badge>
+            <Badge color={color} icon={<Layers size={16} />}>
+              {family.code} · {family.name}
+            </Badge>
           </div>
-          <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
-            <Layers size={16} />
-            {family.code} · {family.name}
-          </div>
-        </div>
+        </header>
 
-        <section className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="mb-5">
-            <h3 className="text-xl font-bold text-slate-900">
-              Your four-axis profile
-            </h3>
-            <p className="mt-1 text-sm text-slate-500">
-              These scores show your preference direction, not ability or worth.
+        <section className="mb-8 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+          <Panel>
+            <SectionTitle
+              icon={<Target size={20} />}
+              color={color}
+              title="Personality Overview"
+            />
+            <p className="mt-4 text-sm leading-7 text-slate-600">
+              {detail.overview.description}
             </p>
-          </div>
-          <div className="space-y-5">
-            {axisOrder.map((axis) => {
-              const score = result.axisScores[axis];
-              const definition = AXES[axis];
-
-              return (
-                <div key={axis}>
-                  <div className="mb-2 flex items-center justify-between gap-4">
-                    <div>
-                      <p className="font-semibold text-slate-900">
-                        {score.firstCode}/{score.secondCode}
-                      </p>
-                      <p className="text-xs text-slate-500">
-                        {definition.summary}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-semibold text-blue-600">
-                        {score.preferencePercent}% {score.preferenceLabel}
-                      </p>
-                      <p className="text-xs text-slate-500">
-                        {score.strengthLabel}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3">
-                    <span className="w-28 text-xs font-medium text-slate-500">
-                      {score.firstLabel}
-                    </span>
-                    <div className="h-3 overflow-hidden rounded-full bg-slate-100">
-                      <div
-                        className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-500"
-                        style={{ width: `${score.firstPercent}%` }}
-                      />
-                    </div>
-                    <span className="w-28 text-right text-xs font-medium text-slate-500">
-                      {score.secondLabel}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="mb-5 flex items-center gap-2">
-            <Brain size={20} className="text-blue-600" />
-            <div>
-              <h3 className="text-xl font-bold text-slate-900">
-                Cognitive stack
-              </h3>
-              <p className="text-sm text-slate-500">{family.summary}</p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {detail.overview.tendencies.map((tendency) => (
+                <Pill key={tendency} color={color}>
+                  {tendency}
+                </Pill>
+              ))}
             </div>
-          </div>
-          <div className="grid gap-4 md:grid-cols-4">
-            {functionStack.map((item) => {
-              const definition = COGNITIVE_FUNCTIONS[item.function];
+          </Panel>
 
-              return (
-                <div
-                  key={`${item.role}-${item.function}`}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
-                >
-                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                    {ROLE_LABELS[item.role]}
-                  </p>
-                  <p className="mt-2 text-2xl font-black text-blue-600">
-                    {item.function}
-                  </p>
-                  <p className="mt-1 text-sm font-semibold text-slate-900">
-                    {definition.name}
-                  </p>
-                  <p className="mt-3 text-xs leading-5 text-slate-500">
-                    {definition.summary}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
+          <Panel>
+            <SectionTitle
+              icon={<BarChart3 size={20} />}
+              color={color}
+              title="Your Four-Axis Profile"
+            />
+            <p className="mt-2 text-sm text-slate-500">
+              These scores show your measured preference direction, not ability
+              or worth.
+            </p>
+            <div className="mt-5 space-y-5">
+              {axisOrder.map((axis) => {
+                const score = result.axisScores[axis];
+                const definition = AXES[axis];
+
+                return (
+                  <div key={axis}>
+                    <div className="mb-2 flex items-start justify-between gap-4">
+                      <div>
+                        <p className="font-semibold text-slate-950">
+                          {score.firstCode}/{score.secondCode}
+                        </p>
+                        <p className="text-xs text-slate-500">
+                          {definition.summary}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p
+                          className="text-sm font-bold"
+                          style={{ color: color.accent }}
+                        >
+                          {score.preferencePercent}% {score.preferenceLabel}
+                        </p>
+                        <p className="text-xs text-slate-500">
+                          {score.strengthLabel}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-[4.5rem_1fr_4.5rem] items-center gap-3">
+                      <span className="text-xs font-medium text-slate-500">
+                        {score.firstLabel}
+                      </span>
+                      <div className="h-3 overflow-hidden rounded-full bg-slate-100">
+                        <div
+                          className="h-full rounded-full"
+                          style={{
+                            width: `${score.firstPercent}%`,
+                            background: `linear-gradient(90deg, ${color.accent}, #06b6d4)`,
+                          }}
+                        />
+                      </div>
+                      <span className="text-right text-xs font-medium text-slate-500">
+                        {score.secondLabel}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Panel>
         </section>
 
-        <section className="mb-8 rounded-2xl border border-blue-100 bg-blue-50 p-6 shadow-sm">
+        <section
+          className="mb-8 rounded-[2rem] border p-6 shadow-sm md:p-7"
+          style={{ borderColor: color.border, backgroundColor: color.soft }}
+        >
           <div className="grid gap-5 md:grid-cols-3">
             <div>
-              <p className="text-sm font-semibold text-blue-700">
+              <p className="text-sm font-semibold" style={{ color: color.accent }}>
                 Result clarity
               </p>
               <h3 className="mt-1 text-3xl font-black text-slate-950">
@@ -186,7 +236,7 @@ export default function TrueSelf16ResultTemplate({
               </p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-blue-700">
+              <p className="text-sm font-semibold" style={{ color: color.accent }}>
                 Closest neighbouring type
               </p>
               <h3 className="mt-1 text-3xl font-black text-slate-950">
@@ -196,122 +246,433 @@ export default function TrueSelf16ResultTemplate({
                 {closestProfile?.name ?? "A nearby 16-type pattern"}
               </p>
             </div>
-            <p className="text-sm leading-6 text-slate-700 md:col-span-1">
+            <p className="text-sm leading-6 text-slate-700">
               If one axis is close to balanced, this neighbouring type may also
-              feel familiar. Your result still uses your strongest measured
+              feel familiar. Your final type still uses your strongest measured
               preference on each axis.
             </p>
           </div>
         </section>
 
+        <Panel className="mb-8">
+          <SectionTitle
+            icon={<Brain size={20} />}
+            color={color}
+            title="Cognitive Function Stack"
+          />
+          <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-500">
+            This is the cognitive-function model associated with your type. It
+            is shown as a structural pattern, not as separately measured function
+            scores.
+          </p>
+          <div className="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {functionStack.map((item) => {
+              const definition = COGNITIVE_FUNCTIONS[item.function];
+
+              return (
+                <article
+                  key={`${item.role}-${item.function}`}
+                  className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-4"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    {ROLE_LABELS[item.role]}
+                  </p>
+                  <p
+                    className="mt-2 text-3xl font-black"
+                    style={{ color: color.accent }}
+                  >
+                    {item.function}
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-slate-950">
+                    {definition.name}
+                  </p>
+                  <p className="mt-3 text-xs leading-5 text-slate-500">
+                    {definition.summary}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+        </Panel>
+
         {facetEntries.length > 0 && (
-          <section className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="mb-5">
-              <h3 className="text-xl font-bold text-slate-900">
-                Measured facets
-              </h3>
-              <p className="mt-1 text-sm text-slate-500">
-                These are the smaller behavioural signals behind your four
-                letters. They come directly from the 48 assessment answers.
-              </p>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <Panel className="mb-8">
+            <SectionTitle
+              icon={<Layers size={20} />}
+              color={color}
+              title="Measured Facets"
+            />
+            <p className="mt-2 text-sm text-slate-500">
+              These are the smaller behavioural signals behind your four
+              letters. They come directly from your 48 assessment answers.
+            </p>
+            <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {facetEntries.map((facet) => (
-                <div
+                <article
                   key={`${facet.axis}-${facet.facet}`}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                  className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-4"
                 >
                   <div className="mb-3 flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-sm font-semibold capitalize text-slate-900">
+                      <p className="text-sm font-semibold capitalize text-slate-950">
                         {facet.facet.replace(/_/g, " ")}
                       </p>
                       <p className="mt-1 text-xs text-slate-500">
                         {facet.axisLabel}
                       </p>
                     </div>
-                    <p className="text-sm font-bold text-blue-600">
+                    <p
+                      className="text-sm font-bold"
+                      style={{ color: color.accent }}
+                    >
                       {facet.percent}%
                     </p>
                   </div>
                   <div className="h-2.5 overflow-hidden rounded-full bg-white">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-blue-500 to-cyan-500"
-                      style={{ width: `${facet.percent}%` }}
+                      className="h-full rounded-full"
+                      style={{
+                        width: `${facet.percent}%`,
+                        background: `linear-gradient(90deg, ${color.accent}, #06b6d4)`,
+                      }}
                     />
                   </div>
                   <p className="mt-3 text-xs font-medium text-slate-500">
                     {facet.preferredPole} · {facet.strengthLabel}
                   </p>
+                </article>
+              ))}
+            </div>
+          </Panel>
+        )}
+
+        <Panel className="mb-8">
+          <SectionTitle
+            icon={<BookOpen size={20} />}
+            color={color}
+            title="Background Pattern"
+          />
+          <p className="mt-4 max-w-4xl text-sm leading-7 text-slate-600">
+            {detail.background.introduction}
+          </p>
+          <div className="mt-6 grid gap-5 lg:grid-cols-2">
+            <DetailBlock title="Natural temperament" items={detail.background.naturalTemperament} />
+            <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
+              <h4 className="font-bold text-slate-950">Nature and environment</h4>
+              <p className="mt-3 text-sm leading-7 text-slate-600">
+                {detail.background.familyEnvironment}
+              </p>
+            </div>
+          </div>
+          <CardGrid
+            className="mt-5"
+            cards={detail.background.childhoodRoles}
+            color={color}
+          />
+          <div className="mt-5 grid gap-5 lg:grid-cols-2">
+            <DetailBlock title="Environments that may reinforce this type" items={detail.background.reinforcingEnvironment} />
+            <DetailBlock title="Environments that may challenge this type" items={detail.background.challengingEnvironment} />
+          </div>
+          <CardGrid
+            className="mt-5"
+            cards={detail.background.developmentalPaths}
+            color={color}
+          />
+          <CardGrid
+            className="mt-5"
+            cards={detail.background.natureVsEnvironment}
+            color={color}
+          />
+        </Panel>
+
+        <Panel className="mb-8">
+          <SectionTitle
+            icon={<Heart size={20} />}
+            color={color}
+            title="Life Expression"
+          />
+          <div className="mt-5 grid gap-4 md:grid-cols-2">
+            <InfoCard icon={<Heart size={18} />} title="Relationship style" text={detail.life.relationships} color={color} />
+            <InfoCard icon={<MessageCircle size={18} />} title="Communication style" text={detail.life.communication} color={color} />
+            <InfoCard icon={<Users size={18} />} title="Friendship style" text={detail.life.friendship} color={color} />
+            <InfoCard icon={<Briefcase size={18} />} title="Work style" text={detail.life.work} color={color} />
+            <InfoCard icon={<GraduationCap size={18} />} title="Learning style" text={detail.life.learning} color={color} />
+          </div>
+          <CardGrid className="mt-5" cards={detail.life.stress} color={color} />
+        </Panel>
+
+        <section className="mb-8 grid gap-6 lg:grid-cols-2">
+          <Panel>
+            <SectionTitle
+              icon={<Lightbulb size={20} />}
+              color={color}
+              title="Strengths"
+            />
+            <div className="mt-5 flex flex-wrap gap-2">
+              {detail.growth.strengths.map((item) => (
+                <Pill key={item} color={color}>
+                  {item}
+                </Pill>
+              ))}
+            </div>
+          </Panel>
+
+          <Panel>
+            <SectionTitle
+              icon={<ShieldAlert size={20} />}
+              color={color}
+              title="Potential Blind Spots"
+            />
+            <div className="mt-5 space-y-3">
+              {detail.growth.blindSpots.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-[1.25rem] border border-amber-100 bg-amber-50 p-4"
+                >
+                  <p className="font-semibold text-amber-900">{item.title}</p>
+                  <p className="mt-1 text-sm leading-6 text-amber-800">
+                    {item.text}
+                  </p>
                 </div>
               ))}
             </div>
-          </section>
-        )}
-
-        <div className="grid gap-6 md:grid-cols-2">
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="mb-4 flex items-center gap-2 text-emerald-600">
-              <Lightbulb size={20} />
-              <h3 className="font-bold text-slate-900">Strengths</h3>
-            </div>
-            <ul className="space-y-3 text-sm text-slate-600">
-              {result.strengths.map((item) => (
-                <li key={item} className="rounded-lg bg-emerald-50 p-3">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="mb-4 flex items-center gap-2 text-amber-600">
-              <ShieldAlert size={20} />
-              <h3 className="font-bold text-slate-900">Blind spots</h3>
-            </div>
-            <ul className="space-y-3 text-sm text-slate-600">
-              {result.blindSpots.map((item) => (
-                <li key={item} className="rounded-lg bg-amber-50 p-3">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </section>
-
-        </div>
-
-        <section className="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-6">
-          <h3 className="text-lg font-bold text-slate-900">Growth path</h3>
-          <ul className="mt-4 space-y-3 text-sm text-slate-700">
-            {[...result.growthPath, ...result.suggestedNextSteps].map(
-              (item) => (
-                <li key={item} className="flex gap-3">
-                  <ArrowRight size={16} className="mt-0.5 shrink-0 text-blue-600" />
-                  <span>{item}</span>
-                </li>
-              ),
-            )}
-          </ul>
+          </Panel>
         </section>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <Panel className="mb-8">
+          <SectionTitle
+            icon={<TrendingUp size={20} />}
+            color={color}
+            title="Healthy vs Overextended"
+          />
+          <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-slate-200">
+            {detail.growth.healthyVsOverextended.map((row, index) => (
+              <div
+                key={row.tendency}
+                className={`grid gap-4 p-4 md:grid-cols-3 ${
+                  index === 0 ? "" : "border-t border-slate-200"
+                }`}
+              >
+                <p className="font-semibold text-slate-950">{row.tendency}</p>
+                <p className="text-sm leading-6 text-emerald-700">
+                  {row.healthy}
+                </p>
+                <p className="text-sm leading-6 text-amber-700">
+                  {row.overextended}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Panel>
+
+        <Panel className="mb-8">
+          <SectionTitle
+            icon={<ArrowRight size={20} />}
+            color={color}
+            title="Growth Path"
+          />
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
+            {[...detail.growth.growthPath, ...result.suggestedNextSteps].map(
+              (item) => (
+                <div key={item} className="flex gap-3 rounded-[1.25rem] bg-slate-50 p-4">
+                  <ArrowRight
+                    size={16}
+                    className="mt-1 shrink-0"
+                    style={{ color: color.accent }}
+                  />
+                  <span className="text-sm leading-6 text-slate-600">{item}</span>
+                </div>
+              ),
+            )}
+          </div>
+        </Panel>
+
+        <Panel>
+          <SectionTitle
+            icon={<Sparkles size={20} />}
+            color={color}
+            title="Misconceptions and Reminder"
+          />
+          <div className="mt-5 grid gap-3 md:grid-cols-2">
+            {detail.growth.misconceptions.map((item) => (
+              <p key={item} className="rounded-[1.25rem] bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+                {item}
+              </p>
+            ))}
+          </div>
+          <p
+            className="mt-5 rounded-[1.5rem] border p-5 text-sm font-semibold leading-7"
+            style={{
+              borderColor: color.border,
+              backgroundColor: color.soft,
+              color: color.accent,
+            }}
+          >
+            Your type is a map, not your biography. Use this result to notice
+            patterns, not to limit what you can become.
+          </p>
+        </Panel>
+
+        <div className="pdf-hide mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <button
             type="button"
             onClick={onRetake}
-            className="inline-flex items-center justify-center gap-2 rounded-lg border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-50"
           >
             <RotateCcw size={18} />
             Retake assessment
           </button>
           <Link
             href="/types"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 px-5 py-3 font-semibold text-white shadow-md transition hover:from-blue-600 hover:to-cyan-600"
+            className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 font-semibold text-white shadow-md transition"
+            style={{
+              background: `linear-gradient(90deg, ${color.accent}, #06b6d4)`,
+            }}
           >
             Explore all 16 types
             <ArrowRight size={18} />
           </Link>
         </div>
       </div>
+    </main>
+  );
+}
+
+function Badge({
+  color,
+  icon,
+  children,
+}: {
+  color: TrueSelfTypeColor;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <span
+      className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold"
+      style={{
+        borderColor: color.border,
+        backgroundColor: color.soft,
+        color: color.accent,
+      }}
+    >
+      {icon}
+      {children}
+    </span>
+  );
+}
+
+function Panel({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section
+      className={`rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm md:p-7 ${className}`}
+    >
+      {children}
+    </section>
+  );
+}
+
+function SectionTitle({
+  icon,
+  color,
+  title,
+}: {
+  icon: React.ReactNode;
+  color: TrueSelfTypeColor;
+  title: string;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <span style={{ color: color.accent }}>{icon}</span>
+      <h3 className="text-xl font-bold text-slate-950">{title}</h3>
     </div>
+  );
+}
+
+function Pill({
+  color,
+  children,
+}: {
+  color: TrueSelfTypeColor;
+  children: React.ReactNode;
+}) {
+  return (
+    <span
+      className="rounded-full px-3 py-1 text-xs font-semibold capitalize"
+      style={{ backgroundColor: color.soft, color: color.accent }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function DetailBlock({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
+      <h4 className="font-bold text-slate-950">{title}</h4>
+      <ul className="mt-3 space-y-2">
+        {items.map((item) => (
+          <li key={item} className="text-sm leading-6 text-slate-600">
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function CardGrid({
+  cards,
+  color,
+  className = "",
+}: {
+  cards: Array<{ title: string; text: string }>;
+  color: TrueSelfTypeColor;
+  className?: string;
+}) {
+  return (
+    <div className={`grid gap-4 md:grid-cols-3 ${className}`}>
+      {cards.map((card) => (
+        <article
+          key={card.title}
+          className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5"
+        >
+          <p className="font-bold text-slate-950">{card.title}</p>
+          <p className="mt-2 text-sm leading-6 text-slate-600">{card.text}</p>
+          <div
+            className="mt-4 h-1 w-12 rounded-full"
+            style={{ backgroundColor: color.accent }}
+          />
+        </article>
+      ))}
+    </div>
+  );
+}
+
+function InfoCard({
+  icon,
+  title,
+  text,
+  color,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  text: string;
+  color: TrueSelfTypeColor;
+}) {
+  return (
+    <article className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
+      <div className="flex items-center gap-2">
+        <span style={{ color: color.accent }}>{icon}</span>
+        <h4 className="font-bold text-slate-950">{title}</h4>
+      </div>
+      <p className="mt-3 text-sm leading-7 text-slate-600">{text}</p>
+    </article>
   );
 }

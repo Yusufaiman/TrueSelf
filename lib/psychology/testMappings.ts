@@ -21,6 +21,13 @@ export const TEST_DIMENSION_MAP: Record<string, TestDimensionMapping> = {
   },
 
   // Identity Tests
+  identity_profile: {
+    selfAwareness: 0.25,
+    authenticity: 0.25,
+    identityStability: 0.25,
+    externalInfluence: 0.15,
+    innerConsistency: 0.1,
+  },
   test_1: {
     selfAwareness: 0.35,
     identityStability: 0.3,
@@ -49,6 +56,14 @@ export const TEST_DIMENSION_MAP: Record<string, TestDimensionMapping> = {
   },
 
   // Motivation/Drivers Test
+  motivation_profile: {
+    motivationStrength: 0.35,
+    decisionClarity: 0.2,
+    authenticity: 0.15,
+    externalInfluence: 0.1,
+    riskTolerance: 0.1,
+    innerConsistency: 0.1,
+  },
   test_3: {
     motivationStrength: 0.4,
     decisionClarity: 0.2,
@@ -63,6 +78,28 @@ export const TEST_DIMENSION_MAP: Record<string, TestDimensionMapping> = {
   },
 
   // Strengths & Weaknesses Test
+  growth_profile: {
+    adaptability: 0.25,
+    discipline: 0.25,
+    selfAwareness: 0.2,
+    innerConsistency: 0.15,
+    emotionalAlignment: 0.15,
+  },
+  stress_emotions_profile: {
+    emotionalAlignment: 0.35,
+    selfAwareness: 0.2,
+    adaptability: 0.2,
+    innerConsistency: 0.15,
+    identityStability: 0.1,
+  },
+  life_profile: {
+    decisionClarity: 0.2,
+    authenticity: 0.2,
+    innerConsistency: 0.2,
+    motivationStrength: 0.15,
+    emotionalAlignment: 0.15,
+    adaptability: 0.1,
+  },
   test_4: {
     discipline: 0.25,
     adaptability: 0.25,
@@ -77,6 +114,14 @@ export const TEST_DIMENSION_MAP: Record<string, TestDimensionMapping> = {
   },
 
   // Relationships Test
+  relationship_profile: {
+    socialExpression: 0.25,
+    emotionalAlignment: 0.25,
+    authenticity: 0.15,
+    externalInfluence: 0.15,
+    adaptability: 0.1,
+    identityStability: 0.1,
+  },
   test_5_relationships: {
     socialExpression: 0.3,
     emotionalAlignment: 0.3,
@@ -85,11 +130,27 @@ export const TEST_DIMENSION_MAP: Record<string, TestDimensionMapping> = {
   },
 
   // Career Test
+  career_profile: {
+    motivationStrength: 0.25,
+    discipline: 0.2,
+    adaptability: 0.2,
+    riskTolerance: 0.2,
+    decisionClarity: 0.15,
+  },
   test_6_career: {
     motivationStrength: 0.3,
     discipline: 0.25,
     adaptability: 0.25,
     riskTolerance: 0.2,
+  },
+
+  // Mind Test
+  mind_profile: {
+    adaptability: 0.25,
+    decisionClarity: 0.25,
+    selfAwareness: 0.2,
+    discipline: 0.15,
+    innerConsistency: 0.15,
   },
 
   // Life Direction Test

@@ -22,6 +22,7 @@ interface TestQuestionTemplateProps {
   onPrevious?: () => void;
   onRestart?: () => void;
   answerOptions?: AnswerOption[];
+  isBusy?: boolean;
 }
 
 const defaultAnswerOptions: AnswerOption[] = [
@@ -63,13 +64,14 @@ export default function TestQuestionTemplate({
   onPrevious,
   onRestart,
   answerOptions = defaultAnswerOptions,
+  isBusy = false,
 }: TestQuestionTemplateProps) {
   const [showRestartModal, setShowRestartModal] = useState(false);
 
   // Enter key support
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter" && value !== null) {
+      if (event.key === "Enter" && value !== null && !isBusy) {
         event.preventDefault();
         onNext();
       }
@@ -77,7 +79,7 @@ export default function TestQuestionTemplate({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [value, onNext]);
+  }, [value, isBusy, onNext]);
 
   const progress = (step / totalSteps) * 100;
 
@@ -103,13 +105,15 @@ export default function TestQuestionTemplate({
               </p>
               <div className="flex gap-3 justify-end">
                 <button
-                  onClick={() => setShowRestartModal(false)}
+                onClick={() => setShowRestartModal(false)}
+                  disabled={isBusy}
                   className="px-4 py-2 rounded-lg border-2 border-slate-300 text-slate-700 font-medium hover:bg-slate-50 transition"
                 >
                   Cancel
                 </button>
                 <button
-                  onClick={handleRestart}
+                onClick={handleRestart}
+                  disabled={isBusy}
                   className="px-4 py-2 rounded-lg bg-linear-to-r from-blue-500 to-cyan-500 text-white font-medium hover:shadow-lg transition"
                 >
                   Restart
@@ -125,6 +129,7 @@ export default function TestQuestionTemplate({
             {onPrevious && step > 1 && (
               <button
                 onClick={onPrevious}
+                disabled={isBusy}
                 className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 transition-colors"
                 title="Go to previous question"
               >
@@ -136,6 +141,7 @@ export default function TestQuestionTemplate({
           {onRestart && (
             <button
               onClick={() => setShowRestartModal(true)}
+              disabled={isBusy}
               className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 transition-colors"
               title="Restart test"
             >
@@ -189,6 +195,7 @@ export default function TestQuestionTemplate({
               {/* Circle Button */}
               <button
                 onClick={() => onChange(option.value)}
+                disabled={isBusy}
                 className="shrink-0 w-10 h-10 rounded-full border-2 flex items-center justify-center cursor-pointer transition-all border-gray-300 hover:border-gray-400 hover:scale-110 bg-white"
                 style={
                   value === option.value
@@ -220,18 +227,18 @@ export default function TestQuestionTemplate({
         {/* Navigation Button */}
         <button
           onClick={onNext}
-          disabled={value === null}
+          disabled={value === null || isBusy}
           className={`w-full py-3 rounded-lg font-medium transition-all ${
-            value === null
+            value === null || isBusy
               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
               : "bg-linear-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white shadow-md hover:shadow-lg hover:scale-105"
           }`}
         >
-          Next
+          {isBusy ? "Saving result..." : "Next"}
         </button>
 
         {/* Keyboard Hint */}
-        {value !== null && (
+        {value !== null && !isBusy && (
           <p className="text-xs text-slate-400 text-center mt-3">
             Press Enter to continue
           </p>

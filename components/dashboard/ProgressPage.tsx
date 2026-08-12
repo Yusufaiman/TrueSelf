@@ -17,6 +17,14 @@ export function ProgressPage() {
 
   const testNames: Record<string, string> = {
     trueself_16_type: "TrueSelf 16 Types",
+    identity_profile: "Identity Profile",
+    relationship_profile: "Relationship Profile",
+    career_profile: "Career Fit",
+    mind_profile: "Mind Profile",
+    motivation_profile: "Motivation Profile",
+    growth_profile: "Growth Profile",
+    stress_emotions_profile: "Stress & Emotions Profile",
+    life_profile: "Life Profile",
     test_1: "Identity Profile",
     test_2: "Personality Type",
     test_3: "Life Drivers",

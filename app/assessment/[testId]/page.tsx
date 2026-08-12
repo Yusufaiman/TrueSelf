@@ -1,11 +1,19 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Clipboard, CheckCircle2 } from "lucide-react";
 import TestQuestionTemplate from "@/components/test/TestQuestionTemplate";
 import TestResultTemplate from "@/components/test/TestResultTemplate";
 import TrueSelf16ResultTemplate from "@/components/test/TrueSelf16ResultTemplate";
+import IdentityResultTemplate from "@/components/test/IdentityResultTemplate";
+import RelationshipResultTemplate from "@/components/test/RelationshipResultTemplate";
+import CareerResultTemplate from "@/components/test/CareerResultTemplate";
+import MindResultTemplate from "@/components/test/MindResultTemplate";
+import MotivationResultTemplate from "@/components/test/MotivationResultTemplate";
+import GrowthResultTemplate from "@/components/test/GrowthResultTemplate";
+import StressEmotionResultTemplate from "@/components/test/StressEmotionResultTemplate";
+import LifeResultTemplate from "@/components/test/LifeResultTemplate";
 import { getTestConfig, type AnswerValue } from "@/lib/test-config";
 import "@/lib/test-configs";
 import { useSubscription } from "@/hooks/useSubscription";
@@ -30,6 +38,8 @@ export default function GenericTestPage({ params }: PageProps) {
   const [currentAnswer, setCurrentAnswer] = useState<AnswerValue | null>(null);
   const [answers, setAnswers] = useState<Record<number, AnswerValue>>({});
   const [result, setResult] = useState<any>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isSubmittingRef = useRef(false);
 
   if (!config) {
     return (
@@ -52,12 +62,15 @@ export default function GenericTestPage({ params }: PageProps) {
   };
 
   const handleNext = async () => {
-    if (currentAnswer === null) return;
+    if (currentAnswer === null || isSubmittingRef.current) return;
 
     const newAnswers = { ...answers, [currentQuestion.id]: currentAnswer };
     setAnswers(newAnswers);
 
     if (isLastQuestion) {
+      isSubmittingRef.current = true;
+      setIsSubmitting(true);
+
       // PAYWALL CHECK: Block results for non-subscribers
       if (!isSubscriptionLoading && !isSubscribed) {
         console.log("[Test] Paywall: Blocking result for non-subscriber");
@@ -98,6 +111,8 @@ export default function GenericTestPage({ params }: PageProps) {
   };
 
   const handleRestart = () => {
+    isSubmittingRef.current = false;
+    setIsSubmitting(false);
     setScreen("question");
     setCurrentStep(1);
     setCurrentAnswer(null);
@@ -173,6 +188,38 @@ export default function GenericTestPage({ params }: PageProps) {
       return <TrueSelf16ResultTemplate {...result} onRetake={handleRetake} />;
     }
 
+    if (result.variant === "identity-profile") {
+      return <IdentityResultTemplate {...result} onRetake={handleRetake} />;
+    }
+
+    if (result.variant === "relationship-style") {
+      return <RelationshipResultTemplate {...result} onRetake={handleRetake} />;
+    }
+
+    if (result.variant === "career-fit") {
+      return <CareerResultTemplate {...result} onRetake={handleRetake} />;
+    }
+
+    if (result.variant === "mind-profile") {
+      return <MindResultTemplate {...result} onRetake={handleRetake} />;
+    }
+
+    if (result.variant === "motivation-profile") {
+      return <MotivationResultTemplate {...result} onRetake={handleRetake} />;
+    }
+
+    if (result.variant === "growth-profile") {
+      return <GrowthResultTemplate {...result} onRetake={handleRetake} />;
+    }
+
+    if (result.variant === "stress-emotions-profile") {
+      return <StressEmotionResultTemplate {...result} onRetake={handleRetake} />;
+    }
+
+    if (result.variant === "life-profile") {
+      return <LifeResultTemplate {...result} onRetake={handleRetake} />;
+    }
+
     return <TestResultTemplate {...result} onRetake={handleRetake} />;
   }
 
@@ -188,6 +235,7 @@ export default function GenericTestPage({ params }: PageProps) {
       onPrevious={currentStep > 1 ? handlePrevious : undefined}
       onRestart={handleRestart}
       answerOptions={config.answerOptions}
+      isBusy={isSubmitting}
     />
   );
 }
