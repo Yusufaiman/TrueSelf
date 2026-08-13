@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ArrowLeft, RotateCcw } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeft, RotateCcw, X } from "lucide-react";
 
 type AnswerValue = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
@@ -123,14 +124,22 @@ export default function TestQuestionTemplate({
           </div>
         )}
 
-        {/* Top Controls: Back + Restart */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
+        {/* Top Controls: Cancel/Back + Restart */}
+        <div className="mb-8 flex items-center justify-between gap-4">
+          <div className="flex min-w-0 items-center gap-4">
+            <Link
+              href="/tests"
+              className="flex shrink-0 items-center gap-1.5 text-sm text-slate-500 transition-colors hover:text-slate-800"
+              title="Cancel test"
+            >
+              <X size={16} />
+              Cancel
+            </Link>
             {onPrevious && step > 1 && (
               <button
                 onClick={onPrevious}
                 disabled={isBusy}
-                className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 transition-colors"
+                className="flex shrink-0 items-center gap-1.5 text-sm text-slate-500 transition-colors hover:text-slate-800"
                 title="Go to previous question"
               >
                 <ArrowLeft size={16} />
@@ -142,7 +151,7 @@ export default function TestQuestionTemplate({
             <button
               onClick={() => setShowRestartModal(true)}
               disabled={isBusy}
-              className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 transition-colors"
+              className="flex shrink-0 items-center gap-1.5 text-sm text-slate-500 transition-colors hover:text-slate-800"
               title="Restart test"
             >
               <RotateCcw size={16} />
@@ -186,17 +195,17 @@ export default function TestQuestionTemplate({
         </div>
 
         {/* Answer Scale - PERFECTLY LINEAR */}
-        <div className="flex justify-between items-center gap-2 mb-12 px-4">
+        <div className="mb-12 grid grid-cols-7 items-start gap-1 px-0 sm:gap-2 sm:px-4">
           {answerOptions.map((option) => (
             <div
               key={option.value}
-              className="flex flex-col items-center gap-3"
+              className="flex min-w-0 flex-col items-center gap-2 sm:gap-3"
             >
               {/* Circle Button */}
               <button
                 onClick={() => onChange(option.value)}
                 disabled={isBusy}
-                className="shrink-0 w-10 h-10 rounded-full border-2 flex items-center justify-center cursor-pointer transition-all border-gray-300 hover:border-gray-400 hover:scale-110 bg-white"
+                className="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-gray-300 bg-white transition-all hover:scale-110 hover:border-gray-400 sm:h-10 sm:w-10"
                 style={
                   value === option.value
                     ? {
@@ -217,7 +226,7 @@ export default function TestQuestionTemplate({
               </button>
 
               {/* Label */}
-              <span className="text-xs text-gray-600 text-center whitespace-normal max-w-13.75">
+              <span className="max-w-[52px] text-center text-[10px] leading-tight text-gray-600 sm:max-w-[64px] sm:text-xs">
                 {option.label}
               </span>
             </div>

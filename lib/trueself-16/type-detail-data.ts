@@ -156,17 +156,10 @@ function axesFor(typeCode: TypeCode): AxisStructure[] {
   ];
 }
 
-const familyEnvironment: Record<TypeFamily, string> = {
-  NT: "Environments that value independent thinking, competence, debate, experimentation, and strategic problem solving may reinforce Analyst-like preferences. The same family can still develop in warm, practical, artistic, or highly social homes.",
-  NF: "Environments that value meaning, emotional awareness, ideals, personal growth, and understanding people may reinforce Diplomat-like preferences. The same pattern can also appear in less emotionally expressive settings.",
-  SJ: "Environments that value reliability, responsibility, duty, routine, and practical contribution may reinforce Sentinel-like preferences. This does not mean every Sentinel had the same upbringing or family role.",
-  SP: "Environments that value practical action, adaptability, direct experience, independence, and real-time problem solving may reinforce Explorer-like preferences. The same pattern can develop across very different homes and cultures.",
-};
-
 const typeNotes: Record<TypeCode, TypeNotes> = {
   ISTJ: {
-    tendencies: ["responsible", "observant", "practical", "consistent", "detail-aware", "standards-driven"],
-    naturalTemperament: ["may observe before acting", "may notice what is proven and reliable", "may prefer clear expectations", "may remember details and commitments", "may trust practical experience", "may value consistency"],
+    tendencies: ["responsible", "observant", "practical", "consistent", "detail-aware", "standards-driven", "methodical", "reliable", "duty-conscious", "prepared", "patient", "thorough", "grounded", "order-seeking"],
+    naturalTemperament: ["may observe before acting", "may notice what is proven and reliable", "may prefer clear expectations", "may remember details and commitments", "may trust practical experience", "may value consistency", "may feel anchored by routines", "may take promises seriously"],
     roles: [
       { title: "The Responsible One", text: "Some ISTJ-like people may become known for doing what was expected without needing much supervision." },
       { title: "The Rule Keeper", text: "They may feel safer when expectations are explicit and everyone understands the standard." },
@@ -198,8 +191,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Quiet does not mean passive.", "Traditional does not mean unimaginative.", "Structured does not mean incapable of adapting.", "Careful does not mean fearful."],
   },
   ISFJ: {
-    tendencies: ["attentive", "dependable", "practical", "considerate", "stability-oriented", "duty-aware"],
-    naturalTemperament: ["may observe before acting", "may notice practical details", "may remember personal information", "may prefer familiar routines", "may sense what people need", "may value stability"],
+    tendencies: ["attentive", "dependable", "practical", "considerate", "stability-oriented", "duty-aware", "supportive", "protective", "memory-rich", "patient", "gentle", "service-minded", "loyal", "needs-aware"],
+    naturalTemperament: ["may observe before acting", "may notice practical details", "may remember personal information", "may prefer familiar routines", "may sense what people need", "may value stability", "may show care through action", "may feel responsible for comfort"],
     roles: [
       { title: "The Helper", text: "Some ISFJ-like people may become known for noticing needs and quietly supporting others." },
       { title: "The Reliable One", text: "They may be trusted because they remember promises, routines, and practical details." },
@@ -231,8 +224,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Quiet does not mean weak.", "Caring does not mean dependent.", "Structured does not mean incapable of adapting.", "Preferring familiarity does not mean lacking curiosity."],
   },
   INFJ: {
-    tendencies: ["insightful", "private", "purpose-driven", "empathetic", "pattern-focused", "idealistic"],
-    naturalTemperament: ["may search for meaning early", "may notice emotional undercurrents", "may need private processing", "may imagine long-range outcomes", "may prefer depth over breadth", "may feel pulled toward purpose"],
+    tendencies: ["insightful", "private", "purpose-driven", "empathetic", "pattern-focused", "idealistic", "meaning-seeking", "future-aware", "emotionally perceptive", "reflective", "vision-led", "deep", "selective", "values-attuned"],
+    naturalTemperament: ["may search for meaning early", "may notice emotional undercurrents", "may need private processing", "may imagine long-range outcomes", "may prefer depth over breadth", "may feel pulled toward purpose", "may read subtle changes in people", "may protect a private inner vision"],
     roles: [
       { title: "The Insightful Observer", text: "Some INFJ-like people may become known for sensing what is happening beneath the surface." },
       { title: "The Quiet Counselor", text: "They may be approached for emotional insight before they feel fully ready for that role." },
@@ -264,8 +257,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Private does not mean cold.", "Idealistic does not mean impractical.", "Empathic does not mean endlessly available.", "Insightful does not mean always correct."],
   },
   INTJ: {
-    tendencies: ["strategic", "independent", "analytical", "future-focused", "system-minded", "self-directed"],
-    naturalTemperament: ["may look for systems behind events", "may prefer independent mastery", "may think in long timelines", "may question inefficient methods", "may value competence", "may protect private goals"],
+    tendencies: ["strategic", "independent", "analytical", "future-focused", "system-minded", "self-directed", "long-range", "structured", "decisive", "conceptual", "standards-driven", "improvement-focused", "private", "outcome-aware"],
+    naturalTemperament: ["may look for systems behind events", "may prefer independent mastery", "may think in long timelines", "may question inefficient methods", "may value competence", "may protect private goals", "may form conclusions internally", "may respect clear reasoning"],
     roles: [
       { title: "The Strategist", text: "Some INTJ-like people may become known for seeing the long game before others do." },
       { title: "The Independent Learner", text: "They may prefer figuring things out privately and trusting their own framework." },
@@ -297,8 +290,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Reserved does not mean uncaring.", "Strategic does not mean manipulative.", "Independent does not mean anti-social.", "Direct does not mean hostile."],
   },
   ISTP: {
-    tendencies: ["hands-on", "observant", "calm", "independent", "practical", "adaptive"],
-    naturalTemperament: ["may learn by testing", "may notice how things work", "may stay calm in practical problems", "may prefer freedom", "may avoid unnecessary talk", "may trust direct experience"],
+    tendencies: ["hands-on", "observant", "calm", "independent", "practical", "adaptive", "mechanical", "solution-focused", "precise", "self-contained", "action-ready", "resourceful", "direct", "low-pressure"],
+    naturalTemperament: ["may learn by testing", "may notice how things work", "may stay calm in practical problems", "may prefer freedom", "may avoid unnecessary talk", "may trust direct experience", "may solve problems through action", "may resist micromanagement"],
     roles: [
       { title: "The Troubleshooter", text: "Some ISTP-like people may become useful when something practical needs fixing." },
       { title: "The Quiet Observer", text: "They may watch first, understand the mechanism, then act." },
@@ -330,8 +323,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Calm does not mean emotionless.", "Independent does not mean uncaring.", "Practical does not mean shallow.", "Quiet does not mean disengaged."],
   },
   ISFP: {
-    tendencies: ["authentic", "gentle", "sensory-aware", "values-led", "adaptable", "quietly expressive"],
-    naturalTemperament: ["may notice beauty and tone", "may move by personal values", "may prefer gentle environments", "may resist being boxed in", "may learn through experience", "may express through action or taste"],
+    tendencies: ["authentic", "gentle", "sensory-aware", "values-led", "adaptable", "quietly expressive", "present-focused", "aesthetic", "independent", "warm", "private", "experience-led", "accepting", "emotionally honest"],
+    naturalTemperament: ["may notice beauty and tone", "may move by personal values", "may prefer gentle environments", "may resist being boxed in", "may learn through experience", "may express through action or taste", "may keep strong preferences private", "may need freedom to choose"],
     roles: [
       { title: "The Quiet Individualist", text: "Some ISFP-like people may protect a private sense of identity even when they seem easygoing." },
       { title: "The Gentle Presence", text: "They may bring calm, acceptance, and sensitivity to the room." },
@@ -363,8 +356,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Gentle does not mean weak.", "Flexible does not mean careless.", "Private values do not mean no opinions.", "Creative does not mean unrealistic."],
   },
   INFP: {
-    tendencies: ["values-led", "imaginative", "reflective", "empathetic", "idealistic", "meaning-seeking"],
-    naturalTemperament: ["may feel guided by inner values", "may imagine better possibilities", "may need private emotional processing", "may care about authenticity", "may notice mismatches between ideals and reality", "may prefer meaningful work"],
+    tendencies: ["values-led", "imaginative", "reflective", "empathetic", "idealistic", "meaning-seeking", "authentic", "sensitive", "possibility-aware", "private", "creative", "gentle", "identity-focused", "emotionally deep"],
+    naturalTemperament: ["may feel guided by inner values", "may imagine better possibilities", "may need private emotional processing", "may care about authenticity", "may notice mismatches between ideals and reality", "may prefer meaningful work", "may attach deeply to stories or symbols", "may protect personal identity quietly"],
     roles: [
       { title: "The Idealist", text: "Some INFP-like people may carry a private sense of how things should feel or become." },
       { title: "The Mediator", text: "They may try to understand multiple emotional realities before deciding." },
@@ -396,8 +389,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Sensitive does not mean fragile.", "Idealistic does not mean naive.", "Private does not mean disengaged.", "Flexible does not mean lacking conviction."],
   },
   INTP: {
-    tendencies: ["analytical", "curious", "independent", "precise", "conceptual", "questioning"],
-    naturalTemperament: ["may ask why systems work", "may prefer internal logic", "may need room to think", "may enjoy abstract models", "may question assumptions", "may detach to analyze"],
+    tendencies: ["analytical", "curious", "independent", "precise", "conceptual", "questioning", "logic-driven", "private", "theoretical", "skeptical", "inventive", "complexity-seeking", "framework-building", "mentally flexible"],
+    naturalTemperament: ["may ask why systems work", "may prefer internal logic", "may need room to think", "may enjoy abstract models", "may question assumptions", "may detach to analyze", "may follow curiosity across topics", "may notice contradictions quickly"],
     roles: [
       { title: "The Questioner", text: "Some INTP-like people may become known for asking the question others skipped." },
       { title: "The Theory Builder", text: "They may privately build frameworks to make sense of complex ideas." },
@@ -429,8 +422,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Logical does not mean emotionless.", "Quiet does not mean uninterested.", "Questioning does not mean negative.", "Flexible does not mean unreliable."],
   },
   ESTP: {
-    tendencies: ["bold", "practical", "energetic", "adaptable", "direct", "action-oriented"],
-    naturalTemperament: ["may react quickly to the moment", "may learn by doing", "may enjoy direct challenge", "may read immediate opportunities", "may prefer action over theory", "may stay energized by movement"],
+    tendencies: ["bold", "practical", "energetic", "adaptable", "direct", "action-oriented", "present-focused", "risk-ready", "confident", "tactical", "responsive", "hands-on", "competitive", "experience-led"],
+    naturalTemperament: ["may react quickly to the moment", "may learn by doing", "may enjoy direct challenge", "may read immediate opportunities", "may prefer action over theory", "may stay energized by movement", "may test limits through experience", "may adapt through quick feedback"],
     roles: [
       { title: "The Operator", text: "Some ESTP-like people may become the person who acts when others hesitate." },
       { title: "The Risk Tester", text: "They may learn limits by engaging with them directly." },
@@ -462,8 +455,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Bold does not mean careless.", "Practical does not mean unintellectual.", "Direct does not mean unkind.", "Spontaneous does not mean incapable of commitment."],
   },
   ESFP: {
-    tendencies: ["expressive", "warm", "present-focused", "adaptable", "socially responsive", "experience-oriented"],
-    naturalTemperament: ["may notice mood and atmosphere", "may seek shared experience", "may respond to the present moment", "may bring energy to groups", "may prefer practical expression", "may value enjoyment and connection"],
+    tendencies: ["expressive", "warm", "present-focused", "adaptable", "socially responsive", "experience-oriented", "lively", "practical", "people-aware", "spontaneous", "playful", "emotionally visible", "generous", "moment-driven"],
+    naturalTemperament: ["may notice mood and atmosphere", "may seek shared experience", "may respond to the present moment", "may bring energy to groups", "may prefer practical expression", "may value enjoyment and connection", "may communicate through visible expression", "may feel affected by rejection"],
     roles: [
       { title: "The Energizer", text: "Some ESFP-like people may become the person who brings warmth and movement into a space." },
       { title: "The Connector", text: "They may notice who feels included and who needs encouragement." },
@@ -495,8 +488,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Expressive does not mean shallow.", "Social does not mean always confident.", "Fun-loving does not mean irresponsible.", "Present-focused does not mean lacking depth."],
   },
   ENFP: {
-    tendencies: ["enthusiastic", "imaginative", "people-centered", "curious", "values-aware", "possibility-oriented"],
-    naturalTemperament: ["may see potential quickly", "may enjoy people and ideas", "may resist being boxed in", "may search for meaning", "may connect across topics", "may feel energized by possibility"],
+    tendencies: ["enthusiastic", "imaginative", "people-centered", "curious", "values-aware", "possibility-oriented", "expressive", "adaptive", "inspiring", "exploratory", "warm", "novelty-seeking", "meaning-driven", "open-ended"],
+    naturalTemperament: ["may see potential quickly", "may enjoy people and ideas", "may resist being boxed in", "may search for meaning", "may connect across topics", "may feel energized by possibility", "may explore many interests", "may seek authenticity in connection"],
     roles: [
       { title: "The Possibility Finder", text: "Some ENFP-like people may become known for seeing what something or someone could become." },
       { title: "The Encourager", text: "They may naturally bring emotional energy and belief into people." },
@@ -528,8 +521,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Energetic does not mean unserious.", "Flexible does not mean unreliable.", "Social does not mean emotionally simple.", "Optimistic does not mean unaware of pain."],
   },
   ENTP: {
-    tendencies: ["inventive", "quick", "debate-friendly", "curious", "strategic", "possibility-driven"],
-    naturalTemperament: ["may challenge assumptions", "may generate alternatives quickly", "may enjoy debate", "may connect unrelated ideas", "may resist stale routines", "may test boundaries intellectually"],
+    tendencies: ["inventive", "quick", "debate-friendly", "curious", "strategic", "possibility-driven", "experimental", "adaptable", "verbal", "idea-rich", "challenging", "pattern-seeking", "playful", "improvisational"],
+    naturalTemperament: ["may challenge assumptions", "may generate alternatives quickly", "may enjoy debate", "may connect unrelated ideas", "may resist stale routines", "may test boundaries intellectually", "may use humour to explore ideas", "may learn fast when novelty is present"],
     roles: [
       { title: "The Challenger", text: "Some ENTP-like people may become known for questioning the default option." },
       { title: "The Idea Generator", text: "They may bring many possible angles before committing to one." },
@@ -561,8 +554,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Debate-friendly does not mean hostile.", "Playful does not mean unserious.", "Flexible does not mean incapable of discipline.", "Questioning does not mean disrespect."],
   },
   ESTJ: {
-    tendencies: ["direct", "organized", "practical", "decisive", "accountable", "execution-focused"],
-    naturalTemperament: ["may organize tasks quickly", "may prefer measurable results", "may speak directly", "may trust proven systems", "may take charge under pressure", "may value accountability"],
+    tendencies: ["direct", "organized", "practical", "decisive", "accountable", "execution-focused", "structured", "results-driven", "efficient", "responsibility-minded", "clear", "commanding", "standards-focused", "action-oriented"],
+    naturalTemperament: ["may organize tasks quickly", "may prefer measurable results", "may speak directly", "may trust proven systems", "may take charge under pressure", "may value accountability", "may feel frustrated by ambiguity", "may gain confidence through contribution"],
     roles: [
       { title: "The Organizer", text: "Some ESTJ-like people may become the person who turns confusion into a plan." },
       { title: "The Director", text: "They may naturally coordinate people, timelines, and standards." },
@@ -594,8 +587,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Direct does not mean uncaring.", "Structured does not mean inflexible.", "Leadership does not mean needing control.", "Practical does not mean unimaginative."],
   },
   ESFJ: {
-    tendencies: ["warm", "responsible", "socially aware", "supportive", "organized", "community-minded"],
-    naturalTemperament: ["may notice group needs", "may value belonging", "may remember social details", "may organize support", "may prefer harmony", "may feel responsible for people"],
+    tendencies: ["warm", "responsible", "socially aware", "supportive", "organized", "community-minded", "loyal", "practical", "service-oriented", "expressive", "cooperative", "tradition-aware", "needs-aware", "belonging-focused"],
+    naturalTemperament: ["may notice group needs", "may value belonging", "may remember social details", "may organize support", "may prefer harmony", "may feel responsible for people", "may respond strongly to appreciation", "may protect shared traditions"],
     roles: [
       { title: "The Connector", text: "Some ESFJ-like people may become the person who keeps people included and informed." },
       { title: "The Care Coordinator", text: "They may organize practical support when someone needs help." },
@@ -627,8 +620,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Warm does not mean shallow.", "Helpful does not mean dependent.", "Socially aware does not mean fake.", "Structured care does not mean controlling."],
   },
   ENFJ: {
-    tendencies: ["inspiring", "empathetic", "expressive", "purpose-led", "people-developing", "organized"],
-    naturalTemperament: ["may read people quickly", "may encourage growth", "may organize around a mission", "may communicate emotionally", "may value shared purpose", "may feel responsible for morale"],
+    tendencies: ["inspiring", "empathetic", "expressive", "purpose-led", "people-developing", "organized", "visionary", "socially attuned", "encouraging", "responsible", "persuasive", "values-driven", "alignment-seeking", "growth-focused"],
+    naturalTemperament: ["may read people quickly", "may encourage growth", "may organize around a mission", "may communicate emotionally", "may value shared purpose", "may feel responsible for morale", "may notice who feels excluded", "may shape group energy"],
     roles: [
       { title: "The Mentor", text: "Some ENFJ-like people may become the person who helps others see their potential." },
       { title: "The Motivator", text: "They may naturally gather people around a shared direction." },
@@ -660,8 +653,8 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
     misconceptions: ["Warm does not mean lacking logic.", "Leading does not mean needing attention.", "Empathic does not mean endlessly available.", "Purposeful does not mean always intense."],
   },
   ENTJ: {
-    tendencies: ["strategic", "assertive", "decisive", "ambitious", "systems-oriented", "leadership-focused"],
-    naturalTemperament: ["may organize people around goals", "may think in outcomes", "may speak decisively", "may challenge inefficiency", "may pursue competence", "may see scalable systems"],
+    tendencies: ["strategic", "assertive", "decisive", "ambitious", "systems-oriented", "leadership-focused", "outcome-driven", "efficient", "commanding", "future-focused", "direct", "high-standards", "goal-oriented", "execution-minded"],
+    naturalTemperament: ["may organize people around goals", "may think in outcomes", "may speak decisively", "may challenge inefficiency", "may pursue competence", "may see scalable systems", "may want meaningful responsibility", "may measure progress naturally"],
     roles: [
       { title: "The Commander", text: "Some ENTJ-like people may become the person who gives direction when a goal is unclear." },
       { title: "The Strategist", text: "They may quickly identify leverage points and next moves." },
@@ -697,12 +690,558 @@ const typeNotes: Record<TypeCode, TypeNotes> = {
 const commonIntro =
   "No single childhood or environment creates a personality type. Personality develops through a complex interaction between natural temperament, relationships, culture, experiences, and the ways a person learns to adapt to the world.";
 
+const backgroundText: Record<TypeCode, { introduction: string; familyEnvironment: string }> = {
+  INTJ: {
+    introduction: `INTJs often show an early tendency toward independence, internal reflection, pattern recognition, and long range thinking. Even as children, they may spend considerable time observing before participating, mentally organizing what they see and trying to understand the structure behind events, people, rules, or systems.
+
+Rather than accepting information simply because it comes from an adult or authority figure, an INTJ child may quietly ask whether the explanation is logical, efficient, and consistent with what they already understand. They may not always challenge authority openly. Disagreement can happen privately first, with conclusions formed internally before they decide whether those conclusions are worth expressing.
+
+Their interests may become unusually focused. Once something captures their attention, they can pursue it with depth, independent research, experimentation, planning, or competence beyond what others expect for their age.
+
+They may also appear mature, reserved, serious, or self contained. This does not necessarily mean social discomfort. Often, INTJs prefer purposeful interaction over constant interaction and need private time to process thoughts.`,
+    familyEnvironment: `INTJs often benefit from families that provide intellectual freedom, predictable boundaries, privacy, and age appropriate independence. Parents who explain the reasoning behind expectations rather than relying only on authority may earn strong respect from them.
+
+When their questions and independent thinking are taken seriously, INTJ children may develop confidence in their ability to evaluate problems and make decisions.
+
+A highly controlling environment can produce a more private and strategically independent expression. Some may comply outwardly while privately developing their own opinions, plans, and standards.
+
+If the family environment is chaotic or inconsistent, they may respond by creating predictability internally through planning ahead, becoming self reliant, controlling their personal environment, or preparing for possible problems.
+
+Healthy development teaches the INTJ that independence and emotional connection can exist together.`,
+  },
+  INTP: {
+    introduction: `INTPs often demonstrate an early fascination with ideas, mechanisms, principles, contradictions, and unanswered questions. Their curiosity is often less about immediate usefulness and more about understanding why something works, what makes it true, and what changes when an assumption is wrong.
+
+An INTP child may dismantle explanations mentally in the same way another child dismantles a machine physically. They want to see the internal structure.
+
+Their thinking can become highly exploratory. One question leads to another, then another possibility, then an inconsistency, then an entirely different subject. Because much of this happens internally, adults may underestimate how intellectually active the child actually is.
+
+They may appear quiet while thinking extensively. They can also become deeply absorbed in specialized interests while seeming indifferent toward subjects they find repetitive or arbitrary.`,
+    familyEnvironment: `INTPs generally benefit from environments where curiosity is not treated as disobedience. Parents who respond to questions with exploration instead of dismissal can strengthen the child's intellectual confidence.
+
+Freedom to read, experiment, build, investigate, play independently, or pursue unusual interests can be especially valuable.
+
+In highly rigid families, an INTP child may stop expressing questions externally without actually stopping the questioning process. They may create an independent internal world where beliefs are evaluated privately.
+
+If emotional communication in the family is difficult or unpredictable, they may increasingly rely on analysis as their preferred way of processing complicated situations. Healthy development helps them learn that emotional information can be meaningful even when it does not behave like a logical proposition.`,
+  },
+  ENTJ: {
+    introduction: `ENTJs often show early tendencies toward initiative, organization, competence, decisiveness, and goal oriented behaviour. As children, they may naturally identify inefficiencies and attempt to improve them.
+
+During group activities, they may spontaneously decide what needs to happen, who should handle which part, and how an objective can be completed faster. Their confidence can sometimes make them appear older than their age.
+
+They may be competitive, ambitious, outspoken, or sensitive to situations where their capabilities feel unnecessarily restricted. Progress is psychologically rewarding for them, and being able to influence outcomes can give them a strong sense of agency.
+
+Their developmental challenge is learning that not every situation is an optimization problem and that human relationships cannot always be managed through efficiency alone.`,
+    familyEnvironment: `ENTJs often flourish when given meaningful responsibility. Families that allow them to make decisions, experience consequences, solve practical problems, and gradually earn greater independence may reinforce healthy confidence.
+
+Clear standards can also be beneficial, especially when expectations are consistent and logically explained.
+
+In highly achievement focused families, ENTJs may internalize the idea that performance equals worth. Praise mainly for accomplishments can reinforce an identity centered too strongly around productivity and competence.
+
+In chaotic environments, they may become prematurely self reliant or try to organize circumstances beyond what should be expected of a child. In highly authoritarian homes, conflict may emerge because the ENTJ wants to understand why a hierarchy deserves authority.
+
+Healthy family development teaches them that strength includes collaboration, emotional honesty, patience, and knowing when control is unnecessary.`,
+  },
+  ENTP: {
+    introduction: `ENTPs frequently display early curiosity, novelty seeking, verbal experimentation, imaginative exploration, and intellectual independence. Their mind naturally gravitates toward possibilities.
+
+Where another child sees an established rule, an ENTP may quickly notice exceptions, alternatives, loopholes, improvements, and different ways of approaching the situation.
+
+They often ask questions not only because they need information, but because questioning helps them explore the boundaries of an idea. This can make them appear argumentative, although the deeper motivation is often to see whether an idea survives examination.
+
+They may experiment with hobbies, identities, interests, social groups, humour, theories, and projects. Their development is often broad before it becomes deep. They may learn quickly but lose motivation once something becomes predictable.`,
+    familyEnvironment: `An intellectually open household can be especially stimulating for an ENTP. Parents who tolerate questions, humour, experimentation, and respectful disagreement may help them develop confidence without making rebellion necessary.
+
+When boundaries are explained logically, ENTP children may be surprisingly cooperative because they understand the reasoning. When rules appear arbitrary, they are more likely to test them.
+
+In restrictive households, they may become skilled at negotiation, persuasion, finding loopholes, reading authority, or maintaining intellectual independence privately.
+
+A socially expressive family may strengthen communication ability, while exposure to different people and viewpoints can intensify their natural interest in perspectives.
+
+The developmental risk is that cleverness becomes a substitute for discipline. Healthy environments provide freedom to explore together with consequences that teach follow through.`,
+  },
+  INFJ: {
+    introduction: `INFJs often demonstrate early tendencies toward observation, imagination, emotional sensitivity, pattern recognition, and meaning making. They may notice subtle changes in behaviour and emotional atmosphere that other children overlook.
+
+Rather than focusing only on what someone says, they may become interested in why it was said, what the person actually feels, and what might happen next.
+
+Their inner world can be very active. They may spend considerable time imagining future scenarios, relationships, stories, ideals, identities, or larger meanings behind personal experiences.
+
+INFJ children can sometimes appear mature because they process interpersonal situations deeply. They may also become selective about self expression, understanding other people more easily than they can explain themselves.`,
+    familyEnvironment: `Emotionally safe families can help INFJs develop empathy without excessive self sacrifice. When parents encourage emotional expression and respect privacy, they learn that their internal experience deserves space alongside everyone else's.
+
+In emotionally unpredictable households, INFJs may become especially attentive to subtle interpersonal signals such as tone changes, facial expressions, silence, tension, and emotional shifts.
+
+This can create strong social sensitivity, but it may also encourage over monitoring of other people's emotional states. Some may become peacemakers or emotional intermediaries within the family.
+
+If praised mainly for being mature, understanding, or easy to manage, they may learn to suppress their own needs. Healthy development teaches them that understanding someone does not make them responsible for managing that person's emotions.`,
+  },
+  INFP: {
+    introduction: `INFPs often display a rich internal emotional and imaginative world from an early age. Their experiences are frequently evaluated through authenticity, personal meaning, fairness, identity, and values.
+
+They may become deeply attached to stories, fictional characters, music, animals, creative interests, ideals, or particular relationships. These attachments are rarely superficial. They can become symbolic parts of the child's developing identity.
+
+INFP children may also experience emotions intensely while expressing only a fraction of them externally. They often need time to understand what they feel and why it matters.
+
+Their central developmental process involves discovering what genuinely matters to them apart from what everyone else expects.`,
+    familyEnvironment: `Accepting families can provide a strong foundation for INFP development. When unusual interests, emotions, creativity, and individuality are treated respectfully, they learn that authenticity does not threaten belonging.
+
+Harsh criticism can affect them deeply, especially when criticism targets character rather than behaviour.
+
+In environments where emotions are dismissed, they may become increasingly private. Instead of abandoning their values, they may protect them internally.
+
+Controlling environments can intensify their desire for personal autonomy because external pressure may feel like interference with identity.
+
+A healthy family helps the INFP distinguish being authentic from avoiding every uncomfortable external expectation. This allows personal values to become a source of strength rather than withdrawal.`,
+  },
+  ENFJ: {
+    introduction: `ENFJs often develop strong sensitivity to people, emotional dynamics, belonging, communication, and interpersonal influence. Even relatively young ENFJs may notice who feels excluded, who is upset, who needs encouragement, and how the mood of a group is changing.
+
+They may naturally assume socially organizing roles by bringing people together, mediating conflict, encouraging friends, or helping others participate.
+
+Positive interpersonal feedback can be highly reinforcing. They begin learning that their words and actions can change how other people feel.
+
+Their central developmental task is learning to care for and influence others without building their entire identity around being needed or approved of.`,
+    familyEnvironment: `Warm and communicative households can strongly support ENFJ development. They benefit from seeing healthy emotional expression, mutual support, and respectful conflict resolution.
+
+If the family environment is emotionally unstable, an ENFJ child may begin monitoring the emotional atmosphere closely. They may try to reduce tension, comfort family members, or behave in ways designed to restore harmony.
+
+This can accelerate interpersonal maturity while creating the belief that it is their responsibility to make everyone okay.
+
+Families that praise kindness while also respecting boundaries help ENFJs develop healthier relationships. They need to learn that disagreement does not necessarily mean rejection.`,
+  },
+  ENFP: {
+    introduction: `ENFPs often display strong curiosity, imagination, enthusiasm, emotional expressiveness, and openness to possibility. Their childhood interests can be numerous and rapidly changing.
+
+A new person, subject, activity, story, or possibility can suddenly become fascinating. They often imagine not only what something currently is, but what it could become.
+
+Socially, they may be attracted to people's individuality and stories rather than simply social status. They enjoy discovering what makes each person different.
+
+At the same time, they possess an internal need for authenticity. As they mature, questions about who they really are and what kind of life feels meaningful can become increasingly important.`,
+    familyEnvironment: `ENFPs tend to benefit from environments that combine emotional acceptance with freedom to explore. Opportunities to pursue different interests, interact with diverse people, and express unconventional ideas can strengthen confidence.
+
+Excessive control may feel suffocating. They may resist not only the rule itself, but the feeling that someone else is defining who they are allowed to become.
+
+In highly approval oriented families, ENFPs may experience tension between maintaining connection and preserving authenticity.
+
+Healthy development requires encouragement and grounding. Freedom without structure can leave them scattered, while excessive structure can suppress exploration. Their strongest environment usually offers possibility, emotional security, and reasonable accountability.`,
+  },
+  ISTJ: {
+    introduction: `ISTJs often demonstrate early attentiveness to consistency, responsibility, details, procedures, and established expectations. They may remember specific instructions, routines, promises, or previous experiences especially well.
+
+Knowing what is expected can provide psychological stability. They are often more comfortable mastering a reliable method before experimenting with alternatives.
+
+This should not be mistaken for lack of imagination. They simply tend to place greater trust in approaches that have demonstrated reliability.
+
+An ISTJ child may also develop a strong internal sense of responsibility. If they say they will do something, failing to complete it can feel personally significant.`,
+    familyEnvironment: `Consistent households often provide an excellent foundation for ISTJs. Clear routines, predictable consequences, and adults who keep promises reinforce their natural trust in structure.
+
+Being given practical responsibilities can create a strong sense of competence.
+
+In chaotic households, ISTJs may respond by becoming even more structured. They may create personal routines, organize belongings carefully, plan ahead, or become uncomfortable when circumstances change unexpectedly.
+
+If responsibility is placed on them too early, they can become overly serious or feel guilty when they are not productive.
+
+Healthy development teaches them that reliability is valuable without requiring absolute control or perfection.`,
+  },
+  ISFJ: {
+    introduction: `ISFJs often appear observant, dependable, considerate, and attentive to the concrete needs of people around them. They may remember details such as a person's favourite food, a promise, an important date, or how a previous situation affected someone.
+
+Their care is often practical rather than dramatic. Instead of announcing affection, they may simply notice what needs to be done and do it.
+
+Familiar relationships and routines can provide a strong sense of safety.
+
+Their central developmental theme involves creating security and connection through attentiveness, reliability, and practical care.`,
+    familyEnvironment: `Warm and predictable environments often allow ISFJs to develop naturally. Family traditions, dependable routines, and reciprocal care can become important sources of stability.
+
+If they receive praise mainly for being helpful, responsible, or undemanding, they may begin associating love with usefulness.
+
+In families with significant emotional or practical needs, they may assume caregiving responsibilities early. They can become extremely attentive to others while struggling to recognize when their own needs have been neglected.
+
+Healthy development teaches the ISFJ that being caring does not require being endlessly available.`,
+  },
+  ESTJ: {
+    introduction: `ESTJs often show an early preference for clarity, organization, practical competence, responsibility, and visible results. They tend to understand environments through what is actually happening, what needs to be done, who is responsible, which rule applies, and what works.
+
+They may naturally organize games, projects, routines, or other children. Ambiguity can be frustrating when a clear decision seems possible.
+
+They frequently develop confidence through accomplishing concrete tasks and seeing measurable progress.
+
+Their central developmental theme is creating order and dependable outcomes through structure, responsibility, and action.`,
+    familyEnvironment: `Structured households can strongly reinforce ESTJ strengths. Clear responsibilities, consistent consequences, and expectations around contribution help them understand how competence creates trust.
+
+They may respond particularly well when adults model responsibility themselves.
+
+In inconsistent environments, they may become frustrated by unreliability and attempt to impose structure themselves.
+
+Highly authoritarian environments can produce strong rule identification or conflict when they perceive authority as incompetent or inconsistent.
+
+A developmental risk appears when rules become equated with morality. Healthy development introduces flexibility and teaches that circumstances and individual needs sometimes require adaptation.`,
+  },
+  ESFJ: {
+    introduction: `ESFJs often show early sensitivity to belonging, relationships, social expectations, shared experiences, and interpersonal feedback. They may enjoy family activities, celebrations, group participation, traditions, and situations where people interact openly.
+
+They often learn social expectations quickly. Positive reactions from others reinforce their desire to contribute and participate.
+
+As children, they may notice who is included, who is upset, and whether the group feels harmonious.
+
+Their central developmental theme involves creating belonging and security through relationships, contribution, and shared social experience.`,
+    familyEnvironment: `Affectionate and socially connected families may provide a strong developmental foundation for ESFJs. Rituals, traditions, shared meals, celebrations, and clear expressions of appreciation can become especially meaningful.
+
+Conditional approval can have significant effects. If affection appears dependent on good behaviour, social conformity, achievement, or pleasing others, the ESFJ may become highly sensitive to external evaluation.
+
+They may start asking what everyone expects them to be instead of what they genuinely think.
+
+Healthy development allows them to remain relationally oriented while establishing independent values and boundaries.`,
+  },
+  ISTP: {
+    introduction: `ISTPs often demonstrate strong practical curiosity, independence, observational ability, and hands on problem solving. They may prefer discovering how something works by interacting with it rather than listening to a long explanation.
+
+A broken object can become more interesting than a functioning one because it presents a problem to solve.
+
+They frequently learn by observing, testing, adjusting, and testing again. Their independence can appear emotionally detached when it is actually a preference for solving problems without unnecessary interference.
+
+They may also remain calm in situations where immediate practical action is more useful than prolonged discussion.`,
+    familyEnvironment: `ISTPs generally benefit from reasonable autonomy. Parents who allow safe experimentation, hands on learning, physical activity, and independent problem solving can strengthen their competence.
+
+Micromanagement can be especially frustrating. If every action is monitored or explained excessively, they may withdraw or resist.
+
+In emotionally intense households, some ISTPs may learn to distance themselves from emotional conflict and focus on concrete problems instead.
+
+This can create impressive composure but may limit emotional communication. Healthy development respects their autonomy while teaching that asking for help and communicating emotions do not reduce independence.`,
+  },
+  ISFP: {
+    introduction: `ISFPs often display quiet sensitivity, strong personal preferences, adaptability, aesthetic awareness, and an intimate relationship with immediate experience.
+
+Their identity may develop less through explicit theories about themselves and more through what feels right, what they love, what they create, and how experiences affect them personally.
+
+They may have strong preferences without feeling compelled to explain or defend them publicly.
+
+Creative expression, nature, aesthetics, movement, music, fashion, animals, or other sensory experiences can become important channels of self expression.`,
+    familyEnvironment: `Accepting environments can help ISFP children become confident in their individuality. They generally respond well when adults provide guidance without unnecessarily controlling personal expression.
+
+Repeated criticism, especially around identity, sensitivity, appearance, creativity, or personal interests, may lead them to become more private.
+
+They may stop explaining themselves rather than surrendering their preferences.
+
+Highly intrusive environments can strengthen the separation between public self and private self. Healthy development teaches them that authenticity can coexist with communication, planning, and constructive external expectations.`,
+  },
+  ESTP: {
+    introduction: `ESTPs often show strong engagement with the immediate physical and social environment. They may be energetic, observant, adventurous, competitive, socially responsive, and eager to discover what happens through direct action.
+
+Rather than spending extensive time predicting every possible outcome, they often learn through action, feedback, and adjustment.
+
+They may enjoy sports, games, practical challenges, competition, exploration, performance, or anything that creates immediate engagement.
+
+Their willingness to act can make them appear unusually confident. The developmental challenge is learning when immediate opportunity should be balanced against long term consequences.`,
+    familyEnvironment: `ESTPs often benefit from environments that provide freedom within clear boundaries. Physical exploration, competition, practical responsibilities, and opportunities to experience natural consequences can teach them judgment more effectively than excessive theoretical instruction.
+
+Extremely restrictive environments may increase boundary testing. If they perceive rules as arbitrary, they may become motivated to discover how far those boundaries can be pushed.
+
+The opposite extreme can also create difficulties. Without meaningful limits, they may not develop sufficient impulse regulation or respect for delayed consequences.
+
+Healthy development combines experience, freedom, and accountability.`,
+  },
+  ESFP: {
+    introduction: `ESFPs often display early expressiveness, responsiveness, sociability, spontaneity, and awareness of their immediate environment. They are frequently drawn toward experiences they can participate in directly.
+
+People, movement, music, aesthetics, humour, activities, celebrations, and new environments may provide strong stimulation.
+
+They often communicate personality through visible expression, including how they speak, move, dress, create, entertain, or interact.
+
+Behind the socially expressive exterior, ESFPs can possess strong personal values and surprisingly private emotional convictions.`,
+    familyEnvironment: `Warm, affectionate, and interactive environments can strongly support ESFP development. They often respond well to encouragement, shared experiences, and adults who actively engage with them.
+
+Harsh rejection or repeated criticism may affect them deeply, especially when directed toward their personality rather than a specific behaviour.
+
+Highly restrictive households may create tension around spontaneity and self expression. Environments without sufficient boundaries can also make long term discipline harder to develop.
+
+The healthiest environment combines warmth, expression, practical boundaries, and consistent consequences. This allows the ESFP to maintain spontaneity without becoming dependent on immediate gratification or external attention.`,
+  },
+};
+
 function blindSpotCards(profile: TrueSelf16Profile): DetailCard[] {
   return profile.blindSpots.map((spot) => ({
     title: spot,
     text: `This may emerge when a useful ${profile.name} tendency is stretched too far or used without enough balance.`,
   }));
 }
+
+const strengthTags: Record<TypeCode, string[]> = {
+  ISTJ: [
+    "Dependability",
+    "Follow-through",
+    "Clear standards",
+    "Practical judgment",
+    "Consistency",
+    "Responsibility",
+    "Detail memory",
+    "Preparedness",
+    "Patience",
+    "Process discipline",
+    "Realistic planning",
+    "Duty awareness",
+    "Quality control",
+    "Steady execution",
+    "Trustworthiness",
+  ],
+  ISFJ: [
+    "Supportiveness",
+    "Commitment",
+    "Memory for detail",
+    "Practical care",
+    "Reliability",
+    "Patience",
+    "Loyalty",
+    "Emotional attentiveness",
+    "Quiet service",
+    "Stability building",
+    "Needs awareness",
+    "Follow-through",
+    "Gentle presence",
+    "Responsibility",
+    "Trust building",
+  ],
+  INFJ: [
+    "Insight",
+    "Empathy",
+    "Long-range purpose",
+    "Pattern reading",
+    "Depth",
+    "Meaning making",
+    "Emotional perception",
+    "Vision",
+    "Values clarity",
+    "Reflective wisdom",
+    "Private focus",
+    "Purposeful guidance",
+    "Relational depth",
+    "Future awareness",
+    "Growth orientation",
+  ],
+  INTJ: [
+    "Strategy",
+    "Pattern analysis",
+    "Self-direction",
+    "Long-range planning",
+    "Systems thinking",
+    "Independent judgment",
+    "Conceptual clarity",
+    "Problem framing",
+    "High standards",
+    "Efficiency",
+    "Future focus",
+    "Decisiveness",
+    "Deep concentration",
+    "Structural thinking",
+    "Outcome design",
+  ],
+  ISTP: [
+    "Troubleshooting",
+    "Composure",
+    "Practical independence",
+    "Hands-on skill",
+    "Observation",
+    "Resourcefulness",
+    "Adaptability",
+    "Technical clarity",
+    "Fast problem solving",
+    "Calm under pressure",
+    "Precision",
+    "Directness",
+    "Mechanical insight",
+    "Self-reliance",
+    "Action efficiency",
+  ],
+  ISFP: [
+    "Authenticity",
+    "Taste",
+    "Gentle presence",
+    "Values awareness",
+    "Aesthetic sensitivity",
+    "Adaptability",
+    "Emotional honesty",
+    "Practical creativity",
+    "Present awareness",
+    "Warmth",
+    "Acceptance",
+    "Quiet courage",
+    "Individuality",
+    "Sensory attunement",
+    "Personal integrity",
+  ],
+  INFP: [
+    "Imagination",
+    "Empathy",
+    "Inner conviction",
+    "Authenticity",
+    "Meaning seeking",
+    "Values clarity",
+    "Creative depth",
+    "Emotional nuance",
+    "Gentleness",
+    "Idealism",
+    "Reflective insight",
+    "Moral sensitivity",
+    "Possibility awareness",
+    "Personal truth",
+    "Compassion",
+  ],
+  INTP: [
+    "Analysis",
+    "Original thinking",
+    "Intellectual honesty",
+    "Conceptual depth",
+    "Precision",
+    "Curiosity",
+    "Independent reasoning",
+    "Framework building",
+    "Problem decomposition",
+    "Skepticism",
+    "Pattern questioning",
+    "Mental flexibility",
+    "Logical clarity",
+    "Complexity tolerance",
+    "Idea exploration",
+  ],
+  ESTP: [
+    "Adaptability",
+    "Presence",
+    "Courage",
+    "Fast action",
+    "Practical realism",
+    "Confidence",
+    "Tactical awareness",
+    "Direct communication",
+    "Risk reading",
+    "Resourcefulness",
+    "Hands-on learning",
+    "Energy",
+    "Quick recovery",
+    "Situational awareness",
+    "Bold problem solving",
+  ],
+  ESFP: [
+    "Social warmth",
+    "Adaptability",
+    "Emotional presence",
+    "Expressiveness",
+    "Responsiveness",
+    "Practical energy",
+    "Playfulness",
+    "People awareness",
+    "Present-moment focus",
+    "Generosity",
+    "Experiential learning",
+    "Encouragement",
+    "Spontaneity",
+    "Connection building",
+    "Visible enthusiasm",
+  ],
+  ENFP: [
+    "Idea generation",
+    "Encouragement",
+    "Creative energy",
+    "Possibility seeking",
+    "Warmth",
+    "Adaptability",
+    "Imagination",
+    "People insight",
+    "Inspiration",
+    "Open-mindedness",
+    "Meaning orientation",
+    "Emotional optimism",
+    "Curiosity",
+    "Connection building",
+    "Future excitement",
+  ],
+  ENTP: [
+    "Innovation",
+    "Verbal agility",
+    "Strategic questioning",
+    "Idea generation",
+    "Adaptability",
+    "Debate skill",
+    "Experimentation",
+    "Pattern testing",
+    "Quick thinking",
+    "Creative disruption",
+    "Possibility mapping",
+    "Mental flexibility",
+    "Systems challenge",
+    "Improvisation",
+    "Conceptual play",
+  ],
+  ESTJ: [
+    "Leadership",
+    "Accountability",
+    "Operational clarity",
+    "Execution",
+    "Structure building",
+    "Decision making",
+    "Practical direction",
+    "Efficiency",
+    "Responsibility",
+    "Standards setting",
+    "Follow-through",
+    "Resource management",
+    "Clear communication",
+    "Goal focus",
+    "Dependable action",
+  ],
+  ESFJ: [
+    "Care coordination",
+    "Loyalty",
+    "Social awareness",
+    "Supportiveness",
+    "Belonging building",
+    "Responsibility",
+    "Warmth",
+    "Practical service",
+    "Team cohesion",
+    "Reliability",
+    "Encouragement",
+    "Needs awareness",
+    "Community care",
+    "Consistency",
+    "Relationship maintenance",
+  ],
+  ENFJ: [
+    "Leadership through empathy",
+    "Motivation",
+    "Vision for people",
+    "Emotional intelligence",
+    "Encouragement",
+    "Purpose alignment",
+    "Communication",
+    "Group cohesion",
+    "Mentorship",
+    "Values leadership",
+    "Social insight",
+    "Relationship building",
+    "Growth focus",
+    "Inspiration",
+    "Organizing people",
+  ],
+  ENTJ: [
+    "Executive clarity",
+    "Strategic leadership",
+    "High standards",
+    "Decisiveness",
+    "Systems direction",
+    "Outcome focus",
+    "Efficiency",
+    "Ambition",
+    "Resource organization",
+    "Long-range planning",
+    "Confidence",
+    "Direct communication",
+    "Problem solving",
+    "Goal execution",
+    "Command presence",
+  ],
+};
 
 export function getTypeDetailData(profile: TrueSelf16Profile): TypeDetailData {
   const notes = typeNotes[profile.code];
@@ -729,9 +1268,9 @@ export function getTypeDetailData(profile: TrueSelf16Profile): TypeDetailData {
       })),
     },
     background: {
-      introduction: commonIntro,
+      introduction: `${commonIntro}\n\n${backgroundText[profile.code].introduction}`,
       naturalTemperament: notes.naturalTemperament,
-      familyEnvironment: familyEnvironment[familyCode],
+      familyEnvironment: backgroundText[profile.code].familyEnvironment,
       childhoodRoles: notes.roles,
       reinforcingEnvironment: notes.reinforcing,
       challengingEnvironment: notes.challenging,
@@ -760,7 +1299,7 @@ export function getTypeDetailData(profile: TrueSelf16Profile): TypeDetailData {
       stress: notes.stress,
     },
     growth: {
-      strengths: profile.strengths,
+      strengths: strengthTags[profile.code],
       blindSpots: blindSpotCards(profile),
       healthyVsOverextended: notes.healthy,
       growthPath: [...profile.growthPath, ...notes.growth],

@@ -823,16 +823,16 @@ function WholeSelfProfileSection({ profile }: { profile: WholeSelfProfile }) {
   }
 
   return (
-    <section className="rounded-2xl border border-teal-200 bg-white p-6 shadow-sm">
+    <section className="min-w-0 overflow-hidden rounded-2xl border border-teal-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-        <div>
+        <div className="min-w-0">
           <div className="flex items-center gap-2">
             <Radar className="h-5 w-5 text-teal-600" />
             <h2 className="text-xl font-bold text-slate-900">
               Your Whole-Self Profile
             </h2>
           </div>
-          <p className="mt-2 text-sm leading-6 text-slate-500">
+          <p className="mt-2 max-w-full break-words text-sm leading-6 text-slate-500">
             A synthesis of your completed assessments. This map describes how
             your patterns connect; it is not a score of how good or complete you are.
           </p>
@@ -847,37 +847,48 @@ function WholeSelfProfileSection({ profile }: { profile: WholeSelfProfile }) {
         </div>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-        <article className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-          <div>
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[0.95fr_1.05fr]">
+        <article className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+          <div className="min-w-0">
             <p className="text-sm font-bold text-teal-700">
               Whole-Self Pattern
             </p>
-            <h3 className="mt-1 text-3xl font-black text-slate-950">
+            <h3 className="mt-1 break-words text-2xl font-black leading-tight text-slate-950 sm:text-3xl">
               {profile.pattern.name}
             </h3>
-            <p className="mt-3 text-sm leading-6 text-slate-600">
+            <p className="mt-3 max-w-full break-words text-sm leading-6 text-slate-600">
               {profile.pattern.narrative}
             </p>
           </div>
 
-          <div className="mt-5 flex min-h-[420px] items-center justify-center rounded-[1.5rem] bg-white p-4">
-            <SpiderChart
-              data={chartData}
-              width={420}
-              height={420}
-              color="#0d9488"
-              fillOpacity={0.16}
-            />
+          <div className="mt-5 flex min-h-[320px] w-full items-center justify-center overflow-hidden rounded-[1.5rem] bg-white p-2 sm:min-h-[420px] sm:p-4">
+            <div className="sm:hidden">
+              <SpiderChart
+                data={chartData}
+                width={300}
+                height={300}
+                color="#0d9488"
+                fillOpacity={0.16}
+              />
+            </div>
+            <div className="hidden sm:block">
+              <SpiderChart
+                data={chartData}
+                width={420}
+                height={420}
+                color="#0d9488"
+                fillOpacity={0.16}
+              />
+            </div>
           </div>
         </article>
 
-        <article className="rounded-2xl border border-slate-200 bg-white p-5">
-          <div className="flex items-center justify-between gap-3">
+        <article className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <h3 className="text-lg font-bold text-slate-950">
               Ten Whole-Self Axes
             </h3>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
+            <span className="w-fit rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">
               {profile.coverage.label}
             </span>
           </div>

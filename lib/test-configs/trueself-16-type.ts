@@ -9,7 +9,7 @@ const trueSelf16TypeConfig: TestConfig = {
   id: "trueself-16-type",
   title: "TrueSelf 16-Type Assessment",
   description:
-    "Discover your TrueSelf 16-type code across energy, information, judgment, and life-structure patterns.",
+    "Discover your core 16-type pattern, TrueSelf 64 expression subtype, and Enneagram motivation pattern in one connected personality profile.",
   path: "/assessment/trueself-16-type",
   questions: TRUESELF_16_QUESTIONS.map((question) => ({
     id: question.id,
@@ -46,6 +46,8 @@ const trueSelf16TypeConfig: TestConfig = {
       facetScores: score.facetScores,
       answerEvidence: score.answerEvidence,
       functionStack: score.functionStack,
+      expression: score.expression,
+      enneagram: score.enneagram,
       strengths: score.strengths,
       blindSpots: score.blindSpots,
       growthPath: score.growthPath,
@@ -59,10 +61,11 @@ const trueSelf16TypeConfig: TestConfig = {
     guidelines: [
       "Answer based on your natural pattern, not who you think you should be",
       "Use the full 7-point scale; neutral is valid when the answer truly depends",
-      "There are no good or bad types; each type has strengths and blind spots",
+      "The test measures your core type, expression subtype, and Enneagram motivation separately",
+      "There are no good or bad patterns; each one has strengths and blind spots",
       "Your result is a self-reflection tool, not an official MBTI assessment",
     ],
-    estimatedTime: "10 minutes",
+    estimatedTime: "18 minutes",
   },
 };
 

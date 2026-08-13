@@ -132,28 +132,36 @@ export function DashboardLayout({ page, children }: DashboardLayoutProps) {
 
   return (
     <div className="h-screen overflow-hidden bg-slate-50">
-      <Navbar />
-      <div className="h-[calc(100vh-64px)] overflow-hidden bg-slate-50 md:h-[calc(100vh-80px)]">
+      <div className="hidden lg:block">
+        <Navbar />
+      </div>
+      <div className="flex h-screen flex-col overflow-hidden bg-slate-50 lg:h-[calc(100vh-80px)]">
       {/* Header - Mobile Menu Only */}
       <header className="sticky top-0 z-40 w-full bg-white/80 backdrop-blur-md border-b border-black/5 lg:hidden">
-        <div className="px-6 py-4 flex items-center justify-between">
+        <div className="flex h-16 items-center justify-between px-6">
+          <Link
+            href="/"
+            className="flex h-10 w-40 items-center transition-opacity hover:opacity-70"
+            aria-label="TrueSelf home"
+          >
+            <img
+              src="/assets/logo/trueself-logo-navbar.png"
+              alt="TrueSelf"
+              className="h-full w-full object-contain"
+            />
+          </Link>
           <button
             onClick={() => setShowMobileSidebar(!showMobileSidebar)}
-            className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+            className="rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+            aria-label="Toggle dashboard menu"
+            title="Toggle dashboard menu"
           >
             {showMobileSidebar ? <X size={24} /> : <Menu size={24} />}
           </button>
-          <Link
-            href="/"
-            className="flex items-center gap-2 text-slate-600 hover:text-blue-600 transition"
-          >
-            <ArrowLeft size={18} />
-            <span className="text-sm">Back</span>
-          </Link>
         </div>
       </header>
 
-      <div className="flex h-full">
+      <div className="flex min-h-0 flex-1">
         {/* Sidebar - Desktop */}
         <aside
           className={`hidden bg-white border-r border-slate-200 flex-col shadow-sm transition-all duration-300 ease-in-out lg:flex ${
@@ -294,10 +302,56 @@ export function DashboardLayout({ page, children }: DashboardLayoutProps) {
 
         {/* Sidebar - Mobile */}
         {showMobileSidebar && (
-          <aside className="fixed inset-0 z-30 lg:hidden pt-20 bg-white border-r border-slate-200 w-64">
-            {/* User Info */}
-            <div className="p-6 border-b border-slate-200">
-              <div className="flex items-center gap-3">
+          <nav className="fixed inset-x-0 bottom-0 top-16 z-30 overflow-y-auto border-t border-slate-200 bg-white px-6 pb-8 pt-4 lg:hidden">
+            <div className="space-y-1">
+              <Link
+                href="/"
+                onClick={() => setShowMobileSidebar(false)}
+                className="flex items-center gap-2 rounded-full px-4 py-2 text-base font-medium text-gray-600 transition-all duration-200 hover:bg-slate-50 hover:text-blue-600"
+              >
+                <ArrowLeft size={16} />
+                Back
+              </Link>
+
+              {SIDEBAR_ITEMS.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.page}
+                    href={item.href}
+                    onClick={() => setShowMobileSidebar(false)}
+                    className={`block rounded-full px-4 py-2 text-base font-medium transition-all duration-200 ${
+                      isActive
+                        ? "bg-blue-50 text-blue-600"
+                        : "text-gray-600 hover:bg-slate-50 hover:text-blue-600"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+
+              {ACCOUNT_ITEMS.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.page}
+                    href={item.href}
+                    onClick={() => setShowMobileSidebar(false)}
+                    className={`block rounded-full px-4 py-2 text-base font-medium transition-all duration-200 ${
+                      isActive
+                        ? "bg-blue-50 text-blue-600"
+                        : "text-gray-600 hover:bg-slate-50 hover:text-blue-600"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
+
+              <div className="my-3 border-t border-slate-200 pt-3">
+                <div className="flex items-center justify-between rounded-full px-4 py-3 text-gray-600">
+                  <div className="flex min-w-0 items-center gap-2">
                 {profile?.avatar_url ? (
                   <img
                     src={profile.avatar_url}
@@ -309,80 +363,32 @@ export function DashboardLayout({ page, children }: DashboardLayoutProps) {
                     {profile?.name?.[0]?.toUpperCase() || "U"}
                   </div>
                 )}
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-slate-900 truncate">
+                    <div className="min-w-0">
+                  <p className="truncate text-sm font-medium text-slate-900">
                     {profile?.name || "User"}
                   </p>
-                  <p className="text-xs text-slate-500 truncate">
+                  <p className="truncate text-xs text-slate-500">
                     {profile?.email}
                   </p>
                 </div>
               </div>
+                </div>
             </div>
 
-            {/* Navigation */}
-            <nav className="scrollbar-hidden p-6 space-y-2 flex flex-col overflow-y-auto">
-              {/* Main Navigation */}
-              {SIDEBAR_ITEMS.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.page}
-                    href={item.href}
-                    onClick={() => setShowMobileSidebar(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
-                      isActive
-                        ? "bg-blue-50 text-blue-600 border border-blue-200"
-                        : "text-slate-700 hover:bg-slate-100"
-                    }`}
-                  >
-                    <Icon size={20} />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              })}
-
-              {/* Separator */}
-              <div className="h-px bg-slate-200 my-2"></div>
-
-              {/* Account Items */}
-              {ACCOUNT_ITEMS.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href;
-                return (
-                  <Link
-                    key={item.page}
-                    href={item.href}
-                    onClick={() => setShowMobileSidebar(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
-                      isActive
-                        ? "bg-blue-50 text-blue-600 border border-blue-200"
-                        : "text-slate-700 hover:bg-slate-100"
-                    }`}
-                  >
-                    <Icon size={20} />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              })}
-
-              {/* Logout */}
-              <div className="mt-auto pt-2 border-t border-slate-200">
+              <div className="border-t border-slate-200 pt-3">
                 <button
                   onClick={async () => {
                     setShowMobileSidebar(false);
                     await clientSignOut();
                     router.push("/auth/login");
                   }}
-                  className="w-full flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-red-600 hover:bg-red-50 transition-all duration-200"
+                  className="block w-full rounded-full px-4 py-2 text-left text-base font-medium text-red-600 transition-all duration-200 hover:bg-red-50"
                 >
-                  <LogOut size={20} />
-                  <span>Logout</span>
+                  Logout
                 </button>
               </div>
-            </nav>
-          </aside>
+            </div>
+          </nav>
         )}
 
         {/* Main Content */}

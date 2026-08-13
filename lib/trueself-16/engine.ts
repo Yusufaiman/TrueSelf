@@ -1,4 +1,6 @@
 import { AXES, TRUESELF_16_PROFILES, TRUESELF_16_QUESTIONS } from "./data";
+import { ENNEAGRAM_CORE_PATTERNS } from "./enneagram";
+import { TRUESELF_64_EXPRESSIONS } from "./expressions";
 import {
   COGNITIVE_FUNCTIONS,
   CONTEXT_LABELS,
@@ -18,10 +20,20 @@ import type {
   ContextualSelfItem,
   ContextualSelfKey,
   ContextualSelfProfile,
+  EnneagramCode,
+  EnneagramComponent,
+  EnneagramCoreType,
+  EnneagramTypeScore,
+  ExpressionAxisKey,
+  ExpressionAxisScore,
+  ExpressionPole,
+  ExpressionSuffix,
   FacetScore,
   FunctionDevelopment,
   FunctionHealth,
   PersonalityVariant,
+  TrueSelfEnneagramResult,
+  TrueSelfExpressionResult,
   TrueSelf16Result,
   TypeCode,
 } from "./types";
@@ -35,6 +47,62 @@ const traitKeys: BehaviouralTraitKey[] = [
   "stressResponse",
   "confidence",
 ];
+const expressionAxisOrder: ExpressionAxisKey[] = ["AO", "CH"];
+const enneagramTypes: EnneagramCoreType[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const enneagramComponents: EnneagramComponent[] = [
+  "desire",
+  "fear",
+  "coping",
+  "behavior",
+];
+
+const expressionAxes: Record<
+  ExpressionAxisKey,
+  {
+    firstCode: ExpressionPole;
+    secondCode: ExpressionPole;
+    positiveCode: ExpressionPole;
+    negativeCode: ExpressionPole;
+    firstLabel: string;
+    secondLabel: string;
+  }
+> = {
+  AO: {
+    firstCode: "A",
+    secondCode: "O",
+    positiveCode: "A",
+    negativeCode: "O",
+    firstLabel: "Assertive",
+    secondLabel: "Observant",
+  },
+  CH: {
+    firstCode: "C",
+    secondCode: "H",
+    positiveCode: "C",
+    negativeCode: "H",
+    firstLabel: "Controlled",
+    secondLabel: "Harmonizing",
+  },
+};
+
+const adjacentWings: Record<EnneagramCoreType, [EnneagramCoreType, EnneagramCoreType]> = {
+  1: [9, 2],
+  2: [1, 3],
+  3: [2, 4],
+  4: [3, 5],
+  5: [4, 6],
+  6: [5, 7],
+  7: [6, 8],
+  8: [7, 9],
+  9: [8, 1],
+};
+
+const enneagramWeights: Record<EnneagramComponent, number> = {
+  desire: 0.35,
+  fear: 0.3,
+  coping: 0.2,
+  behavior: 0.15,
+};
 
 function clampPercent(value: number) {
   return Math.max(0, Math.min(100, Math.round(value)));
@@ -52,6 +120,12 @@ function getAxisConfidence(clarity: number, consistency: number) {
   const confidenceScore = Math.round((clarity * 0.75 + consistency * 0.25));
   if (confidenceScore >= 70) return "high";
   if (confidenceScore >= 40) return "medium";
+  return "low";
+}
+
+function getSimpleConfidence(score: number): "high" | "medium" | "low" {
+  if (score >= 70) return "high";
+  if (score >= 40) return "medium";
   return "low";
 }
 
@@ -76,6 +150,206 @@ function getConfidence(clarityScores: number[]): {
 
 function average(values: number[]) {
   return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
+}
+
+function averageOrNeutral(values: number[]) {
+  if (!values.length) return 50;
+  return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
+}
+
+function calculateExpressionAxis(
+  answers: Record<number, AnswerValue>,
+  axis: ExpressionAxisKey,
+): ExpressionAxisScore {
+  const definition = expressionAxes[axis];
+  let total = 0;
+  let max = 0;
+
+  TRUESELF_16_QUESTIONS.forEach((question) => {
+    if (
+      question.layer !== "expression" ||
+      question.expressionAxis !== axis ||
+      !question.expressionKeyedPole
+    ) {
+      return;
+    }
+
+    const answer = answers[question.id] ?? 4;
+    const normalizedScore = answer - 4;
+    const keyedPositive =
+      question.expressionKeyedPole === definition.positiveCode;
+    const directionalScore = keyedPositive ? normalizedScore : -normalizedScore;
+
+    total += directionalScore * question.weight;
+    max += 3 * question.weight;
+  });
+
+  const safeMax = max || 1;
+  const positivePercent = ((total / safeMax + 1) / 2) * 100;
+  const firstPercent =
+    definition.firstCode === definition.positiveCode
+      ? clampPercent(positivePercent)
+      : clampPercent(100 - positivePercent);
+  const secondPercent = 100 - firstPercent;
+  const preference =
+    total >= 0 ? definition.positiveCode : definition.negativeCode;
+  const preferencePercent =
+    preference === definition.firstCode ? firstPercent : secondPercent;
+  const preferenceLabel =
+    preference === definition.firstCode
+      ? definition.firstLabel
+      : definition.secondLabel;
+  const clarity = Math.abs(preferencePercent - 50) * 2;
+
+  return {
+    axis,
+    firstCode: definition.firstCode,
+    secondCode: definition.secondCode,
+    firstLabel: definition.firstLabel,
+    secondLabel: definition.secondLabel,
+    firstPercent,
+    secondPercent,
+    preference,
+    preferenceLabel,
+    preferencePercent,
+    clarity,
+    rawScore: total,
+    maxScore: safeMax,
+    strengthLabel: getStrengthLabel(preferencePercent),
+    confidence: getSimpleConfidence(clarity),
+  };
+}
+
+function getExpressionResult(
+  answers: Record<number, AnswerValue>,
+  typeCode: TypeCode,
+): TrueSelfExpressionResult {
+  const assertion = calculateExpressionAxis(answers, "AO");
+  const orientation = calculateExpressionAxis(answers, "CH");
+  const suffix = `${assertion.preference}${orientation.preference}` as ExpressionSuffix;
+  const expressions = TRUESELF_64_EXPRESSIONS[typeCode];
+  const expression =
+    expressions.find((item) => item.suffix === suffix) ?? expressions[0];
+  const confidenceScore = average([assertion.clarity, orientation.clarity]);
+  const weakestAxis = assertion.clarity <= orientation.clarity ? "AO" : "CH";
+  const closestSuffix =
+    weakestAxis === "AO"
+      ? `${assertion.preference === "A" ? "O" : "A"}${orientation.preference}`
+      : `${assertion.preference}${orientation.preference === "C" ? "H" : "C"}`;
+  const closestExpression = `${typeCode}-${closestSuffix}` as `${TypeCode}-${ExpressionSuffix}`;
+
+  return {
+    code: expression.code,
+    suffix,
+    archetype: expression.archetype,
+    description: expression.description,
+    tendency: expression.tendency,
+    chips: expression.chips,
+    assertion,
+    orientation,
+    confidence: getSimpleConfidence(confidenceScore),
+    confidenceScore,
+    closestExpression,
+  };
+}
+
+function getEnneagramCode(
+  coreType: EnneagramCoreType,
+  wing: EnneagramCoreType,
+): EnneagramCode {
+  return `${coreType}w${wing}` as EnneagramCode;
+}
+
+function getEnneagramResult(
+  answers: Record<number, AnswerValue>,
+): TrueSelfEnneagramResult {
+  const buckets = enneagramTypes.reduce((result, type) => {
+    result[type] = {
+      desire: [],
+      fear: [],
+      coping: [],
+      behavior: [],
+    };
+    return result;
+  }, {} as Record<EnneagramCoreType, Record<EnneagramComponent, number[]>>);
+
+  TRUESELF_16_QUESTIONS.forEach((question) => {
+    if (
+      question.layer !== "enneagram" ||
+      !question.enneagramType ||
+      !question.enneagramComponent
+    ) {
+      return;
+    }
+
+    const answer = answers[question.id] ?? 4;
+    const score = ((answer - 1) / 6) * 100;
+    buckets[question.enneagramType][question.enneagramComponent].push(score);
+  });
+
+  const typeScores = enneagramTypes
+    .map((type): EnneagramTypeScore => {
+      const componentScores = enneagramComponents.reduce((result, component) => {
+        result[component] = averageOrNeutral(buckets[type][component]);
+        return result;
+      }, {} as Record<EnneagramComponent, number>);
+      const score = clampPercent(
+        enneagramComponents.reduce(
+          (sum, component) =>
+            sum + componentScores[component] * enneagramWeights[component],
+          0,
+        ),
+      );
+
+      return {
+        type,
+        score,
+        desire: componentScores.desire,
+        fear: componentScores.fear,
+        coping: componentScores.coping,
+        behavior: componentScores.behavior,
+      };
+    })
+    .sort((a, b) => b.score - a.score);
+
+  const core = typeScores[0] ?? {
+    type: 9 as EnneagramCoreType,
+    score: 50,
+    desire: 50,
+    fear: 50,
+    coping: 50,
+    behavior: 50,
+  };
+  const second = typeScores[1] ?? core;
+  const wingOptions = adjacentWings[core.type];
+  const leftWing = typeScores.find((item) => item.type === wingOptions[0]) ?? core;
+  const rightWing = typeScores.find((item) => item.type === wingOptions[1]) ?? core;
+  const wing = leftWing.score >= rightWing.score ? leftWing.type : rightWing.type;
+  const wingScore = Math.max(leftWing.score, rightWing.score);
+  const wingTotal = Math.max(1, leftWing.score + rightWing.score);
+  const wingBalance = clampPercent((wingScore / wingTotal) * 100);
+  const code = getEnneagramCode(core.type, wing);
+  const pattern = ENNEAGRAM_CORE_PATTERNS[code];
+  const margin = Math.max(0, core.score - second.score);
+  const confidenceScore = clampPercent(core.score * 0.75 + Math.min(25, margin * 2.5));
+
+  return {
+    code,
+    coreType: core.type,
+    wing,
+    coreScore: core.score,
+    wingScore,
+    wingBalance,
+    confidence: getSimpleConfidence(confidenceScore),
+    confidenceScore,
+    typeScores,
+    drive: pattern.drive,
+    fear: pattern.fear,
+    decision: pattern.decision,
+    pressure: pattern.pressure,
+    socialStyle: pattern.socialStyle,
+    contribution: pattern.contribution,
+  };
 }
 
 function getAxisSidePercent(axisScores: Record<AxisKey, AxisScore>, code: string) {
@@ -368,6 +642,16 @@ export function calculateTrueSelf16Result(
   const answerEvidence: TrueSelf16Result["answerEvidence"] = [];
 
   TRUESELF_16_QUESTIONS.forEach((question) => {
+    if (
+      question.layer !== "core" ||
+      !question.axis ||
+      !question.keyedPole ||
+      !question.positivePole ||
+      !question.negativePole
+    ) {
+      return;
+    }
+
     const answer = answers[question.id] ?? 4;
     const normalizedScore = answer - 4;
     const keyedPositive = question.keyedPole === question.positivePole;
@@ -483,6 +767,8 @@ export function calculateTrueSelf16Result(
   const { confidence, confidenceScore } = getConfidence(
     axisOrder.map((axis) => axisScores[axis].clarity),
   );
+  const expression = getExpressionResult(answers, typeCode);
+  const enneagram = getEnneagramResult(answers);
 
   return {
     typeCode,
@@ -497,6 +783,8 @@ export function calculateTrueSelf16Result(
     facetScores,
     answerEvidence,
     functionStack,
+    expression,
+    enneagram,
     strengths: profile.strengths,
     blindSpots: profile.blindSpots,
     growthPath: profile.growthPath,
@@ -513,6 +801,8 @@ export function getTrueSelf16ScoresForStorage(result: TrueSelf16Result) {
     TF: result.axisScores.TF.firstPercent,
     JP: result.axisScores.JP.firstPercent,
     confidenceScore: result.confidenceScore,
+    expressionConfidenceScore: result.expression?.confidenceScore ?? 0,
+    enneagramConfidenceScore: result.enneagram?.confidenceScore ?? 0,
   };
 }
 

@@ -102,6 +102,8 @@ function buildTrueSelf16Result(record: TestResult): TrueSelf16Result | null {
     answerEvidence: payload.answerEvidence || [],
     functionStack: payload.functionStack || FUNCTION_STACKS[payload.typeCode],
     functionDevelopment: payload.functionDevelopment,
+    expression: payload.expression,
+    enneagram: payload.enneagram,
     variant: payload.variant,
     behaviouralTraits: payload.behaviouralTraits,
     contextualSelf: payload.contextualSelf,

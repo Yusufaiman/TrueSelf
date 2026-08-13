@@ -29,6 +29,7 @@ export function SpiderChart({
   const padding = 50;
   const radius = Math.min(width, height) / 2 - padding;
   const angleSlice = (Math.PI * 2) / data.length;
+  const isCompact = width <= 320;
 
   // Calculate points for the polygon
   const points = useMemo(() => {
@@ -142,7 +143,7 @@ export function SpiderChart({
         {/* Labels */}
         {data.map((d, i) => {
           const angle = angleSlice * i - Math.PI / 2;
-          const labelRadius = radius + 30;
+          const labelRadius = radius + (isCompact ? 22 : 30);
           const x = width / 2 + labelRadius * Math.cos(angle);
           const y = height / 2 + labelRadius * Math.sin(angle);
 
@@ -151,7 +152,7 @@ export function SpiderChart({
               <text
                 x={x}
                 y={y}
-                fontSize="12"
+                fontSize={isCompact ? "9" : "12"}
                 fontWeight="500"
                 fill="#1f2937"
                 textAnchor="middle"
@@ -161,8 +162,8 @@ export function SpiderChart({
               </text>
               <text
                 x={x}
-                y={y + 14}
-                fontSize="11"
+                y={y + (isCompact ? 11 : 14)}
+                fontSize={isCompact ? "9" : "11"}
                 fill="#6b7280"
                 textAnchor="middle"
                 dy="0.3em"

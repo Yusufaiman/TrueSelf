@@ -1,5 +1,30 @@
 export type AxisKey = "EI" | "SN" | "TF" | "JP";
 export type AxisPole = "E" | "I" | "S" | "N" | "T" | "F" | "J" | "P";
+export type TrueSelfQuestionLayer = "core" | "expression" | "enneagram";
+export type ExpressionAxisKey = "AO" | "CH";
+export type ExpressionPole = "A" | "O" | "C" | "H";
+export type ExpressionSuffix = "AC" | "AH" | "OC" | "OH";
+export type EnneagramCoreType = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+export type EnneagramComponent = "desire" | "fear" | "coping" | "behavior";
+export type EnneagramCode =
+  | "1w9"
+  | "1w2"
+  | "2w1"
+  | "2w3"
+  | "3w2"
+  | "3w4"
+  | "4w3"
+  | "4w5"
+  | "5w4"
+  | "5w6"
+  | "6w5"
+  | "6w7"
+  | "7w6"
+  | "7w8"
+  | "8w7"
+  | "8w9"
+  | "9w1"
+  | "9w8";
 export type TypeFamily = "NT" | "NF" | "SJ" | "SP";
 export type CognitiveFunction = "Se" | "Si" | "Ne" | "Ni" | "Te" | "Ti" | "Fe" | "Fi";
 export type FunctionRole = "dominant" | "auxiliary" | "tertiary" | "inferior";
@@ -54,11 +79,16 @@ export interface TrueSelf16Question {
   id: number;
   code: string;
   text: string;
-  axis: AxisKey;
-  keyedPole: AxisPole;
-  positivePole: AxisPole;
-  negativePole: AxisPole;
+  layer: TrueSelfQuestionLayer;
+  axis?: AxisKey;
+  keyedPole?: AxisPole;
+  positivePole?: AxisPole;
+  negativePole?: AxisPole;
   facet: string;
+  expressionAxis?: ExpressionAxisKey;
+  expressionKeyedPole?: ExpressionPole;
+  enneagramType?: EnneagramCoreType;
+  enneagramComponent?: EnneagramComponent;
   displayOrder: number;
   weight: number;
   version: number;
@@ -101,6 +131,65 @@ export interface AnswerEvidence {
   axis: AxisKey;
   facet: string;
   keyedPole: AxisPole;
+}
+
+export interface ExpressionAxisScore {
+  axis: ExpressionAxisKey;
+  firstCode: ExpressionPole;
+  secondCode: ExpressionPole;
+  firstLabel: string;
+  secondLabel: string;
+  firstPercent: number;
+  secondPercent: number;
+  preference: ExpressionPole;
+  preferenceLabel: string;
+  preferencePercent: number;
+  clarity: number;
+  rawScore: number;
+  maxScore: number;
+  strengthLabel: string;
+  confidence: "high" | "medium" | "low";
+}
+
+export interface TrueSelfExpressionResult {
+  code: `${TypeCode}-${ExpressionSuffix}`;
+  suffix: ExpressionSuffix;
+  archetype: string;
+  description: string;
+  tendency: string;
+  chips: string[];
+  assertion: ExpressionAxisScore;
+  orientation: ExpressionAxisScore;
+  confidence: "high" | "medium" | "low";
+  confidenceScore: number;
+  closestExpression: `${TypeCode}-${ExpressionSuffix}`;
+}
+
+export interface EnneagramTypeScore {
+  type: EnneagramCoreType;
+  score: number;
+  desire: number;
+  fear: number;
+  coping: number;
+  behavior: number;
+}
+
+export interface TrueSelfEnneagramResult {
+  code: EnneagramCode;
+  coreType: EnneagramCoreType;
+  wing: EnneagramCoreType;
+  coreScore: number;
+  wingScore: number;
+  wingBalance: number;
+  confidence: "high" | "medium" | "low";
+  confidenceScore: number;
+  typeScores: EnneagramTypeScore[];
+  drive: string;
+  fear: string;
+  decision: string;
+  pressure: string;
+  socialStyle: string;
+  contribution: string[];
 }
 
 export interface TrueSelf16Profile {
@@ -175,6 +264,8 @@ export interface TrueSelf16Result {
   answerEvidence: AnswerEvidence[];
   functionStack: FunctionStack;
   functionDevelopment?: FunctionDevelopment[];
+  expression?: TrueSelfExpressionResult;
+  enneagram?: TrueSelfEnneagramResult;
   variant?: PersonalityVariant;
   behaviouralTraits?: BehaviouralTraitScores;
   contextualSelf?: ContextualSelfProfile;

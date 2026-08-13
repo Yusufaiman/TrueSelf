@@ -8,7 +8,9 @@ import {
   BookOpen,
   Brain,
   Briefcase,
+  CheckCircle2,
   Download,
+  GitBranch,
   GraduationCap,
   Heart,
   Layers,
@@ -51,6 +53,7 @@ export default function TrueSelf16ResultTemplate({
   result,
   onRetake,
 }: TrueSelf16ResultTemplateProps) {
+  const [showAllFacets, setShowAllFacets] = React.useState(false);
   const baseProfile = TRUESELF_16_PROFILES[result.typeCode];
   const detail = getTypeDetailData(baseProfile);
   const family =
@@ -58,6 +61,8 @@ export default function TrueSelf16ResultTemplate({
   const functionStack = result.functionStack ?? FUNCTION_STACKS[result.typeCode];
   const closestProfile = TRUESELF_16_PROFILES[result.closestType];
   const color = getTypeColor(result.typeCode);
+  const expression = result.expression;
+  const enneagram = result.enneagram;
   const facetEntries = result.facetScores
     ? Object.entries(result.facetScores).flatMap(([axis, facets]) =>
         facets.map((facet) => ({
@@ -66,6 +71,9 @@ export default function TrueSelf16ResultTemplate({
         })),
       )
     : [];
+  const visibleFacetEntries = showAllFacets
+    ? facetEntries
+    : facetEntries.slice(0, 6);
 
   const handleDownloadPdf = () => {
     const originalTitle = document.title;
@@ -135,8 +143,216 @@ export default function TrueSelf16ResultTemplate({
             <Badge color={color} icon={<Layers size={16} />}>
               {family.code} · {family.name}
             </Badge>
+            {expression && (
+              <Badge color={color} icon={<GitBranch size={16} />}>
+                Expression · {expression.code}
+              </Badge>
+            )}
+            {enneagram && (
+              <Badge color={color} icon={<Target size={16} />}>
+                Enneagram · {enneagram.code}
+              </Badge>
+            )}
           </div>
+          {(expression || enneagram) && (
+            <div
+              className="mx-auto mt-6 max-w-2xl rounded-[1.5rem] border p-4"
+              style={{ borderColor: color.border, backgroundColor: color.soft }}
+            >
+              <p
+                className="text-xs font-bold uppercase tracking-wide"
+                style={{ color: color.accent }}
+              >
+                Detected profile fingerprint
+              </p>
+              <p className="mt-1 text-2xl font-black text-slate-950 md:text-3xl">
+                {expression?.code ?? result.typeCode}
+                {enneagram ? ` · ${enneagram.code}` : ""}
+              </p>
+              <p className="mt-1 text-sm text-slate-600">
+                {expression?.archetype}
+                {expression && enneagram ? " with " : ""}
+                {enneagram ? `Enneagram ${enneagram.code} motivation` : ""}
+              </p>
+            </div>
+          )}
         </header>
+
+        <section className="mb-8 grid gap-6 lg:grid-cols-2">
+          {expression ? (
+            <Panel>
+              <SectionTitle
+                icon={<GitBranch size={20} />}
+                color={color}
+                title="TrueSelf 64 Expression"
+              />
+              <p className="mt-2 text-sm text-slate-500">
+                This layer shows how your core type tends to express itself.
+                It is measured separately from the four-letter type.
+              </p>
+              <div
+                className="mt-5 rounded-[1.75rem] border p-5"
+                style={{
+                  borderColor: color.border,
+                  backgroundColor: color.soft,
+                }}
+              >
+                <p
+                  className="text-sm font-bold"
+                  style={{ color: color.accent }}
+                >
+                  {expression.code}
+                </p>
+                <h3 className="mt-1 text-3xl font-black text-slate-950">
+                  {expression.archetype}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-slate-700">
+                  {expression.description}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {expression.chips.map((chip) => (
+                    <Pill key={chip} color={color}>
+                      {chip}
+                    </Pill>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-5 space-y-4">
+                <MetricBar
+                  color={color}
+                  label="A / O axis"
+                  value={expression.assertion.preferencePercent}
+                  valueLabel={`${expression.assertion.preferenceLabel} ${expression.assertion.preferencePercent}%`}
+                  caption={`${expression.assertion.firstLabel} to ${expression.assertion.secondLabel} · ${expression.assertion.strengthLabel}`}
+                />
+                <MetricBar
+                  color={color}
+                  label="C / H axis"
+                  value={expression.orientation.preferencePercent}
+                  valueLabel={`${expression.orientation.preferenceLabel} ${expression.orientation.preferencePercent}%`}
+                  caption={`${expression.orientation.firstLabel} to ${expression.orientation.secondLabel} · ${expression.orientation.strengthLabel}`}
+                />
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <MiniStat
+                  label="Expression clarity"
+                  value={`${expression.confidenceScore}%`}
+                  text={expression.confidence}
+                  color={color}
+                />
+                <MiniStat
+                  label="Closest expression"
+                  value={expression.closestExpression}
+                  text="Nearest neighbouring subtype"
+                  color={color}
+                />
+              </div>
+            </Panel>
+          ) : (
+            <Panel>
+              <SectionTitle
+                icon={<GitBranch size={20} />}
+                color={color}
+                title="TrueSelf 64 Expression"
+              />
+              <p className="mt-4 text-sm leading-7 text-slate-600">
+                This saved result was created before expression scoring was
+                added. Retake the assessment to detect AC, AH, OC, or OH from
+                your answers.
+              </p>
+            </Panel>
+          )}
+
+          {enneagram ? (
+            <Panel>
+              <SectionTitle
+                icon={<Target size={20} />}
+                color={color}
+                title="Enneagram Motivation"
+              />
+              <p className="mt-2 text-sm text-slate-500">
+                This layer reads motivation, fear, coping style, and behaviour
+                signals. The wing is chosen only from the two adjacent types.
+              </p>
+              <div
+                className="mt-5 rounded-[1.75rem] border p-5"
+                style={{
+                  borderColor: color.border,
+                  backgroundColor: color.soft,
+                }}
+              >
+                <p
+                  className="text-sm font-bold"
+                  style={{ color: color.accent }}
+                >
+                  Enneagram {enneagram.code}
+                </p>
+                <h3 className="mt-1 text-3xl font-black text-slate-950">
+                  Type {enneagram.coreType} with wing {enneagram.wing}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-slate-700">
+                  <strong>Drive:</strong> {enneagram.drive}
+                </p>
+                <p className="mt-2 text-sm leading-7 text-slate-700">
+                  <strong>Fear:</strong> {enneagram.fear}
+                </p>
+              </div>
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <MiniStat
+                  label="Core score"
+                  value={`${enneagram.coreScore}%`}
+                  text={`Type ${enneagram.coreType}`}
+                  color={color}
+                />
+                <MiniStat
+                  label="Wing score"
+                  value={`${enneagram.wingScore}%`}
+                  text={`Wing ${enneagram.wing}`}
+                  color={color}
+                />
+                <MiniStat
+                  label="Confidence"
+                  value={`${enneagram.confidenceScore}%`}
+                  text={enneagram.confidence}
+                  color={color}
+                />
+              </div>
+              <div className="mt-5 space-y-3">
+                {enneagram.typeScores.slice(0, 5).map((score) => (
+                  <MetricBar
+                    key={score.type}
+                    color={color}
+                    label={`Type ${score.type}`}
+                    value={score.score}
+                    valueLabel={`${score.score}%`}
+                    caption={`Desire ${score.desire}% · Fear ${score.fear}% · Coping ${score.coping}% · Behaviour ${score.behavior}%`}
+                  />
+                ))}
+              </div>
+              <div className="mt-5 rounded-[1.5rem] bg-slate-50 p-4">
+                <p className="text-sm font-semibold text-slate-950">
+                  Under pressure
+                </p>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  {enneagram.pressure}
+                </p>
+              </div>
+            </Panel>
+          ) : (
+            <Panel>
+              <SectionTitle
+                icon={<Target size={20} />}
+                color={color}
+                title="Enneagram Motivation"
+              />
+              <p className="mt-4 text-sm leading-7 text-slate-600">
+                This saved result was created before Enneagram scoring was
+                added. Retake the assessment to detect your core Enneagram and
+                wing from motivation-based answers.
+              </p>
+            </Panel>
+          )}
+        </section>
 
         <section className="mb-8 grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
           <Panel>
@@ -304,10 +520,21 @@ export default function TrueSelf16ResultTemplate({
             />
             <p className="mt-2 text-sm text-slate-500">
               These are the smaller behavioural signals behind your four
-              letters. They come directly from your 48 assessment answers.
+              letters. They come directly from the core axis answers.
             </p>
+            {facetEntries.length > 6 && (
+              <button
+                type="button"
+                onClick={() => setShowAllFacets((current) => !current)}
+                className="mt-4 inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+              >
+                {showAllFacets
+                  ? "Show less"
+                  : `Show all ${facetEntries.length} facets`}
+              </button>
+            )}
             <div className="mt-5 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {facetEntries.map((facet) => (
+              {visibleFacetEntries.map((facet) => (
                 <article
                   key={`${facet.axis}-${facet.facet}`}
                   className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-4"
@@ -356,7 +583,7 @@ export default function TrueSelf16ResultTemplate({
             {detail.background.introduction}
           </p>
           <div className="mt-6 grid gap-5 lg:grid-cols-2">
-            <DetailBlock title="Natural temperament" items={detail.background.naturalTemperament} />
+            <CardListBlock title="Natural temperament" items={detail.background.naturalTemperament} />
             <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
               <h4 className="font-bold text-slate-950">Nature and environment</h4>
               <p className="mt-3 text-sm leading-7 text-slate-600">
@@ -612,6 +839,65 @@ function Pill({
   );
 }
 
+function MetricBar({
+  color,
+  label,
+  value,
+  valueLabel,
+  caption,
+}: {
+  color: TrueSelfTypeColor;
+  label: string;
+  value: number;
+  valueLabel: string;
+  caption: string;
+}) {
+  return (
+    <div>
+      <div className="mb-2 flex items-start justify-between gap-4">
+        <div>
+          <p className="text-sm font-bold text-slate-950">{label}</p>
+          <p className="text-xs leading-5 text-slate-500">{caption}</p>
+        </div>
+        <p className="text-sm font-black" style={{ color: color.accent }}>
+          {valueLabel}
+        </p>
+      </div>
+      <div className="h-2.5 overflow-hidden rounded-full bg-slate-100">
+        <div
+          className="h-full rounded-full"
+          style={{
+            width: `${Math.max(0, Math.min(100, value))}%`,
+            background: `linear-gradient(90deg, ${color.accent}, #06b6d4)`,
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function MiniStat({
+  label,
+  value,
+  text,
+  color,
+}: {
+  label: string;
+  value: string;
+  text: string;
+  color: TrueSelfTypeColor;
+}) {
+  return (
+    <div className="rounded-[1.25rem] border border-slate-200 bg-slate-50 p-4">
+      <p className="text-xs font-semibold text-slate-500">{label}</p>
+      <p className="mt-1 text-2xl font-black" style={{ color: color.accent }}>
+        {value}
+      </p>
+      <p className="mt-1 text-xs capitalize text-slate-500">{text}</p>
+    </div>
+  );
+}
+
 function DetailBlock({ title, items }: { title: string; items: string[] }) {
   return (
     <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
@@ -623,6 +909,25 @@ function DetailBlock({ title, items }: { title: string; items: string[] }) {
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+function CardListBlock({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
+      <h4 className="font-bold text-slate-950">{title}</h4>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {items.map((item) => (
+          <div
+            key={item}
+            className="flex gap-3 rounded-2xl border border-slate-200 bg-white p-4"
+          >
+            <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
+            <p className="text-sm leading-6 text-slate-600">{item}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
