@@ -160,6 +160,12 @@ body::-webkit-scrollbar,
   }
 }
 
+button.paywall-plan-button,
+button[data-paywall-plan="true"],
+.paywall-plan-button {
+  border-radius: 0.75rem !important;
+}
+
 @media print {
   @page {
     size: A4;

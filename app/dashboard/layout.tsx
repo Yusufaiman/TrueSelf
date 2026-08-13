@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSubscription } from "@/hooks/useSubscription";
+import { buildPaywallUrl } from "@/lib/safe-redirect";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const { isSubscribed, isLoading } = useSubscription();
 
   React.useEffect(() => {
@@ -24,11 +26,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   // If not subscribed and subscription check is complete, redirect to paywall
   React.useEffect(() => {
-    if (!isLoading && !isSubscribed) {
+    if (!isLoading && !isSubscribed && pathname !== "/dashboard/billing") {
       console.log("[Dashboard] Redirecting non-subscriber to paywall");
-      router.push("/paywall?source=dashboard");
+      router.push(buildPaywallUrl(pathname));
     }
-  }, [isSubscribed, isLoading, router]);
+  }, [isSubscribed, isLoading, pathname, router]);
 
   // Show loading state while checking subscription
   if (isLoading) {
@@ -45,7 +47,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   // If not subscribed, show nothing (component will redirect)
-  if (!isSubscribed) {
+  if (!isSubscribed && pathname !== "/dashboard/billing") {
     return null;
   }
 

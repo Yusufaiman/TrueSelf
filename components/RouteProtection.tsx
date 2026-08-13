@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { getClientUser } from "@/utils/supabase/client-auth";
 import { useSubscription } from "@/lib/subscription-context";
+import { buildPaywallUrl } from "@/lib/safe-redirect";
 
 interface RouteProtectionProps {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ export const RouteProtection: React.FC<RouteProtectionProps> = ({
   requiredPlan = "any",
 }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const { isSubscribed, subscriptionPlan, isLoading } = useSubscription();
   const [isAuthorized, setIsAuthorized] = React.useState(false);
 
@@ -30,8 +32,8 @@ export const RouteProtection: React.FC<RouteProtectionProps> = ({
         }
 
         // Check subscription status
-        if (!isSubscribed) {
-          router.push("/pricing?upgrade=required");
+        if (!isSubscribed && pathname !== "/dashboard/billing") {
+          router.push(buildPaywallUrl(pathname));
           return;
         }
 
@@ -55,7 +57,7 @@ export const RouteProtection: React.FC<RouteProtectionProps> = ({
     if (!isLoading) {
       checkAccess();
     }
-  }, [isLoading, isSubscribed, subscriptionPlan, requiredPlan, router]);
+  }, [isLoading, isSubscribed, subscriptionPlan, requiredPlan, pathname, router]);
 
   if (isLoading) {
     return (

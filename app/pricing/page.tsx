@@ -14,7 +14,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { getClientUser } from "@/utils/supabase/client-auth";
-import { STRIPE_PRICES } from "@/lib/stripe-config";
+import { useSubscription } from "@/hooks/useSubscription";
 
 const includedFeatures = [
   "All 9 connected TrueSelf assessments",
@@ -92,6 +92,13 @@ export default function PricingPage() {
   const [billingCycle, setBillingCycle] = useState<"Monthly" | "Yearly">(
     "Yearly"
   );
+  const {
+    isSubscribed,
+    subscriptionPlan,
+    nextBillingDate,
+    cancelAtPeriodEnd,
+    checkSubscription,
+  } = useSubscription();
 
   const handleCheckout = async (planName: string) => {
     try {
@@ -104,28 +111,24 @@ export default function PricingPage() {
         return;
       }
 
-      const priceId =
-        planName === "Monthly" ? STRIPE_PRICES.MONTHLY : STRIPE_PRICES.YEARLY;
-
-      if (!priceId) {
-        setError("Stripe is not configured. Contact support or try again later.");
-        return;
-      }
-
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          priceId,
-          userId: user.id,
-          email: user.email,
+          plan: planName.toLowerCase(),
+          returnTo: "/dashboard",
         }),
       });
 
       if (!res.ok) {
         const data = await res.json();
+        if (res.status === 409 && data.redirectTo) {
+          await checkSubscription();
+          router.push(data.redirectTo);
+          return;
+        }
         throw new Error(data.error || "Failed to create checkout session");
       }
 
@@ -194,11 +197,25 @@ export default function PricingPage() {
         <div className="mx-auto max-w-5xl">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-black tracking-tight text-slate-950 md:text-4xl">
-              Choose how you want to pay.
+              {isSubscribed
+                ? "Your TrueSelf Pro membership is active."
+                : "Choose how you want to pay."}
             </h2>
             <p className="mt-4 text-lg leading-8 text-slate-600">
-              Monthly and Yearly unlock the same product. Yearly is simply the
-              better value.
+              {isSubscribed
+                ? `${subscriptionPlan === "yearly" ? "Yearly" : "Monthly"} access is active${
+                    nextBillingDate
+                      ? ` until ${new Date(nextBillingDate).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          },
+                        )}`
+                      : ""
+                  }${cancelAtPeriodEnd ? ". It will not renew after this period." : "."}`
+                : "Monthly and Yearly unlock the same product. Yearly is simply the better value."}
             </p>
           </div>
 
@@ -276,16 +293,18 @@ export default function PricingPage() {
 
             <button
               onClick={() => handleCheckout(selectedPlan.name)}
-              disabled={isLoading !== null}
+              disabled={isLoading !== null || isSubscribed}
               className={`mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-6 py-3 font-semibold text-white shadow-md transition hover:from-blue-600 hover:to-cyan-600 ${
-                isLoading === selectedPlan.name
+                isLoading === selectedPlan.name || isSubscribed
                   ? "cursor-not-allowed opacity-75"
                   : ""
               }`}
             >
-              {isLoading === selectedPlan.name
-                ? "Processing..."
-                : selectedPlan.cta}
+              {isSubscribed
+                ? "Membership Active"
+                : isLoading === selectedPlan.name
+                  ? "Processing..."
+                  : selectedPlan.cta}
               <ArrowRight size={18} />
             </button>
 

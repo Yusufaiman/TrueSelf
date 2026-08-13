@@ -25,6 +25,7 @@ import {
 import { categoryThemes, type CategoryKey } from "@/config/categoryTheme";
 import { getClientUser, clientSignOut } from "@/utils/supabase/client-auth";
 import { useProfile } from "@/lib/profile-context";
+import { useSubscription } from "@/hooks/useSubscription";
 
 interface TestCategory {
   title: string;
@@ -121,10 +122,10 @@ export const Navbar: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showMobileProfileMenu, setShowMobileProfileMenu] = useState(false);
-  const [isSubscribed, setIsSubscribed] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { profile } = useProfile();
+  const { isSubscribed, isLoading: isSubscriptionLoading } = useSubscription();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -132,17 +133,12 @@ export const Navbar: React.FC = () => {
         const user = await getClientUser();
         if (user) {
           setIsLoggedIn(true);
-          // In production, fetch subscription status from Supabase
-          // For now, set to true if user exists (demo purposes)
-          setIsSubscribed(true);
         } else {
           setIsLoggedIn(false);
-          setIsSubscribed(false);
         }
       } catch (err) {
         console.error("Error checking auth:", err);
         setIsLoggedIn(false);
-        setIsSubscribed(false);
       } finally {
         setIsLoading(false);
       }
@@ -301,7 +297,7 @@ export const Navbar: React.FC = () => {
 
           {/* Auth Buttons / User Menu */}
           <div className="flex items-center gap-3">
-            {isLoading ? (
+            {isLoading || isSubscriptionLoading ? (
               // Loading state
               <div className="hidden sm:flex items-center gap-2 px-3 py-2">
                 <div className="h-8 w-8 rounded-full bg-slate-200 animate-pulse"></div>
@@ -315,6 +311,13 @@ export const Navbar: React.FC = () => {
                 >
                   <BarChart3 size={18} />
                   Dashboard
+                </Link>
+
+                <Link
+                  href="/dashboard/billing"
+                  className="hidden md:inline-flex items-center rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-3 py-1 text-xs font-black text-white shadow-sm shadow-blue-200"
+                >
+                  PRO
                 </Link>
 
                 {/* Profile Menu - Desktop */}
@@ -568,6 +571,9 @@ export const Navbar: React.FC = () => {
                       <div className="bg-slate-50 border-t border-slate-200">
                         {isSubscribed && (
                           <>
+                            <div className="mx-6 my-3 inline-flex rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 px-3 py-1 text-xs font-black text-white">
+                              PRO
+                            </div>
                             <Link
                               href="/dashboard"
                               onClick={() => {
